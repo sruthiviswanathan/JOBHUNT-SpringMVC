@@ -1,0 +1,109 @@
+@charset "UTF-8";
+* {box-sizing: border-box;}
+body {font-family: Verdana, sans-serif;}
+.mySlides {display: none;}
+
+
+.slideshow-container {
+  width: 100%;
+  position: relative;
+  margin-top: -28px;
+}
+
+
+.text {
+  color: white;
+  width: 100%;
+  text-align: center;
+  vertical-align: middle;
+  padding:30px;
+}
+
+
+.numbertext {
+  color: #f2f2f2;
+  font-size: 12px;
+  padding: 8px 12px;
+  position: absolute;
+  top: 0;
+}
+
+
+.dot {
+  height: 15px;
+  width: 15px;
+  margin: 0 2px;
+  background-color: #eee;
+  border-radius: 50%;
+  display: inline-block;
+  transition: background-color 0.6s ease;
+}
+
+.active {
+  background-color: #717171;
+}
+
+/* Fading animation */
+.fade {
+  -webkit-animation-name: fade;
+  -webkit-animation-duration: 1.5s;
+  animation-name: fade;
+  animation-duration: 1.5s;
+}
+
+
+.prev, .next {
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  width: auto;
+  padding: 16px;
+  margin-top: -57px;
+  color: white;
+  font-weight: bold;
+  font-size: 18px;
+  transition: 0.6s ease;
+  border-radius: 0 3px 3px 0;
+  user-select: none;
+}
+
+.prev{
+  left: 0;
+  border-radius: 3px 0 0 3px;
+}
+
+/* Position the "next button" to the right */
+.next {
+  right: 10px;
+  border-radius: 3px 0 0 3px;
+}
+
+/* On hover, add a black background color with a little bit see-through */
+.prev:hover, .next:hover {
+  background-color: rgba(0,0,0,0.8);
+}
+
+@-webkit-keyframes fade {
+  from {opacity: .4} 
+  to {opacity: 1}
+}
+
+@keyframes fade {
+  from {opacity: .4} 
+  to {opacity: 1}
+}
+
+@media (max-width:319px) {
+ 
+  .numbertext{
+  margin-top:35px;
+ }
+} 
+
+@media (min-width:320px) and (max-width:1025px) {
+ 
+ .numbertext{
+  margin-top:35px;
+ }
+} 
+

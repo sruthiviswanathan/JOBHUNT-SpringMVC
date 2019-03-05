@@ -1,0 +1,239 @@
+@charset "UTF-8";
+ * {
+    box-sizing: border-box;
+    overflow-x: hidden;
+  }
+  body{
+     font-family: 'Lato', sans-serif;
+     color:black;
+	 background:url(https://images.unsplash.com/photo-1521020773588-3b28297b1e70?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80);
+	 height: 100%;
+ 	 background-position: center;
+  	 background-repeat: no-repeat;
+  	 background-size: cover;   
+    }
+
+
+ 
+    .container {
+        width:100%;
+        height:100%;
+        position: absolute;
+        top:0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        margin: auto;
+        min-width: 300px;
+        
+    }
+   
+   .container__formcontainer {
+	 margin-top:40px;
+	 background-color: rgba(0,0,0,0.5);
+	 z-index: 2;
+	 margin-left:40px;
+	 margin-right:40px;
+  }
+  
+   .formcontainer__nav, .loginform__nav,.signup__nav{
+ 	margin:30px;
+    width:100%;
+  }
+  
+    
+    #defaultfields {
+      display:block;
+    }
+
+	.forms__loginform{
+	width:100%;
+	}
+
+    #adminoptional {
+      display:none;
+    }
+    
+    .formcontainer__forms{
+      margin-top: 50px;
+      margin-left:30px;
+      margin-right:30px;
+    }
+ 
+   /* .success {
+    font-size:16px;
+  	color: #cddc39;
+  	font-weight:bold;
+    display: block;
+   } */
+ 
+  .col-25 {
+    display:block;
+    width: 25%;
+    margin-top: 6px;
+  }
+  
+  .col-75 {
+    display:block;
+    width: 75%;
+    margin-top: 6px;
+  }
+  
+
+  .row:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+ 
+ .checkbox {
+  color:white;
+ }
+ 
+ .signupadmin__field ,.signup__field,.login__field {
+ 	width: 50%;
+ 	padding: 12px;   
+ }
+ 
+ .field__entry{
+	color:white;
+	width: 50%;
+    padding: 12px;
+    border-radius: 4px;
+ 
+ }
+ 
+ .field__entry{
+	color:white;
+	width: 50%;
+    padding: 12px;
+    border-radius: 4px;
+ 
+ }
+ 
+ .field__input{
+ 	font-weight: bold;
+	color:black;
+	width: 50%;
+	font-size: 15px;
+    padding: 12px;
+    border-radius: 4px;
+ 
+ }
+ 
+.select {
+ color:black;
+ width: 50%;
+ padding: 12px;
+ border-radius: 4px;
+ background-color:white;
+ }
+  .error {
+  	font-size:16px;
+  	color:red;
+  	font-weight:bold;
+    display: block;
+  }
+  
+  .button {
+   font-size: 16px;
+  	font-weight:bold;
+    display: inline-block;
+    background-color: #212121;
+    color: white;
+    padding: 14px 20px;
+    border: none;
+    cursor: pointer;
+    letter-spacing: 1px;
+  
+  }
+  .signupforms__signup.button , .forms__loginform.button{
+    margin-left: 100px;
+    margin-right:0px;
+  }
+
+  .button:hover {
+    opacity: 0.8;
+   } 
+
+   .active{
+     background-color:white;
+     color:black;
+  }
+  .btn:hover{
+   opacity: 0.8;
+  }
+
+  .cancelbtn {
+    background-color: #f44336;
+    padding:14px 20px;
+  } 
+
+
+
+.container__form-popup {
+  display: none;
+  position: fixed;
+  top: 200px;
+  right:0px;
+  border: 3px solid #f1f1f1;
+  z-index: 1;
+}
+
+/* Add styles to the form container */
+.form-container {
+  max-width: 300px;
+  padding: 10px;
+  background-color: white;
+}
+
+/* Full-width input fields */
+.form-container input[type=text]{
+  width: 100%;
+  padding: 15px;
+  margin: 18px 0 22px 0;
+  border: none;
+  background: #f1f1f1;
+}
+
+.form-container .btn {
+  background-color: #212121;
+  color: white;
+  padding: 16px 20px;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  margin-bottom:10px;
+  opacity: 0.8;
+}
+
+/* Add a red background color to the cancel button */
+.form-container .cancel {
+  background-color: red;
+}
+
+/* Add some hover effects to buttons */
+.form-container .btn:hover, .open-button:hover {
+  opacity: 1;
+}
+
+
+@media (max-width:319px) {
+
+  .col-25,.col-75,.col-xs-12,.field__entry{
+   width: 100%;
+    margin: 0;
+  }
+
+
+} 
+
+@media (min-width:320px) and (max-width:1025px) {
+
+  .col-25,.col-75,.col-md-12,.field__entry{
+   width: 100%;
+    margin: 0;
+  }
+  
+  
+    }

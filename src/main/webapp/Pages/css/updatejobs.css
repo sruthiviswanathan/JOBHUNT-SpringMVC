@@ -1,0 +1,174 @@
+@charset "UTF-8";
+
+
+.content__updatejobs{
+	 margin-top:40px;
+	 background-color: rgba(0,0,0,0.5);
+	 z-index: 2;
+	 margin-left:300px;
+	 margin-right:100px;
+	 width:50%;
+	 margin-bottom:100px;
+	
+}
+
+ .updatejobs__field{
+ 	width: 100%;
+ 	padding: 12px;  
+ 	margin-left:30px; 
+ }
+ 
+ .field__entry{
+	color:white;
+	width: 50%;
+    padding: 12px;
+    border-radius: 4px;
+ 
+ }
+ 
+ .field__input{
+ 	font-weight: bold;
+	color:black;
+	width: 75%;
+	font-size: 15px;
+    padding: 12px;
+    border-radius: 4px;
+    margin-left:10px;
+ 
+ }
+
+
+ .select {
+ color:black;
+ width: 50%;
+ padding: 12px;
+ border-radius: 4px;
+ background-color:white;
+  margin-left:10px;
+ }
+      
+.updatejobs__nav{
+    margin: 0px 20px 20px -10px;
+    text-align: center;
+    width:100%;
+    height:10%;
+  }
+  .col-25 {
+    display:block;
+    width: 25%;
+    margin-top: 6px;
+  }
+  
+  .col-75 {
+    display:block;
+    width: 75%;
+    margin-top: 6px;
+  }
+  
+.col-50 {
+    display:block;
+    width: 50%;
+    margin-top: 6px;
+  }
+  
+  
+  .row:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+    
+ .button {
+   font-family: inherit;
+   font-size: 16px;
+  	font-weight:bold;
+    display: inline-block;
+    background-color: #212121;
+    color: white;
+    padding: 14px 20px;
+    border: none;
+    cursor: pointer;
+    letter-spacing: 1px;
+  
+  }
+  .button:hover {
+    opacity: 0.8;
+   } 
+  
+  .cancelbtn {
+    background-color: #f44336;
+    padding:14px 20px;
+  } 
+  
+#snackbar {
+  display:none;
+  min-width: 250px;
+  margin-left: -125px;
+  background-color: #333;
+  color: #fff;
+  text-align: center;
+  border-radius: 2px;
+  padding: 16px;
+  position: fixed;
+  z-index: 2;
+  left: 50%;
+  top: 100px;
+  font-size: 17px;
+  -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+  animation: fadein 0.5s, fadeout 0.5s 2.5s;
+}
+
+ #snackbar.show {
+  display:block;
+  -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+  animation: fadein 0.5s, fadeout 0.5s 2.5s;
+}
+
+@-webkit-keyframes fadein {
+  from {top: 0; opacity: 0;} 
+  to {top: 100px; opacity: 1;}
+}
+
+@keyframes fadein {
+  from {top: 0; opacity: 0;} 
+  to {top: 100px; opacity: 1;}
+}
+
+@-webkit-keyframes fadeout {
+  from {top: 0; opacity: 0;} 
+  to {top: 100px; opacity: 1;}
+}
+
+@keyframes fadeout {
+   from {top: 0; opacity: 0;} 
+  to {top: 100px; opacity: 1;}
+}
+ 
+ .error {
+  	font-size:16px;
+  	color:red;
+  	font-weight:bold;
+    display: block;
+    margin: 10px 20px 0px 350px;
+  }
+
+
+ @media (max-width:319px) {
+
+  .col-25,.col-75,.col-xs-12,.field__entry,.col-50{
+   width: 100%;
+    margin: 0;
+  }
+
+
+} 
+
+@media (min-width:320px) and (max-width:1025px) {
+
+  .col-25,.col-75,.col-md-12,.field__entry,.col-50{
+   width: 100%;
+    margin: 0;
+  }
+  
+  
+    }
