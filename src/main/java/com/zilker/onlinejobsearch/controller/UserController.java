@@ -21,231 +21,219 @@ import com.zilker.onlinejobsearch.beans.UserTechnologyMapping;
 import com.zilker.onlinejobsearch.delegate.CompanyDelegate;
 import com.zilker.onlinejobsearch.delegate.UserDelegate;
 
-
 @Controller
 public class UserController {
 
-	
-	@Autowired 
+	@Autowired
 	UserDelegate userDelegate;
-	
+
 	@Autowired
 	CompanyDelegate companyDelegate;
 
-	
-	 @RequestMapping(value = "/companies", method = RequestMethod.GET)
-	  public ModelAndView showLogin(HttpServletRequest request, HttpServletResponse response) {
-	    ModelAndView mav = new ModelAndView("login");
-	   try {
-	    Company company = new Company();
-		ArrayList<Company> displayCompanies = null;
-		displayCompanies = companyDelegate.displayCompanies(company);
-   	    mav.addObject("companies",displayCompanies);
-		mav.addObject("login", new User());
-	   }catch(Exception e) {
-		   
-	   }
-	    return mav;
-	  }
-	
-	
-	  @RequestMapping(value = "/users-login", method = RequestMethod.POST)
-	  public ModelAndView loginProcess(HttpServletRequest request, HttpServletResponse response,
-	  @ModelAttribute("login") User user) {
-		  ModelAndView mav = null;
-		try {  
-		HttpSession session=request.getSession(); 
-		
-	    int role=0,userId=0;
-	    String userName="";
-	    role = userDelegate.login(user);
-	      
-	    
-	      session.setAttribute("email",user.getEmail()); 
-		  userId = userDelegate.fetchUserId(user);
-		  userName = userDelegate.fetchUserNameById(userId);  
-		  session.setAttribute("userName",userName);
-		 
-	    
-	    if (role == 0) {
-	    
-	    
-	    mav = new ModelAndView("login");
-	    Company company = new Company();
-		ArrayList<Company> displayCompanies = null;
-		displayCompanies = companyDelegate.displayCompanies(company);
-   	    mav.addObject("companies",displayCompanies);
-   	    mav.addObject("loginError","error");
-	    } else if (role == 1){
-	    
-	    	mav = new ModelAndView("findjob");
-	    	Company company = new Company();
-			ArrayList<Company> companyDetails = null;
-			companyDetails = companyDelegate.displayCompanies(company);	
-		    mav.addObject("companyList", companyDetails);
-		  
-	  
-	    }else if(role == 2) {
-	    mav = new ModelAndView("admin");
-	    }
-	    
-	  }catch(Exception e) {
-		  
-	  }
+	@RequestMapping(value = "/companies", method = RequestMethod.GET)
+	public ModelAndView showLoginPage(HttpServletRequest request, HttpServletResponse response) {
+		ModelAndView mav = new ModelAndView("login");
+		try {
+			Company company = new Company();
+			ArrayList<Company> displayCompanies = null;
+			displayCompanies = companyDelegate.displayCompanies(company);
+			mav.addObject("companies", displayCompanies);
+			mav.addObject("login", new User());
+		} catch (Exception e) {
+			mav = new ModelAndView("error");
+		}
 		return mav;
-	  }
-	  
-	  @RequestMapping(value = "/users", method = RequestMethod.POST)
-	  public ModelAndView registerProcess(HttpServletRequest request, HttpServletResponse response) {
-		  ModelAndView mav = null;
-		  try {
-				HttpSession session = request.getSession();
-				String[] technology;
-				String skills="";
-				String userName = "";
-				int userId = 0, flag = 0, technologyId = 0;
-				Technology techh = new Technology();
-				UserTechnologyMapping usertechnology = new UserTechnologyMapping();
-				User user = new User();
-				String name = request.getParameter("userName");
-				String password = request.getParameter("psw");
-				String confirmPassword = request.getParameter("cpsw");
-				String email = request.getParameter("email");
-				String companyName = request.getParameter("companyName");
-				String designation = request.getParameter("designation");
-		
-				user.setUserName(name);
-				user.setEmail(email);
-				user.setPassword(password);
-				user.setCompany(companyName);
-				user.setDesignation(designation);
+	}
 
-				if (userDelegate.register(user)) {
+	@RequestMapping(value = "/users-login", method = RequestMethod.POST)
+	public ModelAndView loginProcess(HttpServletRequest request, HttpServletResponse response,
+			@ModelAttribute("login") User user) {
+		ModelAndView mav = null;
+		try {
+			HttpSession session = request.getSession();
 
-					userId = userDelegate.fetchUserId(user);
-					user.setUserId(userId);
-					userDelegate.insertIntoUser(user);
+			int role = 0, userId = 0;
+			String userName = "";
+			role = userDelegate.login(user);
 
-				}
-					skills = request.getParameter("skillset");
-					if (skills != "") {
-						technology = skills.split("@");
-						if (technology != null) {
+			session.setAttribute("email", user.getEmail());
+			userId = userDelegate.fetchUserId(user);
+			userName = userDelegate.fetchUserNameById(userId);
+			session.setAttribute("userName", userName);
 
-							for (int i = 0; i < technology.length; i++) {
-								
+			if (role == 0) {
 
-								usertechnology.setUserId(user.getUserId());
-								techh.setTechnology(technology[i]);
-								technologyId = userDelegate.fetchTechnologyId(techh);
-								if (technologyId == 0) {
-									techh.setTechnology(technology[i]);
-									technologyId = userDelegate.addNewTechnology(techh, user);
-									usertechnology.setTechnologyId(technologyId);
-									flag = userDelegate.addTechnologyDetails(usertechnology);
-								} else {
-									usertechnology.setTechnologyId(technologyId);
-									flag = userDelegate.addTechnologyDetails(usertechnology);
-								}
-							}
-
-						}	
-					}
-
-					session.setAttribute("email", email);
-					request.setAttribute("registerSuccess", "yes");
-
-					userName = userDelegate.fetchUserNameById(userId);
-					session.setAttribute("userName", userName);
-					mav = new ModelAndView("findjob");
-					Company company = new Company();
-					ArrayList<Company> companyDetails = null;
-					companyDetails = companyDelegate.displayCompanies(company);	
-					mav.addObject("companyList", companyDetails);
-				
-
-			}
-
-			catch (SQLIntegrityConstraintViolationException e) {
-
-				//request.setAttribute("userRegistrationError", "error");
-				//response.sendRedirect("RegisterServlet");
-				   
-				    mav = new ModelAndView("signup");
-				
-
-			}
-
-			catch (Exception e) {
-				
-				 mav = new ModelAndView("error");
-			}
-		  return mav;
-	  }  
-	
-	  @RequestMapping(value = "/adminregister", method = RequestMethod.POST)
-	  public ModelAndView registerAdminProcess(HttpServletRequest request, HttpServletResponse response) {
-		  ModelAndView mav = null;
-		  try {
-				HttpSession session=request.getSession(); 
-				int userId = 0, flag = 0;
-				String userName="";
-				User user = new User();
+				mav = new ModelAndView("login");
 				Company company = new Company();
-				String name = request.getParameter("userName");
-				String password = request.getParameter("psw");
-				String confirmPassword = request.getParameter("cpsw");
-				String email = request.getParameter("email");
-				String companyid = request.getParameter("companyName");
+				ArrayList<Company> displayCompanies = null;
+				displayCompanies = companyDelegate.displayCompanies(company);
+				mav.addObject("companies", displayCompanies);
+				mav.addObject("loginError", "error");
+			} else if (role == 1) {
 
-				String companyname = companyDelegate.fetchCompanyName(Integer.parseInt(companyid));
+				mav = new ModelAndView("findjob");
+				Company company = new Company();
+				ArrayList<Company> companyDetails = null;
+				companyDetails = companyDelegate.displayCompanies(company);
+				mav.addObject("companyList", companyDetails);
 
-				user.setUserName(name);
-				user.setEmail(email);
-				user.setPassword(password);
-				user.setCompany(companyname);
-				user.setDesignation("admin");
-				user.setRoleId(2);
+			} else if (role == 2) {
+				mav = new ModelAndView("admin");
+			}
 
-				if (userDelegate.registerAsAdmin(user)) {
-					userId = userDelegate.fetchUserId(user);
-					user.setUserId(userId);
-					userDelegate.insertIntoUser(user);
+		} catch (Exception e) {
+			mav = new ModelAndView("error");
+		}
+		return mav;
+	}
 
-					if (userId != 0) {
-						user.setUserId(userId);
-						company.setCompanyId(Integer.parseInt(companyid));
-						flag = userDelegate.insertIntoAdmin(user, company);
-						CompanyDelegate.insertIntoCompanyDetails(user, company);
-						if (flag == 1) {
-							
-							userName = userDelegate.fetchUserNameById(userId);  
-							session.setAttribute("userName",userName);
-							session.setAttribute("email",email);
-							request.setAttribute("registerSuccess","yes");
-							 mav = new ModelAndView("admin");
-						
+	@RequestMapping(value = "/users", method = RequestMethod.POST)
+	public ModelAndView registerProcess(HttpServletRequest request, HttpServletResponse response) {
+		ModelAndView mav = null;
+		try {
+			HttpSession session = request.getSession();
+			String[] technology;
+			String skills = "";
+			String userName = "";
+			int userId = 0, flag = 0, technologyId = 0;
+			Technology techh = new Technology();
+			UserTechnologyMapping usertechnology = new UserTechnologyMapping();
+			User user = new User();
+			String name = request.getParameter("userName");
+			String password = request.getParameter("psw");
+			String confirmPassword = request.getParameter("cpsw");
+			String email = request.getParameter("email");
+			String companyName = request.getParameter("companyName");
+			String designation = request.getParameter("designation");
+
+			user.setUserName(name);
+			user.setEmail(email);
+			user.setPassword(password);
+			user.setCompany(companyName);
+			user.setDesignation(designation);
+
+			if (userDelegate.register(user)) {
+
+				userId = userDelegate.fetchUserId(user);
+				user.setUserId(userId);
+				userDelegate.insertIntoUser(user);
+
+			}
+			skills = request.getParameter("skillset");
+			if (skills != "") {
+				technology = skills.split("@");
+				if (technology != null) {
+
+					for (int i = 0; i < technology.length; i++) {
+
+						usertechnology.setUserId(user.getUserId());
+						techh.setTechnology(technology[i]);
+						technologyId = userDelegate.fetchTechnologyId(techh);
+						if (technologyId == 0) {
+							techh.setTechnology(technology[i]);
+							technologyId = userDelegate.addNewTechnology(techh, user);
+							usertechnology.setTechnologyId(technologyId);
+							flag = userDelegate.addTechnologyDetails(usertechnology);
+						} else {
+							usertechnology.setTechnologyId(technologyId);
+							flag = userDelegate.addTechnologyDetails(usertechnology);
 						}
 					}
 
-				} 
-
-			} 
-			
-			 catch (SQLIntegrityConstraintViolationException e) {
-				
-				  //request.setAttribute("adminRegistrationError","error");
-				  //response.sendRedirect("RegisterAdminServlet"); 
-				  mav = new ModelAndView("signup");
-				  
-				  }
-				
-
-			catch (Exception e) {
-				
-				 mav = new ModelAndView("error");
+				}
 			}
 
-		  return mav;
-	  }  
+			session.setAttribute("email", email);
+			request.setAttribute("registerSuccess", "yes");
+
+			userName = userDelegate.fetchUserNameById(userId);
+			session.setAttribute("userName", userName);
+			mav = new ModelAndView("findjob");
+			Company company = new Company();
+			ArrayList<Company> companyDetails = null;
+			companyDetails = companyDelegate.displayCompanies(company);
+			mav.addObject("companyList", companyDetails);
+
+		}
+
+		catch (SQLIntegrityConstraintViolationException e) {
+
+			// request.setAttribute("userRegistrationError", "error");
+			// response.sendRedirect("RegisterServlet");
+
+			mav = new ModelAndView("signup");
+
+		}
+
+		catch (Exception e) {
+
+			mav = new ModelAndView("error");
+		}
+		return mav;
+	}
+
+	@RequestMapping(value = "/adminregister", method = RequestMethod.POST)
+	public ModelAndView registerAdminProcess(HttpServletRequest request, HttpServletResponse response) {
+		ModelAndView mav = null;
+		try {
+			HttpSession session = request.getSession();
+			int userId = 0, flag = 0;
+			String userName = "";
+			User user = new User();
+			Company company = new Company();
+			String name = request.getParameter("userName");
+			String password = request.getParameter("psw");
+			String confirmPassword = request.getParameter("cpsw");
+			String email = request.getParameter("email");
+			String companyid = request.getParameter("companyName");
+
+			String companyname = companyDelegate.fetchCompanyName(Integer.parseInt(companyid));
+
+			user.setUserName(name);
+			user.setEmail(email);
+			user.setPassword(password);
+			user.setCompany(companyname);
+			user.setDesignation("admin");
+			user.setRoleId(2);
+
+			if (userDelegate.registerAsAdmin(user)) {
+				userId = userDelegate.fetchUserId(user);
+				user.setUserId(userId);
+				userDelegate.insertIntoUser(user);
+
+				if (userId != 0) {
+					user.setUserId(userId);
+					company.setCompanyId(Integer.parseInt(companyid));
+					flag = userDelegate.insertIntoAdmin(user, company);
+					CompanyDelegate.insertIntoCompanyDetails(user, company);
+					if (flag == 1) {
+
+						userName = userDelegate.fetchUserNameById(userId);
+						session.setAttribute("userName", userName);
+						session.setAttribute("email", email);
+						request.setAttribute("registerSuccess", "yes");
+						mav = new ModelAndView("admin");
+
+					}
+				}
+
+			}
+
+		}
+
+		catch (SQLIntegrityConstraintViolationException e) {
+
+			// request.setAttribute("adminRegistrationError","error");
+			// response.sendRedirect("RegisterAdminServlet");
+			mav = new ModelAndView("signup");
+
+		}
+
+		catch (Exception e) {
+
+			mav = new ModelAndView("error");
+		}
+
+		return mav;
+	}
 }

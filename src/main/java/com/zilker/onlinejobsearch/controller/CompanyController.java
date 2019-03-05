@@ -3,7 +3,6 @@ package com.zilker.onlinejobsearch.controller;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -325,34 +324,33 @@ public class CompanyController {
 	public ModelAndView viewCompanyReviews(@RequestParam("company") String companyName, HttpSession session) {
 		ModelAndView mav = new ModelAndView("viewallreviews");
 		try {
-			    int companyId=0;
-				String email = (String) session.getAttribute("email");
-				User user= new User();
-				user.setEmail(email);
-			ArrayList<Company> companyReviews = null;	
+			int companyId = 0;
+			String email = (String) session.getAttribute("email");
+			User user = new User();
+			user.setEmail(email);
+			ArrayList<Company> companyReviews = null;
 			ArrayList<Company> companyDetails = null;
 			Company company = new Company();
-			
+
 			company.setCompanyName(companyName);
 			companyId = companyDelegate.fetchCompanyId(company);
 			company.setCompanyId(companyId);
 			companyDetails = companyDelegate.retrieveVacancyByCompany(company);
-				
-	
+
 			mav.addObject("displayCompany", companyDetails);
-		
+
 			companyReviews = userDelegate.retrieveReview(company);
 			if (companyReviews.isEmpty()) {
 				mav.addObject("noReviews", "yes");
-			}else {
-			
+			} else {
+
 				mav.addObject("displayCompanyReviews", companyReviews);
-		
+
 			}
-			
-			}catch(Exception e) {
-				 mav = new ModelAndView("error");
-			}
+
+		} catch (Exception e) {
+			mav = new ModelAndView("error");
+		}
 		return mav;
 	}
 
