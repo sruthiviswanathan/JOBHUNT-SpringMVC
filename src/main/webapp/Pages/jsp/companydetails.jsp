@@ -52,7 +52,7 @@
                         
                         	</div>
 	<div class="container__display">
-		<form action="${Config.BASE_PATH}ReviewServlet" method="post">
+		<form action="${Config.BASE_PATH}company/reviews" method="post">
 			<c:forEach items="${displayCompany}" var="comp">
 				<div class="display__row">
 						<input type="hidden" name="company" value="${comp.getCompanyName()}">

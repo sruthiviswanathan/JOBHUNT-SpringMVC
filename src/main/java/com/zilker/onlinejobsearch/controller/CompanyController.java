@@ -202,8 +202,7 @@ public class CompanyController {
 		}
 		return mav;
 	}
-	
-	
+
 	@RequestMapping(value = "/company", method = RequestMethod.GET)
 	@ResponseBody
 	public ModelAndView ViewCompany(@RequestParam("companyName") String companyName, HttpSession session) {
@@ -282,50 +281,79 @@ public class CompanyController {
 		}
 		return mav;
 	}
-	
-	
-	
+
 	@RequestMapping(value = "/company/location", method = RequestMethod.POST)
 	@ResponseBody
 	public ModelAndView findByLocation(@RequestParam("location") String location, HttpSession session) {
 		ModelAndView mav = new ModelAndView("viewbylocation");
 		try {
-			
+
 			String email = (String) session.getAttribute("email");
-			if(session.getAttribute("email")==null){
-				//response.sendRedirect("index.jsp");
+			if (session.getAttribute("email") == null) {
+				// response.sendRedirect("index.jsp");
 			}
-			User user= new User();
+			User user = new User();
 			user.setEmail(email);
-			ArrayList<Company> retrieveByLocation = new ArrayList<Company>();
-			Company company = new Company();	
-			CompanyDelegate companyDelegate = new CompanyDelegate();
-			UserDelegate userDelegate = new UserDelegate();
-			int userId=0;
-			userId=userDelegate.fetchUserId(user);
+			ArrayList<Company> retrieveByLocation = null;
+			Company company = new Company();
+			int userId = 0;
+			userId = userDelegate.fetchUserId(user);
 			user.setUserId(userId);
-			
-				company.setLocation(location);
-				retrieveByLocation = companyDelegate.retrieveVacancyByLocation(company,user);
-				if (retrieveByLocation.isEmpty()) {
-					
-					mav.addObject("noVacancy","yes");
-					
-					
-				} else {
-					for (Company i : retrieveByLocation) {
-						
-						mav.addObject("retrieveByLocation", retrieveByLocation);
-					}
-					
-				}
+
+			company.setLocation(location);
+			retrieveByLocation = companyDelegate.retrieveVacancyByLocation(company, user);
+			if (retrieveByLocation.isEmpty()) {
+
+				mav.addObject("noVacancy", "yes");
+
+			} else {
+
+				mav.addObject("retrieveByLocation", retrieveByLocation);
+
+			}
 
 		} catch (SQLException e) {
-			
+
 			mav = new ModelAndView("error");
-			
+
 		}
 		return mav;
 	}
+
+	@RequestMapping(value = "/company/reviews", method = RequestMethod.POST)
+	@ResponseBody
+	public ModelAndView viewCompanyReviews(@RequestParam("company") String companyName, HttpSession session) {
+		ModelAndView mav = new ModelAndView("viewallreviews");
+		try {
+			    int companyId=0;
+				String email = (String) session.getAttribute("email");
+				User user= new User();
+				user.setEmail(email);
+			ArrayList<Company> companyReviews = null;	
+			ArrayList<Company> companyDetails = null;
+			Company company = new Company();
+			
+			company.setCompanyName(companyName);
+			companyId = companyDelegate.fetchCompanyId(company);
+			company.setCompanyId(companyId);
+			companyDetails = companyDelegate.retrieveVacancyByCompany(company);
+				
 	
+			mav.addObject("displayCompany", companyDetails);
+		
+			companyReviews = userDelegate.retrieveReview(company);
+			if (companyReviews.isEmpty()) {
+				mav.addObject("noReviews", "yes");
+			}else {
+			
+				mav.addObject("displayCompanyReviews", companyReviews);
+		
+			}
+			
+			}catch(Exception e) {
+				 mav = new ModelAndView("error");
+			}
+		return mav;
+	}
+
 }
