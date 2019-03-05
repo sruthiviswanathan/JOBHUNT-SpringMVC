@@ -34,7 +34,7 @@
         						</div>
         
  				<div class="container__searchbar col-xs-12 col-sm-12 col-md-3">
-                        <form action="${Config.BASE_PATH}FindCompanyServlet" id="findCompany" onsubmit="submitFindCompany()" method="post">
+                        <form action="${Config.BASE_PATH}company" id="findCompany" onsubmit="submitFindCompany()" method="post">
                					<div class="searchbar__row">                  
                                 <div class="col-60 col-xs-12 col-sm-12 col-md-3">
                                         <label for="job" class="row__label col-md-3">SEARCH FOR COMPANY</label>

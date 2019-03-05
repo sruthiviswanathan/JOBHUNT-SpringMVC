@@ -28,10 +28,10 @@
 	 <div class="container"> 
 		 		<div id="mySidenav" class="container__sidenav">
 		 	 		<div class="sidenav__items">
-                        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-                        <a href="${Config.BASE_PATH}Pages/jsp/findjob.jsp">FIND JOB</a>
-                        <a href="${Config.BASE_PATH}Pages/jsp/findcompany.jsp">FIND COMPANY</a>
-                         <a href="${Config.BASE_PATH}Pages/jsp/searchbylocation.jsp">SEARCH BY LOCATION</a>                  
+               			 <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+                        <a href="${Config.BASE_PATH}findjobs">FIND JOB</a>
+                        <a href="${Config.BASE_PATH}findcompany">FIND COMPANY</a>
+                         <a href="${Config.BASE_PATH}findlocation">SEARCH BY LOCATION</a>
                         <a href="${Config.BASE_PATH}UserProfileServlet">YOUR PROFILE</a>
                         <a href="${Config.BASE_PATH}RequestVacancyServlet">REQUEST A VACANCY</a>
                         <a href="${Config.BASE_PATH}ViewAppliedJobsServlet">VIEW APPLIED JOBS</a>
@@ -51,7 +51,7 @@
 		
 		 <div class="container__searchbar">
                
-                        <form action="${Config.BASE_PATH}SearchByLocation" method="post">
+                        <form action="${Config.BASE_PATH}company/location" method="post">
                                
                                 <div class="searchbar__row">   
                                  
@@ -155,7 +155,7 @@
 							<c:otherwise>
 							<div class="col-60 col-xs-12 col-md-12">
 								
-									<form action="${Config.BASE_PATH}ApplyForJobServlet" id="apply${loop.count}" onsubmit="event.preventDefault(); apply(this,'button${loop.count}');" method="post">
+									<form action="${Config.BASE_PATH}company/jobs/apply" id="apply${loop.count}" onsubmit="event.preventDefault(); apply(this,'button${loop.count}');" method="post">
 									<input type="hidden" name="location" value="${location.getLocation()}">
 									<input type="hidden" name="companyName" value="${location.getCompanyName()}">
 									<input type="hidden" name="jobDesignation" value="${location.getJobRole()}">

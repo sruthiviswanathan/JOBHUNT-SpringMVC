@@ -704,6 +704,7 @@ public class UserDAO {
 		// TODO Auto-generated method stub
 		boolean flag = false;
 		try {
+			
 			connection = DButils.getConnection();
 			preparestatement = connection.prepareStatement(QueryConstants.APPLYFORJOB);
 			preparestatement.setInt(1, user.getUserId());
@@ -715,9 +716,9 @@ public class UserDAO {
 			preparestatement.setInt(7, user.getUserId());
 			preparestatement.executeUpdate();
 			flag = true;
-
+			
 		} catch (SQLException e) {
-		
+			
 			throw e;
 
 		} finally {

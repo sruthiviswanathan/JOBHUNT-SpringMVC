@@ -3,7 +3,6 @@ package com.zilker.onlinejobsearch.controller;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -69,8 +68,14 @@ public class UserController {
 		 
 	    
 	    if (role == 0) {
+	    
+	    
 	    mav = new ModelAndView("login");
-	  
+	    Company company = new Company();
+		ArrayList<Company> displayCompanies = null;
+		displayCompanies = companyDelegate.displayCompanies(company);
+   	    mav.addObject("companies",displayCompanies);
+   	    mav.addObject("loginError","error");
 	    } else if (role == 1){
 	    
 	    	mav = new ModelAndView("findjob");
@@ -152,7 +157,11 @@ public class UserController {
 
 					userName = userDelegate.fetchUserNameById(userId);
 					session.setAttribute("userName", userName);
-					 mav = new ModelAndView("findjob");
+					mav = new ModelAndView("findjob");
+					Company company = new Company();
+					ArrayList<Company> companyDetails = null;
+					companyDetails = companyDelegate.displayCompanies(company);	
+					mav.addObject("companyList", companyDetails);
 				
 
 			}
@@ -228,6 +237,7 @@ public class UserController {
 				  //request.setAttribute("adminRegistrationError","error");
 				  //response.sendRedirect("RegisterAdminServlet"); 
 				  mav = new ModelAndView("signup");
+				  
 				  }
 				
 

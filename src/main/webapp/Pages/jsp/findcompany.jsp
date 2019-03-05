@@ -56,7 +56,7 @@
 						<div class="maincard__card col-sm-6 col-xs-12">
 						 	<c:set var="company" value="${comp.getCompanyName()}"/>
                                 <div class="card__container">
-                                       <a href="${Config.BASE_PATH}FindCompanyServlet?companyName=${company}">
+                                       <a href="${Config.BASE_PATH}company?companyName=${company}">
 						  			<img src="${comp.getCompanyLogo()}"
                                                         alt="Avatar" style="width:50%;height:75%;"></a>
                                         <h4><b><c:out value="${comp.getCompanyName()}" /></b></h4>

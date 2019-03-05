@@ -49,8 +49,7 @@
 						
 						<div class="login__field col-xs-12 col-md-12">
 						<label for="email" class="field__entry row col-25"><b>EMAIL*</b></label> 
-						<form:input class="field__input row col-75" type="email"
-							placeholder="Your Email ID.." path="email" name="email"/> 
+						<form:input class="field__input row col-75" type="email" placeholder="Your Email ID.." path="email" name="email"/> 
 							<span class="error"><p id="log_em_error"></p></span> 
 						</div>
 					

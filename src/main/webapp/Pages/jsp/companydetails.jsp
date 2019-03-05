@@ -28,7 +28,7 @@
 	<div id="maincontainer">
 		
 		<div class="container__searchbar col-xs-12 col-sm-12 col-md-3">
-			<form action="${Config.BASE_PATH}FindCompanyServlet" method="post">
+			<form action="${Config.BASE_PATH}company" method="post">
 				<div class="searchbar__row">
 				
 				<div class="searchbar__label col-xs-12 col-sm-12 col-md-3">
@@ -166,7 +166,7 @@
 							
 							<c:otherwise>
 							<div class="col-20 col-xs-12 col-sm-12">
-								<form action="${Config.BASE_PATH}ApplyForJobServlet"  id="apply${loop.count}" onsubmit="event.preventDefault(); apply(this,'button${loop.count}');"  method="post">
+								<form action="${Config.BASE_PATH}company/jobs/apply"  id="apply${loop.count}" onsubmit="event.preventDefault(); apply(this,'button${loop.count}');"  method="post">
 									<input type="hidden" name="location" value="${vac.getLocation()}">
 								<input type="hidden" name="companyName" value="${vac.getCompanyName()}">
 								<input type="hidden" name="jobDesignation" value="${vac.getJobRole()}">
