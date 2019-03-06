@@ -29,12 +29,7 @@
         		<div class="tab__label">
                 <h2>Rate <c:out value="${companyname}"/></h2>
                 </div>
-                        <%-- <select id="company" name ="company" oninput="this.className = ''" >
-                          <option value="${companyname}">${companyname}</option>
-								<c:forEach var="comp" items="${companies}">
-									<option value="${comp.getCompanyName()}"><c:out value="${comp.getCompanyName()}" /></option>
-								</c:forEach>
-                        </select> --%>
+                 
           <p><input type="text" value="${companyname}" name="company" readonly></p>              
           <p><input type="number" placeholder="Rate this company on a Scale of 5"  oninput="this.className = ''" name="rating" step=".01"></p>
           <p><textarea placeholder="Share something about this company..."  oninput="this.className = ''" name="review" required></textarea></p>

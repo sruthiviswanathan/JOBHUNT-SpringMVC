@@ -21,7 +21,7 @@
 </head>
 
 
-<body onload="viewlogin()">
+<body onload="viewsignup()">
 
 	<div class="container">
  		
@@ -49,7 +49,8 @@
 						
 						<div class="login__field col-xs-12 col-md-12">
 						<label for="email" class="field__entry row col-25"><b>EMAIL*</b></label> 
-						<form:input class="field__input row col-75" type="email" placeholder="Your Email ID.." path="email" name="email"/> 
+						<form:input class="field__input row col-75" type="email"
+							placeholder="Your Email ID.." path="email" name="email"/> 
 							<span class="error"><p id="log_em_error"></p></span> 
 						</div>
 					
@@ -90,19 +91,6 @@
 			 	
 				
 				<div id="defaultfields">
-					
-					<div class="error" id="registerError">
-							<c:if test="${userRegistrationError == 'error'}">
-							<c:out value="This Email ID is already Registered"/>
-							</c:if>
-							</div>	
-							
-							<div class="error" id="adminRegisterError">
-							<c:if test="${adminRegistrationError == 'error'}">
-							<c:out value="This Email ID is already Registered"/>
-							</c:if>
-							</div>	
-					
 					
 					<div class="signup__nav">
 							<div id="admin">
@@ -176,7 +164,7 @@
 			
 			<div id="adminoptional">
 				
-				<form action="${Config.BASE_PATH}adminregister"  name="admin" id="signupadmin" onsubmit="return validateForm()" method="post">
+				<form action="${Config.BASE_PATH}register/admin"  name="admin" id="signupadmin" onsubmit="return validateForm()" method="post">
 					
 					<div class="signupadmin">
 						
@@ -243,7 +231,7 @@
 		</div>
 	</div>
 	<div class="container__form-popup" id="myForm">
-		<form action="${Config.BASE_PATH}addcompany" class="form-container" method="post">
+		<form action="${Config.BASE_PATH}companies" class="form-container" method="post">
 			<h3>ADD NEW COMPANY</h3>
 			<input type="text" placeholder="Enter new Company" name="companyName"
 				required>

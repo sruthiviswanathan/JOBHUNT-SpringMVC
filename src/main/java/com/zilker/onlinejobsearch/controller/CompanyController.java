@@ -103,25 +103,25 @@ public class CompanyController {
 		return mav;
 	}
 
-	@RequestMapping(value = "/addcompany", method = RequestMethod.POST)
-	public ModelAndView AddNewCompany(HttpServletRequest request, HttpServletResponse response) {
-		ModelAndView mav = null;
+	@RequestMapping(value = "/companies", method = RequestMethod.POST)
+	@ResponseBody
+	public ModelAndView AddNewCompany(@RequestParam("companyName") String companyName,
+			@RequestParam("websiteUrl") String websiteUrl, @RequestParam("companyLogo") String companyLogo, HttpSession session) {
+		ModelAndView mav = new ModelAndView("login");
 		try {
 			Company company = new Company();
 
-			String companyName = request.getParameter("companyName");
-			String websiteUrl = request.getParameter("websiteUrl");
-			String companyLogo = request.getParameter("companyLogo");
 			company.setCompanyName(companyName);
 			company.setCompanyWebsiteUrl(websiteUrl);
 			company.setCompanyLogo(companyLogo);
 			if (companyDelegate.addNewCompany(company)) {
-				// response.sendRedirect("AddNewCompany");
-				mav = new ModelAndView("signup");
-				ArrayList<Company> displayCompanies = null;
-				displayCompanies = companyDelegate.displayCompanies(company);
-				mav.addObject("companies", displayCompanies);
 
+				mav = new ModelAndView("signup");
+				Company company1 = new Company();
+				ArrayList<Company> displayCompanies = null;
+				displayCompanies = companyDelegate.displayCompanies(company1);
+				mav.addObject("companies", displayCompanies);
+				mav.addObject("login", new User());
 			} else {
 
 				mav = new ModelAndView("error");
@@ -134,7 +134,7 @@ public class CompanyController {
 		return mav;
 	}
 
-	@RequestMapping(value = "/company", method = RequestMethod.POST)
+	@RequestMapping(value = "/company", method = RequestMethod.GET)
 	@ResponseBody
 	public ModelAndView findCompany(@RequestParam("companyName") String companyName, HttpSession session) {
 		ModelAndView mav = new ModelAndView("companydetails");
@@ -213,86 +213,8 @@ public class CompanyController {
 		return mav;
 	}
 
-	@RequestMapping(value = "/company", method = RequestMethod.GET)
-	@ResponseBody
-	public ModelAndView ViewCompany(@RequestParam("companyName") String companyName, HttpSession session) {
-		ModelAndView mav = new ModelAndView("companydetails");
-		try {
-			int companyId = 0;
-			// HttpSession session = request.getSession();
-			if (session.getAttribute("email") == null) {
-				// response.sendRedirect("index.jsp");
-			}
-			String email = (String) session.getAttribute("email");
-			User user = new User();
-			user.setEmail(email);
-
-			ArrayList<Company> companyDetails = null;
-			ArrayList<Company> vacancyDetails = null;
-			ArrayList<Company> companyReviews = null;
-			Company company = new Company();
-
-			int userId = 0;
-			userId = userDelegate.fetchUserId(user);
-			user.setUserId(userId);
-
-			company.setCompanyName(companyName);
-			companyId = companyDelegate.fetchCompanyId(company);
-			if (companyId == 0) {
-				mav = new ModelAndView("errorcompanyresults");
-				mav.addObject("noCompany", "yes");
-
-			} else {
-				company.setCompanyId(companyId);
-				companyDetails = companyDelegate.retrieveVacancyByCompany(company);
-
-				mav.addObject("displayCompany", companyDetails);
-
-				vacancyDetails = companyDelegate.retrieveVacancyByCompany1(company, user);
-
-				if (vacancyDetails.isEmpty()) {
-
-					mav.addObject("noVacancy", "yes");
-					companyReviews = userDelegate.retrieveReview(company);
-
-					if (companyReviews.isEmpty()) {
-						mav.addObject("noReviews", "yes");
-
-					} else {
-
-						mav.addObject("displayCompanyReviews", companyReviews);
-
-					}
-
-				} else {
-					for (Company i : vacancyDetails) {
-						int jobId = i.getJobId();
-						mav.addObject("displayVacancies", vacancyDetails);
-
-						company.setJobId(jobId);
-
-					}
-				}
-				companyReviews = userDelegate.retrieveReview(company);
-
-				if (companyReviews.isEmpty()) {
-					mav.addObject("noReviews", "yes");
-
-				} else {
-
-					mav.addObject("displayCompanyReviews", companyReviews);
-
-				}
-
-			}
-
-		} catch (SQLException e) {
-
-		}
-		return mav;
-	}
-
-	@RequestMapping(value = "/company/location", method = RequestMethod.POST)
+	
+	@RequestMapping(value = "/location/companies", method = RequestMethod.GET)
 	@ResponseBody
 	public ModelAndView findByLocation(@RequestParam("location") String location, HttpSession session) {
 		ModelAndView mav = new ModelAndView("viewbylocation");
@@ -484,64 +406,65 @@ public class CompanyController {
 		}
 		return mav;
 	}
-	
+
 	@RequestMapping(value = "/users/applied", method = RequestMethod.GET)
 	public ModelAndView AppliedUsers(HttpServletRequest request, HttpServletResponse response) {
 		ModelAndView mav = new ModelAndView("viewinterestedusers");
 		try {
-			HttpSession session=request.getSession(); 
-			if(session.getAttribute("email")==null){
-				//response.sendRedirect("index.jsp");
+			HttpSession session = request.getSession();
+			if (session.getAttribute("email") == null) {
+				// response.sendRedirect("index.jsp");
 			}
 			ArrayList<Company> appliedUsers = null;
-			
+
 			String email = (String) session.getAttribute("email");
-			User user= new User();
+			User user = new User();
 			Company company = new Company();
 			user.setEmail(email);
-			int userId=0,companyId=0;
+			int userId = 0, companyId = 0;
 			userId = userDelegate.fetchUserId(user);
 			user.setUserId(userId);
 			companyId = userDelegate.fetchCompanyIdByAdmin(user);
 			company.setCompanyId(companyId);
-			appliedUsers=companyDelegate.viewAppliedUsers(company);
+			appliedUsers = companyDelegate.viewAppliedUsers(company);
 			if (appliedUsers.isEmpty()) {
-				
-				mav.addObject("noInterestedUsers","yes");
-				
+
+				mav.addObject("noInterestedUsers", "yes");
+
 			} else {
-					mav.addObject("appliedUsers", appliedUsers);
-						
+				mav.addObject("appliedUsers", appliedUsers);
+
 			}
-				
-		}catch(Exception e) {
+
+		} catch (Exception e) {
 			mav = new ModelAndView("error");
 		}
 		return mav;
 	}
-	
+
 	@RequestMapping(value = "/users/contacted", method = RequestMethod.POST)
 	@ResponseBody
-	public void UpdateContactedUsers(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException  {
+	public void UpdateContactedUsers(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		PrintWriter out = response.getWriter();
 		try {
 			response.setContentType("text/html;charset=UTF-8");
-		
-			int companyId=0,jobId=0,userId=0;
+
+			int companyId = 0, jobId = 0, userId = 0;
 			Company company = new Company();
 			JobMapping jobMapping = new JobMapping();
-	
+
 			HttpSession session = request.getSession();
 			String email = (String) session.getAttribute("email");
-			User user= new User();
+			User user = new User();
 			user.setEmail(email);
 			userId = userDelegate.fetchUserId(user);
 			user.setUserId(userId);
-			
+
 			String location = request.getParameter("location");
 			String emailId = request.getParameter("emailId");
 			String jobDesignation = request.getParameter("job");
-			
+
 			companyId = userDelegate.fetchCompanyIdByAdmin(user);
 			jobMapping.setJobRole(jobDesignation);
 			jobId = jobDelegate.fetchJobId(jobMapping);
@@ -549,58 +472,58 @@ public class CompanyController {
 			company.setCompanyId(companyId);
 			company.setJobId(jobId);
 			company.setLocation(location);
-			
-			if(userDelegate.markContacted(company,user)) {
-							
+
+			if (userDelegate.markContacted(company, user)) {
+
 				response.setContentType("application/json");
 				out.print("success");
 				out.flush();
-			
-			}else {
-				
+
+			} else {
+
 			}
 		}
-		
-		catch(Exception e) {
-			
+
+		catch (Exception e) {
+
 		}
 	}
-	
+
 	@RequestMapping(value = "company/jobspublished", method = RequestMethod.GET)
 	public ModelAndView ViewPublishedJobs(HttpServletRequest request, HttpServletResponse response) {
 		ModelAndView mav = new ModelAndView("viewpublishedjobs");
 		try {
-			
-			HttpSession session=request.getSession(); 
-			if(session.getAttribute("email")==null){
-				//response.sendRedirect("index.jsp");
+
+			HttpSession session = request.getSession();
+			if (session.getAttribute("email") == null) {
+				// response.sendRedirect("index.jsp");
 			}
-		response.setContentType("text/html;charset=UTF-8");
-		String email = (String) session.getAttribute("email");
-		User user= new User();
-		user.setEmail(email);
-		Company company = new Company();
-		ArrayList<Company> vacancyDetails = null;
-		
-		int userId=0,companyId=0;
-		userId = userDelegate.fetchUserId(user);
-		user.setUserId(userId);
-		companyId = userDelegate.fetchCompanyIdByAdmin(user);
-		company.setCompanyId(companyId);
-		vacancyDetails = companyDelegate.retrieveVacancyByCompanyAdmin(company);
-		
+			response.setContentType("text/html;charset=UTF-8");
+			String email = (String) session.getAttribute("email");
+			User user = new User();
+			user.setEmail(email);
+			Company company = new Company();
+			ArrayList<Company> vacancyDetails = null;
+
+			int userId = 0, companyId = 0;
+			userId = userDelegate.fetchUserId(user);
+			user.setUserId(userId);
+			companyId = userDelegate.fetchCompanyIdByAdmin(user);
+			company.setCompanyId(companyId);
+			vacancyDetails = companyDelegate.retrieveVacancyByCompanyAdmin(company);
+
 			JobMapping jobMapping = new JobMapping();
 			ArrayList<JobMapping> job = null;
 			job = jobDelegate.displayJobs(jobMapping);
-			mav.addObject("jobs", job); 
-		if (vacancyDetails.isEmpty()) {
-			
-			mav.addObject("noVacancy","yes");
-		}else {
-			mav.addObject("vacancyDetails", vacancyDetails); 
-		
-		}
-		}catch(Exception e) {
+			mav.addObject("jobs", job);
+			if (vacancyDetails.isEmpty()) {
+
+				mav.addObject("noVacancy", "yes");
+			} else {
+				mav.addObject("vacancyDetails", vacancyDetails);
+
+			}
+		} catch (Exception e) {
 			mav = new ModelAndView("error");
 		}
 		return mav;
@@ -610,61 +533,61 @@ public class CompanyController {
 	public ModelAndView UpdatePublishedJobs(HttpServletRequest request, HttpServletResponse response) {
 		ModelAndView mav = new ModelAndView("viewpublishedjobs");
 		try {
-			
-			int oldJobId=0,newJobId=0,userId=0,companyId=0;
+
+			int oldJobId = 0, newJobId = 0, userId = 0, companyId = 0;
 			HttpSession session = request.getSession();
 			String email = (String) session.getAttribute("email");
-			User user= new User();
+			User user = new User();
 			user.setEmail(email);
 			ArrayList<Company> vacancyDetails = null;
-	
+
 			Company company = new Company();
 			JobMapping jobMapping = new JobMapping();
-			
+
 			DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
 			LocalDateTime now = LocalDateTime.now();
 			user.setCurrentTime(dtf.format(now));
 			String action = request.getParameter("action");
 			String jobDesignation = request.getParameter("jobdesignation");
-			
+
 			jobMapping.setJobRole(jobDesignation);
 			oldJobId = jobDelegate.fetchJobId(jobMapping);
 			userId = userDelegate.fetchUserId(user);
 			user.setUserId(userId);
 			companyId = userDelegate.fetchCompanyIdByAdmin(user);
 			company.setCompanyId(companyId);
-			
+
 			if ("UPDATE".equals(action)) {
-			
+
 				company.setOldJobId(oldJobId);
 				String newJobDesignation = request.getParameter("job");
-			
+
 				newJobId = Integer.parseInt(newJobDesignation);
 				company.setJobId(newJobId);
-				if(companyDelegate.updateVacancyJobId(company, user)) {
-					mav.addObject("status","updated");
-					
+				if (companyDelegate.updateVacancyJobId(company, user)) {
+					mav.addObject("status", "updated");
+
 				}
-				
+
 				String location = request.getParameter("location");
 				company.setLocation(location);
-				if(companyDelegate.updateVacancyLocation(company, user)) {
-					mav.addObject("status","updated");
+				if (companyDelegate.updateVacancyLocation(company, user)) {
+					mav.addObject("status", "updated");
 				}
-				
+
 				String jobDescription = request.getParameter("description");
 				company.setJobDescription(jobDescription);
-				if(companyDelegate.updateVacancyDescription(company, user)) {
-					mav.addObject("status","updated");
+				if (companyDelegate.updateVacancyDescription(company, user)) {
+					mav.addObject("status", "updated");
 				}
-				
+
 				String salary = request.getParameter("salary");
 				company.setSalary(Float.parseFloat(salary));
-				if(companyDelegate.updateVacancySalary(company, user)) {
-					mav.addObject("status","updated");
-					
+				if (companyDelegate.updateVacancySalary(company, user)) {
+					mav.addObject("status", "updated");
+
 				}
-				
+
 				String count = request.getParameter("count");
 				int vacancyCount = Integer.parseInt(count);
 				company.setVacancyCount(vacancyCount);
@@ -673,35 +596,35 @@ public class CompanyController {
 				} else {
 					company.setVacancyStatus("available");
 				}
-				if(companyDelegate.updateVacancyCount(company, user)) {
-					mav.addObject("status","updated");
+				if (companyDelegate.updateVacancyCount(company, user)) {
+					mav.addObject("status", "updated");
 				}
-			
+
 			} else if ("DELETE".equals(action)) {
-			   
+
 				company.setJobId(oldJobId);
-				if(companyDelegate.removeVacancy(company, user)) {
-					mav.addObject("status","deleted");
+				if (companyDelegate.removeVacancy(company, user)) {
+					mav.addObject("status", "deleted");
 				}
-				
+
 			}
-			
+
 			vacancyDetails = companyDelegate.retrieveVacancyByCompanyAdmin(company);
-			
+
 			JobMapping jobs = new JobMapping();
 			ArrayList<JobMapping> job = null;
 			job = jobDelegate.displayJobs(jobs);
-			mav.addObject("jobs", job); 
-		if (vacancyDetails.isEmpty()) {
-			
-			mav.addObject("noVacancy","yes");
-		}else {
-			mav.addObject("vacancyDetails", vacancyDetails); 
-		
-		}
-			}catch(Exception e) {
-				mav = new ModelAndView("error");
+			mav.addObject("jobs", job);
+			if (vacancyDetails.isEmpty()) {
+
+				mav.addObject("noVacancy", "yes");
+			} else {
+				mav.addObject("vacancyDetails", vacancyDetails);
+
 			}
+		} catch (Exception e) {
+			mav = new ModelAndView("error");
+		}
 		return mav;
 	}
 }

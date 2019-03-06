@@ -34,7 +34,7 @@
         						</div>
         
  				<div class="container__searchbar col-xs-12 col-sm-12 col-md-3">
-                        <form action="${Config.BASE_PATH}company" id="findCompany" onsubmit="submitFindCompany()" method="post">
+                        <form action="${Config.BASE_PATH}company" id="findCompany" onsubmit="submitFindCompany()" method="get">
                					<div class="searchbar__row">                  
                                 <div class="col-60 col-xs-12 col-sm-12 col-md-3">
                                         <label for="job" class="row__label col-md-3">SEARCH FOR COMPANY</label>
@@ -50,9 +50,7 @@
                         </form>
                 </div>
                 
-               <!-- <div class="container__title">
-                        <h3>POPULAR COMPANIES</h3>
-                </div> -->
+            
              	
              	 <div class="container__maincard">
                        
@@ -61,7 +59,7 @@
 						 <div class="maincard__card col-sm-6 col-xs-height">
 						 	<c:set var="company" value="${comp.getCompanyName()}"/>
                                 <div class="card__container">
-                                       <a href="${Config.BASE_PATH}FindCompanyServlet?companyName=${company}">
+                                       <a href="${Config.BASE_PATH}companies/company?companyName=${company}">
 						  			<img src="${comp.getCompanyLogo()}"
                                                         alt="Avatar" style="width:50%;height:75%;"></a>
                                         <h4><b><c:out value="${comp.getCompanyName()}" /></b></h4>

@@ -32,8 +32,8 @@
                         <a href="${Config.BASE_PATH}findjobs">FIND JOB</a>
                         <a href="${Config.BASE_PATH}findcompany">FIND COMPANY</a>
                          <a href="${Config.BASE_PATH}findlocation">SEARCH BY LOCATION</a>
-                        <a href="${Config.BASE_PATH}UserProfileServlet">YOUR PROFILE</a>
-                        <a href="${Config.BASE_PATH}RequestVacancyServlet">REQUEST A VACANCY</a>
+                        <a href="${Config.BASE_PATH}users/update">YOUR PROFILE</a>
+                        <a href="${Config.BASE_PATH}users/request">REQUEST A VACANCY</a>
                         <a href="${Config.BASE_PATH}users/appliedjobs">VIEW APPLIED JOBS</a>
            </div>
           </div> 
@@ -42,8 +42,8 @@
 					
 					<li><button onmouseover="openNav()" class="hambug"><i class="fa fa-bars" aria-hidden="true"></i></button></li>			
 					<li>JOB HUNT</li>
-					<li style="float: right"><a href="${Config.BASE_PATH}LogoutServlet">Logout</a></li>
-					<li style="float: right"><a href="${Config.BASE_PATH}UserProfileServlet"><i class="fa fa-user-circle" aria-hidden="true"></i> Hi, <%= session.getAttribute("userName") %></a></li>
+					<li style="float: right"><a href="${Config.BASE_PATH}logout">Logout</a></li>
+					<li style="float: right"><a href="${Config.BASE_PATH}users/update"><i class="fa fa-user-circle" aria-hidden="true"></i> Hi, <%= session.getAttribute("userName") %></a></li>
                     
                     </ul>
         </div> 
@@ -79,7 +79,7 @@
 						</c:if>
 
         <div class="container__profile col-xs-12 col-md-12">
-            <form action="${Config.BASE_PATH}UserProfileServlet" name ="update" id="update"  onsubmit="return updateUser()" method="post">
+            <form action="${Config.BASE_PATH}users/update" name ="update" id="update"  onsubmit="return updateUser()" method="post">
                
              
           

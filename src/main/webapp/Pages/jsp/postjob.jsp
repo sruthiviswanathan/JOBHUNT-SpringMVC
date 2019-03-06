@@ -38,9 +38,9 @@
 			<ul class="navbar__list">
 				<li><button onmouseover="openNav()" class="hambug"><i class="fa fa-bars" aria-hidden="true"></i></button></li>			
 				<li>JOB HUNT</li>
-				<li style="float: right"><a href="${Config.BASE_PATH}LogoutServlet">Logout</a></li>
+				<li style="float: right"><a href="${Config.BASE_PATH}logout">Logout</a></li>
 				<li style="float: right">
-					<a href="${Config.BASE_PATH}AdminStatisticsServlet">
+					<a href="${Config.BASE_PATH}users/admin">
 					<li style="float: right"> Hi, <%= session.getAttribute("userName") %></li>
                     <li style="float: right"><i class="user fa fa-user-circle" aria-hidden="true"></i></li> 
                     </a>
@@ -146,7 +146,7 @@
 	</div>
 	
 	<div class="container__form-popup" id="myForm">
-	<form action="${Config.BASE_PATH}company/addjob" class="form-container" method="post">
+	<form action="${Config.BASE_PATH}addjob" class="form-container" method="post">
 		<!-- <form action="login.html" class="form-container"> -->
 			<h3>ADD NEW JOB DESIGNATION</h3>
 			<input type="text" placeholder="Enter new Job designation"

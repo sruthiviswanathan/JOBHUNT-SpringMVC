@@ -164,7 +164,7 @@
 			
 			<div id="adminoptional">
 				
-				<form action="${Config.BASE_PATH}adminregister"  name="admin" id="signupadmin" onsubmit="return validateForm()" method="post">
+				<form action="${Config.BASE_PATH}register/admin"  name="admin" id="signupadmin" onsubmit="return validateForm()" method="post">
 					
 					<div class="signupadmin">
 						
@@ -231,7 +231,7 @@
 		</div>
 	</div>
 	<div class="container__form-popup" id="myForm">
-		<form action="${Config.BASE_PATH}addcompany" class="form-container" method="post">
+		<form action="${Config.BASE_PATH}companies" class="form-container" method="post">
 			<h3>ADD NEW COMPANY</h3>
 			<input type="text" placeholder="Enter new Company" name="companyName"
 				required>

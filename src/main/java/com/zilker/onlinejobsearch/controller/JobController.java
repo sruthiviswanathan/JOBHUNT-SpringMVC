@@ -38,7 +38,7 @@ public class JobController {
 	@Autowired
 	CompanyDelegate companyDelegate;
 
-	@RequestMapping(value = "/company/jobs", method = RequestMethod.POST)
+	@RequestMapping(value = "/jobdesignation/companies", method = RequestMethod.GET)
 	@ResponseBody
 	public ModelAndView findJobs(@RequestParam("job") String jobDesignation, HttpSession session) {
 		ModelAndView mav = null;
@@ -220,14 +220,14 @@ public class JobController {
 		return mav;
 	}
 
-	@RequestMapping(value = "/company/addjob", method = RequestMethod.POST)
+	@RequestMapping(value = "/addjob", method = RequestMethod.POST)
 	@ResponseBody
 	public ModelAndView AddNewJobDesignation(@RequestParam("newjob") String jobRole, HttpSession session)
 			throws ServletException, IOException {
 		ModelAndView mav = new ModelAndView("postjob");
 
 		try {
-			// HttpSession session = request.getSession();
+			
 			String email = (String) session.getAttribute("email");
 			User user = new User();
 			user.setEmail(email);

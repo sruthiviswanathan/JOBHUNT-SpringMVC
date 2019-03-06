@@ -3,7 +3,7 @@
     <%@ page import="com.zilker.onlinejobsearch.config.Config"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
  <%@ include file = "usernavbar.jsp" %>
-<%--   <jsp:include page="/RetreiveAllCompanyServlet" /> --%>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -27,7 +27,7 @@
          
                  <div class="container__searchbar col-xs-12 col-sm-12 col-md-3">
                
-                        <form action="${Config.BASE_PATH}company/location"  method="post">
+                        <form action="${Config.BASE_PATH}location/companies"  method="get">
                                
                                 <div class="searchbar__row">   
                                  

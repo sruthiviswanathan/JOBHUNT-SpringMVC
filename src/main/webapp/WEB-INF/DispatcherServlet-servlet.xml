@@ -13,8 +13,15 @@ http://www.springframework.org/schema/context
     <mvc:annotation-driven /> -->
     <context:annotation-config />
  
-    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+    <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="prefix" value="/Pages/jsp/" />
         <property name="suffix" value=".jsp" />
+        <property name="order" value="1" />
+    </bean>
+    <bean
+        class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/webapp/"/>
+        <property name="suffix" value=".jsp"/>
+        <property name="order" value="2" />
     </bean>
 </beans>

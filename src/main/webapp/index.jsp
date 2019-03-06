@@ -42,10 +42,7 @@
 					    <p>"We've hired several qualified applicants who report first seeing the position on JOBHUNT, and we'll definitely utilize your free services again in future recruiting efforts. It's been great working with you!"																																															
 						-Tata Communications</p>
 					</div>
-					<!-- <p>"We had great success using JOBHUNT. We not only got a lot of applicants, but we also got quality candidates and ended up hiring someone who applied as a result of the posting. It is a huge success story for us at Forrester, and I've shared this great resource with all of our recruiters for our future remote staffing needs."
-					    -Forrester</p>	
-					 <p>"JOBHUNT is the first place we go to post a job opening. It consistently delivers a quality applicant flow and we are very happy."
-					      -VaVa Virtual Assistants</p>	 -->				
+								
 					 </div>	
 					</div>
 					
@@ -58,10 +55,7 @@
 					   <p>"We are growing fast and we regularly post new jobs to JOBHUNT—it’s great to have so many quality applicants to consider for our available roles. We look forward to hiring more!"
 					 	-Museum Hack-</p>
 					 	</div>
-					<!-- <p>"JOBHUNT has helped FULL Creative reach some amazing team members that are truly happy with their journey here!"-FULL Creative</p>	
-					
-					 <p>"JOBHUNT has been a great source for helping us tap into a network of designers who are talented and looking for a more flexible way to do the work that they love."
-					 -Havenly</p>	 -->				
+								
 					 </div>	
 					</div>
 					
@@ -69,14 +63,13 @@
 					  <div class="numbertext">3 / 3</div>
 					 <div class="bgimage__overlay text">
 					
-					<!-- <p>"We love JOBHUNT! Compared to all the online job boards we have tried, JOBHUNT delivered the best candidates and fastest results by far! It's a fantastic recruiting tool for our international, virtual company."
-					-Vortala</p> -->
+					
 					<div class="testimonials">
 						<h3>TESTIMONIALS</h3>
 					<p>"Having tried the competition with disappointing results, we enlisted the help of JOBHUNT to help us find a contracted developer. In just a couple of days, we had dozens of applications! This is compared to less than 10 elsewhere!"
 					-Bodis</p>	
 					</div>
-					 <!-- <p>"JOBHUNT has helped bring many teachers to the Outschool community!"-Outschool</p>	 -->				
+								
 					 </div>	
 					</div>
 					<a class="prev" onclick="plusSlides(-1)">&#10094;</a>

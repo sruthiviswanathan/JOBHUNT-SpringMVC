@@ -5,8 +5,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
  <%@ include file = "usernavbar.jsp" %>
 
-<%--  <jsp:include page="/RetreiveAllCompanyServlet" /> --%>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -37,7 +35,7 @@
                    
                      
                 <div class="container__searchbar col-xs-12 col-sm-12 col-md-3">
-                        <form action="${Config.BASE_PATH}company/jobs" method="post">
+                        <form action="${Config.BASE_PATH}jobdesignation/companies" method="get">
                   <div class="searchbar__row">               
                                 <div class="col-60 col-xs-12 col-sm-12 col-md-3">
                                     <label for="job" class="row__label col-md-3">SEARCH FOR JOB</label>

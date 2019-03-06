@@ -1,6 +1,8 @@
 package com.zilker.onlinejobsearch.controller;
 
 import java.sql.SQLIntegrityConstraintViolationException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
@@ -18,10 +20,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.zilker.onlinejobsearch.beans.Company;
+import com.zilker.onlinejobsearch.beans.JobMapping;
+import com.zilker.onlinejobsearch.beans.JobRequest;
 import com.zilker.onlinejobsearch.beans.Technology;
 import com.zilker.onlinejobsearch.beans.User;
 import com.zilker.onlinejobsearch.beans.UserTechnologyMapping;
 import com.zilker.onlinejobsearch.delegate.CompanyDelegate;
+import com.zilker.onlinejobsearch.delegate.JobDelegate;
 import com.zilker.onlinejobsearch.delegate.UserDelegate;
 
 @Controller
@@ -33,6 +38,7 @@ public class UserController {
 	@Autowired
 	CompanyDelegate companyDelegate;
 
+	
 	@RequestMapping(value = "/companies", method = RequestMethod.GET)
 	public ModelAndView showLoginPage(HttpServletRequest request, HttpServletResponse response) {
 		ModelAndView mav = new ModelAndView("login");
@@ -48,6 +54,7 @@ public class UserController {
 		return mav;
 	}
 
+	
 	@RequestMapping(value = "/users-login", method = RequestMethod.POST)
 	public ModelAndView loginProcess(HttpServletRequest request, HttpServletResponse response,
 			@ModelAttribute("login") User user) {
@@ -173,8 +180,7 @@ public class UserController {
 
 		catch (SQLIntegrityConstraintViolationException e) {
 
-			// request.setAttribute("userRegistrationError", "error");
-			// response.sendRedirect("RegisterServlet");
+		
 
 			mav = new ModelAndView("signup");
 
@@ -187,7 +193,7 @@ public class UserController {
 		return mav;
 	}
 
-	@RequestMapping(value = "/adminregister", method = RequestMethod.POST)
+	@RequestMapping(value = "/register/admin", method = RequestMethod.POST)
 	public ModelAndView registerAdminProcess(HttpServletRequest request, HttpServletResponse response) {
 		ModelAndView mav = null;
 		try {
@@ -249,8 +255,7 @@ public class UserController {
 
 		catch (SQLIntegrityConstraintViolationException e) {
 
-			// request.setAttribute("adminRegistrationError","error");
-			// response.sendRedirect("RegisterAdminServlet");
+		
 			mav = new ModelAndView("signup");
 
 		}
@@ -262,6 +267,7 @@ public class UserController {
 
 		return mav;
 	}
+	
 	
 	@RequestMapping(value = "/users/appliedjobs", method = RequestMethod.GET)
 	public ModelAndView DisplayAppliedJobs(HttpServletRequest request, HttpServletResponse response) {
@@ -296,4 +302,241 @@ public class UserController {
 		}
 		return mav;
 	}
+	
+	@RequestMapping(value = "/logout", method = RequestMethod.GET)
+	public void Logout(HttpServletRequest request, HttpServletResponse response) {
+		//ModelAndView mav = new ModelAndView("index");
+		try {
+			HttpSession session = request.getSession();
+			
+			if (session != null) {
+			  
+			    response.setHeader("Cache-Control", "no-cache");
+			    response.setHeader("Pragma","no-cache");
+			    response.setDateHeader("max-age",0);
+			    response.setDateHeader("Expires",0);
+			    session.invalidate();
+			    response.sendRedirect("index.jsp");
+			}
+			
+		}catch(Exception e) {
+			//mav = new ModelAndView("error");
+		}
+		//return mav;
+	}
+	@RequestMapping(value = "/users/update", method = RequestMethod.GET)
+	public ModelAndView ViewUsers(HttpServletRequest request, HttpServletResponse response) {
+		ModelAndView mav = new ModelAndView("viewprofile");
+		try {
+			System.out.println("in get");
+			HttpSession session = request.getSession();
+			if(session.getAttribute("email")==null){
+				response.sendRedirect("index.jsp");
+			}
+			String email = (String) session.getAttribute("email");
+			User user= new User();
+			user.setEmail(email);
+			int userId=0;
+			userId = userDelegate.fetchUserId(user);
+			user.setUserId(userId);
+			ArrayList<User> userList = null;
+			UserTechnologyMapping userTechnologyMapping = new UserTechnologyMapping();
+			ArrayList<UserTechnologyMapping> userTechnology = null;
+			userList = userDelegate.retrieveUserData(user);
+			userTechnology = userDelegate.displayUserTechnologies(userTechnologyMapping, user);
+			Technology technology = new Technology();
+			ArrayList<Technology> tech = null;
+			tech = userDelegate.displayTechnologies(technology);
+			mav.addObject("technologies",tech);
+			mav.addObject("userData", userList);
+			if(userTechnology.isEmpty()) {
+				mav.addObject("userTech", userTechnology);
+			}else {
+				mav.addObject("userTech", userTechnology);
+			}
+			
+			
+			}catch(Exception e) {
+				mav = new ModelAndView("error");
+			}
+		return mav;
+	}
+	@RequestMapping(value = "/users/update", method = RequestMethod.POST)
+	@ResponseBody
+	public ModelAndView UpdateUsers(@RequestParam("username") String userName,@RequestParam("cname") String companyName,
+			@RequestParam("designation") String designation,HttpSession session,@RequestParam("skillset") String skills) {
+		ModelAndView mav = new ModelAndView("viewprofile");
+		try {
+			System.out.println("in put");
+			String email = (String) session.getAttribute("email");
+			String[] technology;
+		
+			int technologyId=0;
+			UserTechnologyMapping usertechnology = new UserTechnologyMapping();
+			UserTechnologyMapping userTechnologyMapping = new UserTechnologyMapping();
+			ArrayList<UserTechnologyMapping> userTechnology = null;
+			ArrayList<User> userList = null;
+			
+			Technology techh = new Technology();
+			
+			User user= new User();
+			user.setEmail(email);
+			int userId=0,flag=0;
+			userId = userDelegate.fetchUserId(user);
+			user.setUserId(userId);
+			DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+			LocalDateTime now = LocalDateTime.now();
+			user.setCurrentTime(dtf.format(now));
+	
+			user.setUserName(userName);
+			if(userDelegate.updateUserName(user)) {
+					
+			}
+			user.setCompany(companyName);
+			if(userDelegate.updateCompanyName(user)) {
+					
+			}
+			user.setDesignation(designation);
+			if(userDelegate.updateUserDesignation(user)) {
+				
+			}
+			
+			if (skills != "") {
+				technology = skills.split("@");
+				if (technology != null) {
+
+					userTechnology = userDelegate.displayUserTechnologies(userTechnologyMapping, user);
+					if(userTechnology.isEmpty()) {
+					}else {
+					userDelegate.deleteTechnologyDetails(userTechnologyMapping,user);
+					}
+					for (int i = 0; i < technology.length; i++) {
+						
+					
+						usertechnology.setUserId(user.getUserId());
+						techh.setTechnology(technology[i]);
+						technologyId = userDelegate.fetchTechnologyId(techh);
+						if (technologyId == 0) {
+							techh.setTechnology(technology[i]);
+							technologyId = userDelegate.addNewTechnology(techh, user);
+							usertechnology.setTechnologyId(technologyId);
+							flag = userDelegate.addTechnologyDetails(usertechnology);
+						} else {
+							usertechnology.setTechnologyId(technologyId);
+							flag = userDelegate.addTechnologyDetails(usertechnology);
+						}
+					}
+
+				}	
+			}
+			
+			   	userList = userDelegate.retrieveUserData(user);
+				userTechnology = userDelegate.displayUserTechnologies(userTechnologyMapping, user); 
+				mav.addObject("userData", userList); 
+				mav.addObject("userTech", userTechnology); 
+				mav.addObject("updated","yes");
+					
+			}catch(Exception e) {
+				mav = new ModelAndView("error");
+			}
+		return mav;
+	}
+	
+	@RequestMapping(value = "/users/request", method = RequestMethod.GET)
+	public ModelAndView ViewRequestVacancy(HttpServletRequest request, HttpServletResponse response) {
+		ModelAndView mav = new ModelAndView("requestvacancy");
+		try {
+			
+			HttpSession session = request.getSession();
+			String email = (String) session.getAttribute("email");
+			User user= new User();
+			user.setEmail(email);
+			if(session.getAttribute("email")==null){
+				//response.sendRedirect("index.jsp");
+			}
+			
+			JobMapping jobMapping = new JobMapping();
+			ArrayList<JobMapping> job = new ArrayList<JobMapping>();
+			JobDelegate jobDelegate = new JobDelegate();
+			job = jobDelegate.displayJobs(jobMapping);
+			mav.addObject("jobs", job); 
+			
+			}catch(Exception e) {
+				mav = new ModelAndView("error");
+			}
+		return mav;
+	}
+	@RequestMapping(value = "/users/request", method = RequestMethod.POST)
+	public ModelAndView RequestVacancy(HttpServletRequest request, HttpServletResponse response) {
+		ModelAndView mav = new ModelAndView("requestvacancy");
+		try {
+			
+	
+			int jobId=0,userId=0;
+			HttpSession session = request.getSession();
+			String email = (String) session.getAttribute("email");
+			User user= new User();
+			
+			JobRequest jobrequest = new JobRequest();
+			
+			user.setEmail(email);
+			String jobDesignation = request.getParameter("job");
+			String location = request.getParameter("location");
+			String salary = request.getParameter("salary");
+			
+			jobrequest.setEmail(user.getEmail());
+			
+			jobId = Integer.parseInt(jobDesignation);
+			jobrequest.setJobId(jobId);
+			jobrequest.setLocation(location);
+			jobrequest.setSalary(Float.parseFloat(salary));
+			userId = userDelegate.fetchUserId(user);
+			user.setUserId(userId);
+			JobMapping jobMapping = new JobMapping();
+			
+			ArrayList<JobMapping> job = null;
+			JobDelegate jobDelegate = new JobDelegate();
+			job = jobDelegate.displayJobs(jobMapping);
+			request.setAttribute("jobs", job); 
+			if(userDelegate.requestNewVacancy(jobrequest, user)) {
+				mav.addObject("saved","yes");
+				
+			}else {
+				mav = new ModelAndView("error");
+			}
+		}catch(Exception e) {
+			mav = new ModelAndView("error");
+		}
+		return mav;
+	}
+	
+	@RequestMapping(value = "/users/admin", method = RequestMethod.GET)
+	public ModelAndView showAdminPage(HttpServletRequest request, HttpServletResponse response) {
+		ModelAndView mav = new ModelAndView("admin");
+		try {
+			HttpSession session=request.getSession(); 
+			if(session.getAttribute("email")==null){
+				response.sendRedirect("index.jsp");
+			}
+			
+			String email = (String) session.getAttribute("email");
+			User user= new User();
+			Company company = new Company();
+			user.setEmail(email);
+			int userId=0,companyId=0;
+			userId = userDelegate.fetchUserId(user);
+			user.setUserId(userId);
+			companyId = userDelegate.fetchCompanyIdByAdmin(user);
+			company.setCompanyId(companyId);
+			int appliedUsers=companyDelegate.numberOfAppliedUsers(company);
+			int postedJobs = companyDelegate.numberOfVacancyPublished(company);
+			mav.addObject("appliedUsers",appliedUsers);
+			mav.addObject("postedJobs",postedJobs);
+			
+		}catch(Exception e) {
+			mav = new ModelAndView("error");
+		}
+		return mav;
+	}
+
 }
