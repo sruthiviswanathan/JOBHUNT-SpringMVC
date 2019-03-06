@@ -70,7 +70,8 @@ public class UserController {
 			userId = userDelegate.fetchUserId(user);
 			userName = userDelegate.fetchUserNameById(userId);
 			session.setAttribute("userName", userName);
-
+			session.setAttribute("userId",userId);
+			
 			if (role == 0) {
 
 				mav = new ModelAndView("login");
@@ -167,7 +168,7 @@ public class UserController {
 
 			session.setAttribute("email", email);
 			request.setAttribute("registerSuccess", "yes");
-
+			session.setAttribute("userId",userId);
 			userName = userDelegate.fetchUserNameById(userId);
 			session.setAttribute("userName", userName);
 			mav = new ModelAndView("findjob");
@@ -240,6 +241,7 @@ public class UserController {
 						int companyId=0;
 						userId = userDelegate.fetchUserId(user);
 						user.setUserId(userId);
+						session.setAttribute("userId",userId);
 						companyId = userDelegate.fetchCompanyIdByAdmin(user);
 						company.setCompanyId(companyId);
 						int appliedUsers=companyDelegate.numberOfAppliedUsers(company);
@@ -278,15 +280,12 @@ public class UserController {
 				//response.sendRedirect("index.jsp");
 			}
 			ArrayList<Company> appliedJobs = null;
-			String email = (String) session.getAttribute("email");
+			
+			int userId =(Integer)session.getAttribute("userId"); 
 			User user= new User();
-			user.setEmail(email);
-			
-			int userId=0;
-			userId = userDelegate.fetchUserId(user);
-			user.setUserId(userId);
-			
+			user.setUserId(userId);	
 			appliedJobs=companyDelegate.viewAppliedJobs(user);
+		
 			if (appliedJobs.isEmpty()) {
 				
 				mav.addObject("noAppliedJobs","yes");
@@ -328,16 +327,15 @@ public class UserController {
 	public ModelAndView ViewUsers(HttpServletRequest request, HttpServletResponse response) {
 		ModelAndView mav = new ModelAndView("viewprofile");
 		try {
-			System.out.println("in get");
+			
 			HttpSession session = request.getSession();
 			if(session.getAttribute("email")==null){
 				response.sendRedirect("index.jsp");
 			}
-			String email = (String) session.getAttribute("email");
+	
+			int userId =(Integer)session.getAttribute("userId"); 
 			User user= new User();
-			user.setEmail(email);
-			int userId=0;
-			userId = userDelegate.fetchUserId(user);
+		
 			user.setUserId(userId);
 			ArrayList<User> userList = null;
 			UserTechnologyMapping userTechnologyMapping = new UserTechnologyMapping();
@@ -367,8 +365,9 @@ public class UserController {
 			@RequestParam("designation") String designation,HttpSession session,@RequestParam("skillset") String skills) {
 		ModelAndView mav = new ModelAndView("viewprofile");
 		try {
-			System.out.println("in put");
-			String email = (String) session.getAttribute("email");
+		
+			
+			int userId =(Integer)session.getAttribute("userId"); 
 			String[] technology;
 		
 			int technologyId=0;
@@ -380,9 +379,8 @@ public class UserController {
 			Technology techh = new Technology();
 			
 			User user= new User();
-			user.setEmail(email);
-			int userId=0,flag=0;
-			userId = userDelegate.fetchUserId(user);
+			
+			int flag=0;
 			user.setUserId(userId);
 			DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
 			LocalDateTime now = LocalDateTime.now();
@@ -448,9 +446,6 @@ public class UserController {
 		try {
 			
 			HttpSession session = request.getSession();
-			String email = (String) session.getAttribute("email");
-			User user= new User();
-			user.setEmail(email);
 			if(session.getAttribute("email")==null){
 				//response.sendRedirect("index.jsp");
 			}
@@ -472,14 +467,14 @@ public class UserController {
 		try {
 			
 	
-			int jobId=0,userId=0;
+			int jobId=0;
 			HttpSession session = request.getSession();
-			String email = (String) session.getAttribute("email");
+			
+			int userId =(Integer)session.getAttribute("userId"); 
 			User user= new User();
 			
 			JobRequest jobrequest = new JobRequest();
 			
-			user.setEmail(email);
 			String jobDesignation = request.getParameter("job");
 			String location = request.getParameter("location");
 			String salary = request.getParameter("salary");
@@ -490,7 +485,6 @@ public class UserController {
 			jobrequest.setJobId(jobId);
 			jobrequest.setLocation(location);
 			jobrequest.setSalary(Float.parseFloat(salary));
-			userId = userDelegate.fetchUserId(user);
 			user.setUserId(userId);
 			JobMapping jobMapping = new JobMapping();
 			
@@ -518,13 +512,12 @@ public class UserController {
 			if(session.getAttribute("email")==null){
 				response.sendRedirect("index.jsp");
 			}
-			
-			String email = (String) session.getAttribute("email");
+		
+			int userId =(Integer)session.getAttribute("userId"); 
 			User user= new User();
 			Company company = new Company();
-			user.setEmail(email);
-			int userId=0,companyId=0;
-			userId = userDelegate.fetchUserId(user);
+			
+			int companyId=0;
 			user.setUserId(userId);
 			companyId = userDelegate.fetchCompanyIdByAdmin(user);
 			company.setCompanyId(companyId);

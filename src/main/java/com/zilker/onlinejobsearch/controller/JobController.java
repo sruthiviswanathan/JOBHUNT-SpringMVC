@@ -47,17 +47,18 @@ public class JobController {
 			if (session.getAttribute("email") == null) {
 				// response.sendRedirect("index.jsp");
 			} else {
-				String email = (String) session.getAttribute("email");
+			
+				int userId =(Integer)session.getAttribute("userId"); 
 				User user = new User();
-				user.setEmail(email);
+	
 				ArrayList<String> jobRole = new ArrayList<String>();
 				ArrayList<Company> vacancyDetails = null;
 
 				Company company = new Company();
 				JobMapping jobmapping = new JobMapping();
 
-				int jobId = 0, userId = 0;
-				userId = userDelegate.fetchUserId(user);
+				int jobId = 0;
+				
 				user.setUserId(userId);
 				jobRole.add(jobDesignation);
 				jobmapping.setJobRole(jobDesignation);
@@ -100,14 +101,15 @@ public class JobController {
 		try {
 			response.setContentType("text/html;charset=UTF-8");
 
-			int companyId = 0, jobId = 0, userId = 0;
+			
+			int companyId = 0, jobId = 0;
 			Company company = new Company();
 			JobMapping jobMapping = new JobMapping();
 			HttpSession session = request.getSession();
+			int userId =(Integer)session.getAttribute("userId"); 
 			String email = (String) session.getAttribute("email");
 			User user = new User();
 			user.setEmail(email);
-			userId = userDelegate.fetchUserId(user);
 			user.setUserId(userId);
 			String location = request.getParameter("location");
 			String companyName = request.getParameter("companyName");
@@ -148,7 +150,7 @@ public class JobController {
 		ModelAndView mav = new ModelAndView("postjob");
 		try {
 			HttpSession session = request.getSession();
-			// response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+			
 			if (session.getAttribute("email") == null) {
 				// response.sendRedirect("index.jsp");
 			}
@@ -174,16 +176,17 @@ public class JobController {
 
 		try {
 
-			String email = (String) session.getAttribute("email");
+			
+			int userId =(Integer)session.getAttribute("userId"); 
 			User user = new User();
-			user.setEmail(email);
+			
 			if (session.getAttribute("email") == null) {
 				// response.sendRedirect("index.jsp");
 			}
 			Company company = new Company();
 			JobMapping jobMapping = new JobMapping();
-			int userId = 0, companyId = 0, jobId = 0;
-			userId = userDelegate.fetchUserId(user);
+			int  companyId = 0, jobId = 0;
+		
 			user.setUserId(userId);
 			companyId = userDelegate.fetchCompanyIdByAdmin(user);
 
@@ -228,11 +231,9 @@ public class JobController {
 
 		try {
 			
-			String email = (String) session.getAttribute("email");
+			int userId =(Integer)session.getAttribute("userId"); 
 			User user = new User();
-			user.setEmail(email);
-			int userId = 0;
-			userId = userDelegate.fetchUserId(user);
+			
 			user.setUserId(userId);
 			JobMapping jobmapping = new JobMapping();
 			jobmapping.setJobRole(jobRole);

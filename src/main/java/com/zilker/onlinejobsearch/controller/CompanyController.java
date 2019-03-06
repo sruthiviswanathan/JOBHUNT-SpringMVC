@@ -140,21 +140,18 @@ public class CompanyController {
 		ModelAndView mav = new ModelAndView("companydetails");
 		try {
 			int companyId = 0;
-			// HttpSession session = request.getSession();
+			
 			if (session.getAttribute("email") == null) {
 				// response.sendRedirect("index.jsp");
 			}
-			String email = (String) session.getAttribute("email");
+			
+			int userId =(Integer)session.getAttribute("userId"); 
 			User user = new User();
-			user.setEmail(email);
-
+		
 			ArrayList<Company> companyDetails = null;
 			ArrayList<Company> vacancyDetails = null;
 			ArrayList<Company> companyReviews = null;
 			Company company = new Company();
-
-			int userId = 0;
-			userId = userDelegate.fetchUserId(user);
 			user.setUserId(userId);
 
 			company.setCompanyName(companyName);
@@ -219,17 +216,16 @@ public class CompanyController {
 	public ModelAndView findByLocation(@RequestParam("location") String location, HttpSession session) {
 		ModelAndView mav = new ModelAndView("viewbylocation");
 		try {
-
-			String email = (String) session.getAttribute("email");
+			
+		
 			if (session.getAttribute("email") == null) {
 				// response.sendRedirect("index.jsp");
 			}
 			User user = new User();
-			user.setEmail(email);
+		
 			ArrayList<Company> retrieveByLocation = null;
 			Company company = new Company();
-			int userId = 0;
-			userId = userDelegate.fetchUserId(user);
+			int userId =(Integer)session.getAttribute("userId"); 
 			user.setUserId(userId);
 
 			company.setLocation(location);
@@ -258,9 +254,7 @@ public class CompanyController {
 		ModelAndView mav = new ModelAndView("viewallreviews");
 		try {
 			int companyId = 0;
-			String email = (String) session.getAttribute("email");
-			User user = new User();
-			user.setEmail(email);
+			;
 			ArrayList<Company> companyReviews = null;
 			ArrayList<Company> companyDetails = null;
 			Company company = new Company();
@@ -294,9 +288,7 @@ public class CompanyController {
 		ModelAndView mav = new ModelAndView("interviewprocess");
 		try {
 			int companyId = 0;
-			String email = (String) session.getAttribute("email");
-			User user = new User();
-			user.setEmail(email);
+			
 			ArrayList<Company> interviewProcess = null;
 			ArrayList<Company> companyDetails = null;
 			Company company = new Company();
@@ -330,9 +322,6 @@ public class CompanyController {
 		ModelAndView mav = new ModelAndView("reviewandrating");
 		try {
 
-			String email = (String) session.getAttribute("email");
-			User user = new User();
-			user.setEmail(email);
 			if (session.getAttribute("email") == null) {
 				// response.sendRedirect("index.jsp");
 			}
@@ -355,17 +344,16 @@ public class CompanyController {
 			@RequestParam("interview") String interviewProcess, HttpSession session) {
 		ModelAndView mav = new ModelAndView("findcompany");
 		try {
-			int companyId = 0, userId = 0, jobId = 0;
+			int companyId = 0, jobId = 0;
+			int userId =(Integer)session.getAttribute("userId"); 
 
-			String email = (String) session.getAttribute("email");
-			User user = new User();
-			user.setEmail(email);
+			User user = new User();	
 			Company company = new Company();
 			JobMapping jobmapping = new JobMapping();
 
 			company.setCompanyName(companyName);
 			companyId = companyDelegate.fetchCompanyId(company);
-			userId = userDelegate.fetchUserId(user);
+			
 			user.setUserId(userId);
 			company.setCompanyId(companyId);
 			company.setReview(review);
@@ -416,13 +404,12 @@ public class CompanyController {
 				// response.sendRedirect("index.jsp");
 			}
 			ArrayList<Company> appliedUsers = null;
-
-			String email = (String) session.getAttribute("email");
+			int userId =(Integer)session.getAttribute("userId"); 
+		
 			User user = new User();
 			Company company = new Company();
-			user.setEmail(email);
-			int userId = 0, companyId = 0;
-			userId = userDelegate.fetchUserId(user);
+			
+			int  companyId = 0;
 			user.setUserId(userId);
 			companyId = userDelegate.fetchCompanyIdByAdmin(user);
 			company.setCompanyId(companyId);
@@ -450,15 +437,15 @@ public class CompanyController {
 		try {
 			response.setContentType("text/html;charset=UTF-8");
 
-			int companyId = 0, jobId = 0, userId = 0;
+			int companyId = 0, jobId = 0;
 			Company company = new Company();
 			JobMapping jobMapping = new JobMapping();
-
+			
 			HttpSession session = request.getSession();
-			String email = (String) session.getAttribute("email");
+			int userId =(Integer)session.getAttribute("userId"); 
+			
 			User user = new User();
-			user.setEmail(email);
-			userId = userDelegate.fetchUserId(user);
+			
 			user.setUserId(userId);
 
 			String location = request.getParameter("location");
@@ -499,14 +486,15 @@ public class CompanyController {
 				// response.sendRedirect("index.jsp");
 			}
 			response.setContentType("text/html;charset=UTF-8");
-			String email = (String) session.getAttribute("email");
+			int userId =(Integer)session.getAttribute("userId"); 
+		
 			User user = new User();
-			user.setEmail(email);
+			
 			Company company = new Company();
 			ArrayList<Company> vacancyDetails = null;
 
-			int userId = 0, companyId = 0;
-			userId = userDelegate.fetchUserId(user);
+			int companyId = 0;
+			
 			user.setUserId(userId);
 			companyId = userDelegate.fetchCompanyIdByAdmin(user);
 			company.setCompanyId(companyId);
@@ -534,11 +522,12 @@ public class CompanyController {
 		ModelAndView mav = new ModelAndView("viewpublishedjobs");
 		try {
 
-			int oldJobId = 0, newJobId = 0, userId = 0, companyId = 0;
+			int oldJobId = 0, newJobId = 0, companyId = 0;
 			HttpSession session = request.getSession();
-			String email = (String) session.getAttribute("email");
+			int userId =(Integer)session.getAttribute("userId"); 
+			
 			User user = new User();
-			user.setEmail(email);
+		
 			ArrayList<Company> vacancyDetails = null;
 
 			Company company = new Company();
@@ -552,7 +541,6 @@ public class CompanyController {
 
 			jobMapping.setJobRole(jobDesignation);
 			oldJobId = jobDelegate.fetchJobId(jobMapping);
-			userId = userDelegate.fetchUserId(user);
 			user.setUserId(userId);
 			companyId = userDelegate.fetchCompanyIdByAdmin(user);
 			company.setCompanyId(companyId);
