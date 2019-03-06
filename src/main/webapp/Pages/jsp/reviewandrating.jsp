@@ -1,9 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    
-<%--  <jsp:include page="/DisplayAllCompaniesServlet"/>
- <jsp:include page="/DisplayAllJobDesignationServlet"/>    --%>
-   
+       
     <%@ page import="com.zilker.onlinejobsearch.config.Config"%>
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
     <%@ include file = "usernavbar.jsp" %>
@@ -26,7 +23,7 @@
 <div class="maincontainer">
 	
 	<div class="container__forms">
-    <form id="reviewForm" action="${Config.BASE_PATH}RateServlet" method="post">
+    <form id="reviewForm" action="${Config.BASE_PATH}company/rate" method="post">
         
         <div class="tab">
         		<div class="tab__label">

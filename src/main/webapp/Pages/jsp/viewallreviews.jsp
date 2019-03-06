@@ -49,7 +49,7 @@
 		</div>
 		
 	
-	<form action="${Config.BASE_PATH}RateServlet" method="get">
+	<form action="${Config.BASE_PATH}company/rate" method="get">
 	<div class="container__display">
 	<c:forEach items="${displayCompany}" var="comp">
 	<input type="hidden" name="companyname" value="${comp.getCompanyName()}">

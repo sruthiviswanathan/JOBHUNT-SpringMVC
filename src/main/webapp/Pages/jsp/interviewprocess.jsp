@@ -26,7 +26,7 @@
 <div class="maincontainer">
 		
 		<div class="container__searchbar col-xs-12 col-sm-12 col-md-3">
-			<form action="${Config.BASE_PATH}FindCompanyServlet" method="post">
+			<form action="${Config.BASE_PATH}company" method="post">
 				<div class="searchbar__row">
 				
 				<div class="searchbar__label col-xs-12 col-sm-12 col-md-3">
@@ -46,7 +46,7 @@
 				</div>
 			</form>
 		</div>
-	<form action="${Config.BASE_PATH}RateServlet" method="get">	
+	<form action="${Config.BASE_PATH}company/rate" method="get">	
 	<div class="container__display">
 	
 	

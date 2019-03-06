@@ -43,11 +43,11 @@
 						 	
                                 <div class="card__container">
                                     <div class="card__container__text">
-                                     <a href="${Config.BASE_PATH}ViewPublishedJobsServlet">
+                                     <a href="${Config.BASE_PATH}company/jobspublished"">
 						  			  <h4><b><c:out value="NO OF VACANCIES PUBLISHED" /></b></h4>
 						  			</a> 
                                       <h2><b><c:out value="${postedJobs}"/></b></h2>
-                                      <a href="${Config.BASE_PATH}ViewAppliedUsersServlet">
+                                      <a href="${Config.BASE_PATH}users/applied">
                                       <h4><b><c:out value="CANDIDATES APPLIED" /></b></h4>
 						  			</a> 
                                        <h2><b><c:out value="${appliedUsers}"/></b></h2>
@@ -58,7 +58,7 @@
 						  <div class="maincard__card col-sm-6 col-xs-height">
 						 	
                                 <div class="card__container">
-                                     <a href="${Config.BASE_PATH}PostJobServlet">
+                                     <a href="${Config.BASE_PATH}jobs">
 						  			<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTpSOeEh3aUkQgcUF28pOs4d1jOaK9nba-hATsRDyEaZKW0LXJWHQ"alt="Avatar"></a> 
                                         <h4><b><c:out value="PUBLISH NEW VACANCY" /></b></h4>
                                      
@@ -67,7 +67,7 @@
                                 
                              <div class="maincard__card col-sm-6 col-xs-height">
                                 <div class="card__container">
-                                     <a href="${Config.BASE_PATH}ViewAppliedUsersServlet">
+                                     <a href="${Config.BASE_PATH}users/applied">
 						  			<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQV-s57fKLRPJdJfP5x6W0NdUhsbb-bdnqMht73fFnY1410cERJ"
                                                         alt="Avatar"></a> 
                                         <h4><b><c:out value="VIEW INTERESTED USERS" /></b></h4>
@@ -77,7 +77,7 @@
                    			</div>             
                               <div class="maincard__card col-sm-6 col-xs-height">
                                 <div class="card__container">
-                                     <a href="${Config.BASE_PATH}ViewPublishedJobsServlet">
+                                     <a href="${Config.BASE_PATH}company/jobspublished"">
 						  			<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQCmEAMa4TOu7L_M5bVz3yWVc-p-3E5axRiAJO9EnTQbEVVoM99" alt="Avatar"></a> 
                                         <h4><b><c:out value="VIEW PUBLISHED VACANCIES" /></b></h4>
                                      

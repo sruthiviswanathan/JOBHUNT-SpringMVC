@@ -102,7 +102,7 @@
 			</c:forEach>		
 				
 		</form>
-					<form action="${Config.BASE_PATH}ReviewsOnInterviewServlet" method="post">
+					<form action="${Config.BASE_PATH}company/interviews" method="post">
 					<input type="hidden" name="company" value="${company}">
 					<div class="col-50 col-xs-12 col-sm-12 col-md-6">
 					<input type="submit" class="row__button col-xs-12 col-sm-12 col-md-6" value="KNOW ABOUT INTERVIEWS">

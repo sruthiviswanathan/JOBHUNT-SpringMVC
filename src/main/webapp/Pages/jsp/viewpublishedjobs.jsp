@@ -27,9 +27,9 @@
             <div id="mySidenav" class="container__sidenav">
 				<div class="sidenav__items">
 			<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-			<a href="${Config.BASE_PATH}PostJobServlet">PUBLISH NEW VACANCY</a>
-			<a href="${Config.BASE_PATH}ViewAppliedUsersServlet">VIEW INTERESTED USERS</a> 
-			<a href="${Config.BASE_PATH}ViewPublishedJobsServlet">VIEW PUBLISHED JOBS</a>
+			<a href="${Config.BASE_PATH}jobs">PUBLISH NEW VACANCY</a>
+			<a href="${Config.BASE_PATH}users/applied">VIEW INTERESTED USERS</a> 
+			<a href="${Config.BASE_PATH}company/jobspublished">VIEW PUBLISHED JOBS</a>
 			</div>
 			</div>
                         <div class="container__navbar">
@@ -123,7 +123,7 @@
                             	    <div class="container__split split--right rightside btn${loop.count}">
                            				 <div class="right__form">
                                 			
-                                			<form action="${Config.BASE_PATH}UpdateVacancyServlet" name="postjob" method="post">
+                                			<form action="${Config.BASE_PATH}company/jobspublished" name="postjob" method="post">
                                     		<input type="hidden" name="jobdesignation" value="${vac.getJobRole()}">
                                         		
                                         		<div class="content__updatejobs col-xs-12 col-md-12">

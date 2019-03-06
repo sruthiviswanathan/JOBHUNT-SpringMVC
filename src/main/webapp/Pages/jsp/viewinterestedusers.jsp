@@ -57,7 +57,7 @@
 							
 							<c:when test="${user.getContacted() == 'yes'}">
 							<td>
-							<form action="${Config.BASE_PATH}UpdateContactedUsersServlet"  id="apply1${loop.count}" onsubmit="event.preventDefault(); apply1(this,'button${loop.count}');"  method="post">
+							<form action="${Config.BASE_PATH}users/contacted"  id="apply1${loop.count}" onsubmit="event.preventDefault(); apply1(this,'button${loop.count}');"  method="post">
 							<input type="hidden" name="emailId" value="${user.getEmail()}"/>
 							<input type="hidden" name="job" value="${user.getJobRole()}"/>
 							<input type="hidden" name="location" value="${user.getLocation()}"/>
@@ -68,7 +68,7 @@
 							
 							<c:otherwise>
 							<td>
-							<form action="${Config.BASE_PATH}UpdateContactedUsersServlet"  id="apply1${loop.count}" onsubmit="event.preventDefault(); apply1(this,'button${loop.count}');"  method="post">
+							<form action="${Config.BASE_PATH}users/contacted"  id="apply1${loop.count}" onsubmit="event.preventDefault(); apply1(this,'button${loop.count}');"  method="post">
 							<input type="hidden" name="emailId" value="${user.getEmail()}"/>
 							<input type="hidden" name="job" value="${user.getJobRole()}"/>
 							<input type="hidden" name="location" value="${user.getLocation()}"/>

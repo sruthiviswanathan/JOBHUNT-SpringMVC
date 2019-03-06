@@ -732,7 +732,7 @@ public class UserDAO {
 		// TODO Auto-generated method stub
 		boolean flag = false;
 		try {
-			System.out.println("done1");
+			
 			connection = DButils.getConnection();
 			preparestatement = connection.prepareStatement(QueryConstants.MARKCONTACTED);
 			preparestatement.setString(1, "yes");
@@ -744,7 +744,7 @@ public class UserDAO {
 			preparestatement.setString(7, company.getEmail());
 			preparestatement.executeUpdate();
 			flag = true;
-			System.out.println("done");	
+			
 		} catch (SQLException e) {
 		
 			throw e;

@@ -3,6 +3,7 @@ package com.zilker.onlinejobsearch.controller;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -12,6 +13,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.zilker.onlinejobsearch.beans.Company;
@@ -79,6 +82,18 @@ public class UserController {
 
 			} else if (role == 2) {
 				mav = new ModelAndView("admin");
+				
+				Company company = new Company();
+				user.setEmail(user.getEmail());
+				int companyId=0;
+				userId = userDelegate.fetchUserId(user);
+				user.setUserId(userId);
+				companyId = userDelegate.fetchCompanyIdByAdmin(user);
+				company.setCompanyId(companyId);
+				int appliedUsers=companyDelegate.numberOfAppliedUsers(company);
+				int postedJobs = companyDelegate.numberOfVacancyPublished(company);
+				mav.addObject("appliedUsers",appliedUsers);
+				mav.addObject("postedJobs",postedJobs);
 			}
 
 		} catch (Exception e) {
@@ -211,9 +226,20 @@ public class UserController {
 						userName = userDelegate.fetchUserNameById(userId);
 						session.setAttribute("userName", userName);
 						session.setAttribute("email", email);
-						request.setAttribute("registerSuccess", "yes");
 						mav = new ModelAndView("admin");
-
+						mav.addObject("registerSuccess", "yes");
+						
+						user.setEmail(user.getEmail());
+					
+						int companyId=0;
+						userId = userDelegate.fetchUserId(user);
+						user.setUserId(userId);
+						companyId = userDelegate.fetchCompanyIdByAdmin(user);
+						company.setCompanyId(companyId);
+						int appliedUsers=companyDelegate.numberOfAppliedUsers(company);
+						int postedJobs = companyDelegate.numberOfVacancyPublished(company);
+						mav.addObject("appliedUsers",appliedUsers);
+						mav.addObject("postedJobs",postedJobs);
 					}
 				}
 
@@ -234,6 +260,40 @@ public class UserController {
 			mav = new ModelAndView("error");
 		}
 
+		return mav;
+	}
+	
+	@RequestMapping(value = "/users/appliedjobs", method = RequestMethod.GET)
+	public ModelAndView DisplayAppliedJobs(HttpServletRequest request, HttpServletResponse response) {
+		ModelAndView mav = new ModelAndView("viewinterestedjobs");
+		try {
+			HttpSession session=request.getSession(); 
+			if(session.getAttribute("email")==null){
+				//response.sendRedirect("index.jsp");
+			}
+			ArrayList<Company> appliedJobs = null;
+			String email = (String) session.getAttribute("email");
+			User user= new User();
+			user.setEmail(email);
+			
+			int userId=0;
+			userId = userDelegate.fetchUserId(user);
+			user.setUserId(userId);
+			
+			appliedJobs=companyDelegate.viewAppliedJobs(user);
+			if (appliedJobs.isEmpty()) {
+				
+				mav.addObject("noAppliedJobs","yes");
+				
+			} else {
+				
+					mav.addObject("appliedJobs", appliedJobs);	
+			}
+			
+		}catch(Exception e) {
+			mav = new ModelAndView("error");
+		
+		}
 		return mav;
 	}
 }

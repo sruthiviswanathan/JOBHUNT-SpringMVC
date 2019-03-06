@@ -30,7 +30,7 @@
                          <a href="${Config.BASE_PATH}findlocation">SEARCH BY LOCATION</a>
                         <a href="${Config.BASE_PATH}UserProfileServlet">YOUR PROFILE</a>
                         <a href="${Config.BASE_PATH}RequestVacancyServlet">REQUEST A VACANCY</a>
-                        <a href="${Config.BASE_PATH}ViewAppliedJobsServlet">VIEW APPLIED JOBS</a>
+                        <a href="${Config.BASE_PATH}users/appliedjobs">VIEW APPLIED JOBS</a>
                       </div>
                 </div>
             

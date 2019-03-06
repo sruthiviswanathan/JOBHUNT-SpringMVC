@@ -28,9 +28,9 @@
 		 <div id="mySidenav" class="container__sidenav">
                         <div class="sidenav__items">
                         <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-						<a href="${Config.BASE_PATH}PostJobServlet">PUBLISH NEW VACANCY</a>
-						<a href="${Config.BASE_PATH}ViewAppliedUsersServlet">VIEW INTERESTED USERS</a> 
-						<a href="${Config.BASE_PATH}ViewPublishedJobsServlet">VIEW PUBLISHED JOBS</a>
+						<a href="${Config.BASE_PATH}jobs">PUBLISH NEW VACANCY</a>
+						<a href="${Config.BASE_PATH}users/applied">VIEW INTERESTED USERS</a> 
+						<a href="${Config.BASE_PATH}company/jobspublished">VIEW PUBLISHED JOBS</a>
                 </div>
 		</div>
 	
@@ -90,7 +90,7 @@
 						</c:if>
 		
 		<div class="container__postjob col-xs-12 col-md-12">
-		<form action="${Config.BASE_PATH}PostJobServlet" id="postjob"
+		<form action="${Config.BASE_PATH}company/publishvacancy" id="postjob"
 			name="postjob" onsubmit="return validatePostJob()" method="post">
 		
 		
@@ -146,7 +146,7 @@
 	</div>
 	
 	<div class="container__form-popup" id="myForm">
-	<form action="${Config.BASE_PATH}AddNewJobDesignationServlet" class="form-container" method="post">
+	<form action="${Config.BASE_PATH}company/addjob" class="form-container" method="post">
 		<!-- <form action="login.html" class="form-container"> -->
 			<h3>ADD NEW JOB DESIGNATION</h3>
 			<input type="text" placeholder="Enter new Job designation"
