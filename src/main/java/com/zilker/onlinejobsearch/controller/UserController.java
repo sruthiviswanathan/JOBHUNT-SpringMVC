@@ -462,23 +462,19 @@ public class UserController {
 		return mav;
 	}
 	@RequestMapping(value = "/users/request", method = RequestMethod.POST)
-	public ModelAndView RequestVacancy(HttpServletRequest request, HttpServletResponse response) {
+	public ModelAndView RequestVacancy(@RequestParam("job") String jobDesignation,@RequestParam("location") String location,
+			@RequestParam("salary") String salary ,HttpSession session) {
 		ModelAndView mav = new ModelAndView("requestvacancy");
 		try {
 			
-	
 			int jobId=0;
-			HttpSession session = request.getSession();
 			
 			int userId =(Integer)session.getAttribute("userId"); 
 			User user= new User();
-			
+			String email = (String) session.getAttribute("email");
+			user.setEmail(email);
 			JobRequest jobrequest = new JobRequest();
-			
-			String jobDesignation = request.getParameter("job");
-			String location = request.getParameter("location");
-			String salary = request.getParameter("salary");
-			
+		
 			jobrequest.setEmail(user.getEmail());
 			
 			jobId = Integer.parseInt(jobDesignation);
@@ -491,7 +487,7 @@ public class UserController {
 			ArrayList<JobMapping> job = null;
 			JobDelegate jobDelegate = new JobDelegate();
 			job = jobDelegate.displayJobs(jobMapping);
-			request.setAttribute("jobs", job); 
+			mav.addObject("jobs", job); 
 			if(userDelegate.requestNewVacancy(jobrequest, user)) {
 				mav.addObject("saved","yes");
 				

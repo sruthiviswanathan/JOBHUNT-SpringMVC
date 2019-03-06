@@ -179,17 +179,18 @@ public class JobController {
 			
 			int userId =(Integer)session.getAttribute("userId"); 
 			User user = new User();
-			
+			String email =(String)session.getAttribute("email");
 			if (session.getAttribute("email") == null) {
 				// response.sendRedirect("index.jsp");
 			}
+			user.setEmail(email);
 			Company company = new Company();
 			JobMapping jobMapping = new JobMapping();
 			int  companyId = 0, jobId = 0;
 		
 			user.setUserId(userId);
 			companyId = userDelegate.fetchCompanyIdByAdmin(user);
-
+			
 			jobId = Integer.parseInt(jobDesignation);
 			company.setCompanyId(companyId);
 			company.setJobId(jobId);
