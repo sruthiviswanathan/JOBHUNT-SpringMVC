@@ -77,7 +77,7 @@
 		
 		 						<c:choose>
 							
-         							<c:when test="${noVacancy == 'yes'}">
+         							<c:when test="${empty retrieveByLocation}">
          							<div class="container__noresults" id="locationError">
                                     <c:out value="There is no Vacancy in this Location as of now"></c:out>
                                     <img src="https://cdn.dribbble.com/users/1208559/screenshots/4247241/illustration-noresults.png" alt="no results found" style="width:100%;height:80%;">

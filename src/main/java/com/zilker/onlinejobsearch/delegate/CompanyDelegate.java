@@ -79,12 +79,12 @@ public class CompanyDelegate {
 		return comp;
 	}
 
-	public ArrayList<Company> retrieveVacancyByCompanyAdmin(Company company) throws SQLException {
+	public ArrayList<Company> retrieveVacancyByCompanyAdmin(int companyId) throws SQLException {
 		// TODO Auto-generated method stub
 		ArrayList<Company> comp = new ArrayList<Company>();
 		try {
 			CompanyDAO companyDao = new CompanyDAO();
-			comp = companyDao.retrieveVacancyByCompanyAdmin(company);
+			comp = companyDao.retrieveVacancyByCompanyAdmin(companyId);
 		} catch (SQLException e) {
 			throw e;
 		}
@@ -146,11 +146,21 @@ public class CompanyDelegate {
 		return flag;
 	}
 
-	public boolean publishVacancy(Company company, User user) throws SQLException {
+	public boolean publishVacancy(int userId,int companyId,String jobDesignation,String location,String salary,String count,String description) throws SQLException {
 		// TODO Auto-generated method stub
 		boolean flag = false;
 		try {
 			CompanyDAO companyDao = new CompanyDAO();
+			User user = new User();
+			Company company = new Company();
+			user.setUserId(userId);
+			int jobId = Integer.parseInt(jobDesignation);
+			company.setCompanyId(companyId);
+			company.setJobId(jobId);
+			company.setLocation(location);
+			company.setJobDescription(description);
+			company.setSalary(Float.parseFloat(salary));
+			company.setVacancyCount(Integer.parseInt(count));
 			flag = companyDao.publishVacancy(company, user);
 		} catch (SQLException e) {
 			throw e;
@@ -158,10 +168,13 @@ public class CompanyDelegate {
 		return flag;
 	}
 
-	public void compareVacancyWithRequest(Company company) throws SQLException {
+	public void compareVacancyWithRequest(String jobDesignation,String location) throws SQLException {
 		// TODO Auto-generated method stub
 		try {
-		
+			Company company = new Company();
+			int jobId = Integer.parseInt(jobDesignation);
+			company.setJobId(jobId);
+			company.setLocation(location);
 			CompanyDAO companyDao = new CompanyDAO();
 			companyDao.compareVacancyWithRequest(company);
 		} catch (SQLException e) {
@@ -169,12 +182,12 @@ public class CompanyDelegate {
 		}
 	}
 
-	public boolean removeVacancy(Company company, User user) throws SQLException {
+	public boolean removeVacancy(int companyId,int userId,int jobId) throws SQLException {
 		// TODO Auto-generated method stub
 		boolean flag = false;
 		try {
 			CompanyDAO companyDao = new CompanyDAO();
-			flag = companyDao.removeVacancy(company, user);
+			flag = companyDao.removeVacancy(companyId, userId,jobId);
 		} catch (SQLException e) {
 			throw e;
 		}
@@ -265,12 +278,12 @@ public class CompanyDelegate {
 	}
 
 
-	public ArrayList<Company> viewAppliedUsers(Company company)throws SQLException{
+	public ArrayList<Company> viewAppliedUsers(int companyId)throws SQLException{
 		// TODO Auto-generated method stub
 		ArrayList<Company> comp = new ArrayList<Company>();
 		try {
 			CompanyDAO companyDao = new CompanyDAO();
-			comp = companyDao.viewAppliedUsers(company);
+			comp = companyDao.viewAppliedUsers(companyId);
 		} catch (SQLException e) {
 			throw e;
 		}

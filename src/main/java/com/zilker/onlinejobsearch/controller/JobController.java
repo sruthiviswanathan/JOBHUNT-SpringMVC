@@ -42,136 +42,73 @@ public class JobController {
 	@ResponseBody
 	public ModelAndView findJobs(@RequestParam("job") String jobDesignation, HttpSession session,
 			HttpServletResponse response) throws IOException {
-		ModelAndView mav = null;
+		ModelAndView model =new ModelAndView("viewjobs");
 		try {
-
 			if (session.getAttribute("email") == null) {
-				mav = new ModelAndView("home");
+				model = new ModelAndView("home");
 			} else {
 
 				int userId = (Integer) session.getAttribute("userId");
-				User user = new User();
-
 				ArrayList<String> jobRole = new ArrayList<String>();
-				ArrayList<Company> vacancyDetails = null;
-
-				Company company = new Company();
-				JobMapping jobmapping = new JobMapping();
-
-				int jobId = 0;
-
-				user.setUserId(userId);
 				jobRole.add(jobDesignation);
-				jobmapping.setJobRole(jobDesignation);
-
-				jobId = jobDelegate.fetchJobId(jobmapping);
+				int jobId = jobDelegate.fetchJobId(jobDesignation);
 				if (jobId == 0) {
-
-					mav = new ModelAndView("viewjobs");
-					mav.addObject("noJobDesignation", "yes");
+					model.addObject("noJobDesignation", "yes");
 				} else {
-
-					company.setJobId(jobId);
-					vacancyDetails = jobDelegate.retrieveVacancyByJob1(company, user);
-					if (vacancyDetails.isEmpty()) {
-
-						mav = new ModelAndView("viewjobs");
-						mav.addObject("noVacancy", "yes");
-
-					} else {
-
-						mav = new ModelAndView("viewjobs");
-						mav.addObject("job", jobRole);
-						mav.addObject("displayVacancy", vacancyDetails);
-
-					}
+					ArrayList<Company> vacancyDetails = jobDelegate.retrieveVacancyByJob1(jobId, userId);
+					model.addObject("job", jobRole);
+					model.addObject("displayVacancy", vacancyDetails);
 				}
 
 			}
 		} catch (SQLException e) {
-			mav = new ModelAndView("error");
+			model = new ModelAndView("error");
 		}
-		return mav;
+		return model;
 	}
 
 	@RequestMapping(value = "/company/jobs/apply", method = RequestMethod.POST)
-	public void ApplyJobs(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-
+	public void ApplyJobs(@RequestParam("location") String location,@RequestParam("companyName") String companyName,@RequestParam("jobDesignation") String jobDesignation, HttpServletResponse response,HttpSession session)
+			throws IOException {
 		PrintWriter out = response.getWriter();
 		try {
-
 			response.setContentType("text/html;charset=UTF-8");
-
-			int companyId = 0, jobId = 0;
-			Company company = new Company();
-			JobMapping jobMapping = new JobMapping();
-			HttpSession session = request.getSession();
 			int userId = (Integer) session.getAttribute("userId");
 			String email = (String) session.getAttribute("email");
-			User user = new User();
-			user.setEmail(email);
-			user.setUserId(userId);
-			String location = request.getParameter("location");
-			String companyName = request.getParameter("companyName");
-			String jobDesignation = request.getParameter("jobDesignation");
-			company.setCompanyName(companyName);
-			companyId = companyDelegate.fetchCompanyId(companyName);
-			jobMapping.setJobRole(jobDesignation);
-			jobId = jobDelegate.fetchJobId(jobMapping);
-			company.setCompanyId(companyId);
-			company.setJobId(jobId);
-			company.setLocation(location);
-
-			if (userDelegate.applyForJob(company, user)) {
-
+			int companyId = companyDelegate.fetchCompanyId(companyName);
+			int jobId = jobDelegate.fetchJobId(jobDesignation);
+			if (userDelegate.applyForJob(companyId,jobId,location,userId,email)) {
 				out.print("success");
 				out.flush();
-
-			} else {
-
-				out.print("error");
-				out.flush();
-			}
+			} 
 		}
-
 		catch (SQLIntegrityConstraintViolationException e) {
-
 			out.print("error");
 			out.flush();
-
 		}
-
 		catch (Exception e) {
-
 			out.print("error");
 			out.flush();
 		}
 	}
 
 	@RequestMapping(value = "/jobs", method = RequestMethod.GET)
-	public ModelAndView GetAllJobDesignations(HttpServletRequest request, HttpServletResponse response) {
-		ModelAndView mav = new ModelAndView("postjob");
+	public ModelAndView GetAllJobDesignations(HttpServletRequest request, HttpServletResponse response,HttpSession session) {
+		ModelAndView model = new ModelAndView("postjob");
 		try {
-			HttpSession session = request.getSession();
-
 			if (session.getAttribute("email") == null) {
 				response.sendRedirect("index.jsp");
 			} else {
-
-				ArrayList<JobMapping> job = null;
-				job = jobDelegate.displayJobs();
-				mav.addObject("jobs", job);
-
+				ArrayList<JobMapping> job = jobDelegate.displayJobs();
+				model.addObject("jobs", job);
 			}
 		} catch (Exception e) {
-			mav = new ModelAndView("error");
+			model = new ModelAndView("error");
 		}
-		return mav;
+		return model;
 	}
 
 	@RequestMapping(value = "/company/vacancy", method = RequestMethod.POST)
-	@ResponseBody
 	public void PublishNewVacancy(@RequestParam("job") String jobDesignation, @RequestParam("location") String location,
 			@RequestParam("salary") String salary, @RequestParam("count") String count,
 			@RequestParam("description") String description, HttpSession session, HttpServletResponse response)
@@ -179,87 +116,48 @@ public class JobController {
 
 		PrintWriter out = response.getWriter();
 		try {
-
-			int userId = (Integer) session.getAttribute("userId");
-			User user = new User();
-			String email = (String) session.getAttribute("email");
 			if (session.getAttribute("email") == null) {
 				response.sendRedirect("index.jsp");
-			}
-			user.setEmail(email);
-			Company company = new Company();
-
-			int companyId = 0, jobId = 0;
-
-			user.setUserId(userId);
-			companyId = userDelegate.fetchCompanyIdByAdmin(userId);
-
-			jobId = Integer.parseInt(jobDesignation);
-			company.setCompanyId(companyId);
-			company.setJobId(jobId);
-			company.setLocation(location);
-			company.setJobDescription(description);
-			company.setSalary(Float.parseFloat(salary));
-			company.setVacancyCount(Integer.parseInt(count));
-
-			if (companyDelegate.publishVacancy(company, user)) {
-
-				companyDelegate.compareVacancyWithRequest(company);
-
+			}else {
+			int userId = (Integer) session.getAttribute("userId");
+			int companyId = userDelegate.fetchCompanyIdByAdmin(userId);
+			if (companyDelegate.publishVacancy(userId,companyId,jobDesignation,location,salary,count,description)) {
+				companyDelegate.compareVacancyWithRequest(jobDesignation,location);
 				out.print("success");
 				out.flush();
 			} else {
-
 				out.print("error");
 				out.flush();
-
 			}
-
+			}
 		} catch (SQLIntegrityConstraintViolationException e) {
-
 			out.print("error");
 			out.flush();
-
 		}
-
 		catch (Exception e) {
-
 			out.print("error");
 			out.flush();
 		}
-
 	}
 
 	@RequestMapping(value = "/jobs", method = RequestMethod.POST)
-	@ResponseBody
 	public ModelAndView AddNewJobDesignation(@RequestParam("newjob") String jobRole, HttpSession session)
 			throws ServletException, IOException {
-		ModelAndView mav = new ModelAndView("postjob");
+		ModelAndView model = new ModelAndView("postjob");
 
 		try {
-
 			if (session.getAttribute("email") == null) {
-				mav = new ModelAndView("home");
+				model = new ModelAndView("home");
 			} else {
 				int userId = (Integer) session.getAttribute("userId");
-				User user = new User();
-
-				user.setUserId(userId);
-				JobMapping jobmapping = new JobMapping();
-				jobmapping.setJobRole(jobRole);
-				if (jobDelegate.addNewJob(jobmapping, user)) {
-					
-					ArrayList<JobMapping> job = null;
-					job = jobDelegate.displayJobs();
-					mav.addObject("jobs", job);
-
-				} else {
-					mav = new ModelAndView("error");
-				}
+				if (jobDelegate.addNewJob(jobRole, userId)) {
+					ArrayList<JobMapping> job = jobDelegate.displayJobs();
+					model.addObject("jobs", job);
+				} 
 			}
 		} catch (SQLException e) {
-			mav = new ModelAndView("error");
+			model = new ModelAndView("error");
 		}
-		return mav;
+		return model;
 	}
 }

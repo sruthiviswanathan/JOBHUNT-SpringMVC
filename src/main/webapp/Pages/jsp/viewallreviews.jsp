@@ -107,7 +107,7 @@
 		
 		 	<c:choose>
 		 	
-		 	<c:when test="${noReviews == 'yes'}">
+		 	<c:when test="${empty displayCompanyReviews}">
     		
              <span class="error col-40 col-xs-12 col-sm-12" id="companyError">
                     

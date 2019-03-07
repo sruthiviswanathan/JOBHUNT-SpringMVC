@@ -54,14 +54,14 @@ public class JobDAO {
 	/*
 	 * method for adding new jobs.
 	 */
-	public boolean addNewJob(JobMapping jobmapping, User user) throws SQLException {
+	public boolean addNewJob(String jobRole, int userId) throws SQLException {
 		try {
 			boolean flag=false;
 			connection = DButils.getConnection();
 			preparestatement = connection.prepareStatement(QueryConstants.INSERTJOB);
-			preparestatement.setString(1, jobmapping.getJobRole());
-			preparestatement.setInt(2, user.getUserId());
-			preparestatement.setInt(3, user.getUserId());
+			preparestatement.setString(1, jobRole);
+			preparestatement.setInt(2, userId);
+			preparestatement.setInt(3, userId);
 			preparestatement.executeUpdate();
 			flag=true;
 			return flag;
@@ -77,15 +77,14 @@ public class JobDAO {
 	/*
 	 * method for fetching job id given job designation.
 	 */
-	public int fetchJobId(JobMapping jobmapping) throws SQLException {
+	public int fetchJobId(String jobDesignation) throws SQLException {
 		try {
 			connection = DButils.getConnection();
 			statement = connection.createStatement();
 			resultset = statement.executeQuery(QueryConstants.RETRIEVEJOBDATA);
-			int jobId = 0;
-			String jobRole = jobmapping.getJobRole();
+			int jobId=0;
 			while (resultset.next()) {
-				if (jobRole.equalsIgnoreCase(resultset.getString(2))) {
+				if (jobDesignation.equalsIgnoreCase(resultset.getString(2))) {
 					jobId = resultset.getInt(1);
 					break;
 				}
@@ -129,7 +128,7 @@ public class JobDAO {
 	/*
 	 * method 2 for retrieving vacancy based on job.
 	 */
-	public ArrayList<Company> retrieveVacancyByJob1(Company company,User user) throws SQLException {
+	public ArrayList<Company> retrieveVacancyByJob1(int jobId,int userId) throws SQLException {
 		ArrayList<Company> comp = new ArrayList<Company>();
 		try {
 			float averageRating = 0;
@@ -137,7 +136,7 @@ public class JobDAO {
 			connection = DButils.getConnection();
 			int companyId = 0;
 			preparestatement = connection.prepareStatement(QueryConstants.RETRIEVEVACANCYBYJOBID);
-			preparestatement.setInt(1, company.getJobId());
+			preparestatement.setInt(1, jobId);
 			resultset = preparestatement.executeQuery();
 			while (resultset.next()) {
 
@@ -149,7 +148,6 @@ public class JobDAO {
 
 				String companyid = resultset.getString(1);
 				companyId = Integer.parseInt(companyid);
-				company.setCompanyId(companyId);
 				averageRating = companyDao.calculateAverageRating(companyId);
 				preparestatement1 = connection.prepareStatement(QueryConstants.RETRIEVECOMPANYNAME);
 				preparestatement1.setInt(1, companyId);
@@ -163,13 +161,13 @@ public class JobDAO {
 					
 					
 					preparestatement2 = connection.prepareStatement(QueryConstants.USERAPPLIEDJOBS);
-					System.out.println(user.getUserId());
-					preparestatement2.setInt(1, user.getUserId());
+					
+					preparestatement2.setInt(1, userId);
 					resultset2 = preparestatement2.executeQuery();
 					while(resultset2.next()) {
 						
 						if((resultset1.getInt(3)==resultset2.getInt(1))  && ((resultset.getString(3).equals(resultset2.getString(3)))) 
-								&&((company.getJobId()== resultset2.getInt(2)))) 
+								&&((jobId== resultset2.getInt(2)))) 
 						{
 						
 								c.setFlag(1);

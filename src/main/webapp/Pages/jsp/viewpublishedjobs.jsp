@@ -90,7 +90,7 @@
       					
       					<c:choose>
       					
-						<c:when test="${noVacancy == 'yes'}">
+						<c:when test="${empty vacancyDetails}">
 						<div class="success">
                			<c:out value="YOU HAVE NOT PUBLISHED ANY JOB VACANCIES"></c:out>
               			</div>

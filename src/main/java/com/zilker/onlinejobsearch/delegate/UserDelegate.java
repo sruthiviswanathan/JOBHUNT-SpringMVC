@@ -125,11 +125,17 @@ public class UserDelegate {
 		return flag;
 	}
 
-	public boolean reviewAndRateCompany(User user, Company company) throws SQLException {
+	public boolean reviewAndRateCompany(int userId, int companyId,String review,String rating) throws SQLException {
 		// TODO Auto-generated method stub
 		boolean flag = false;
 		try {
 			UserDAO userDao = new UserDAO();
+			User user = new User();
+			Company company = new Company();
+			user.setUserId(userId);
+			company.setCompanyId(companyId);
+			company.setReview(review);
+			company.setRating(Float.parseFloat(rating));
 			flag = userDao.reviewAndRateCompany(user, company);
 		} catch (SQLException e) {
 			throw e;
@@ -137,11 +143,20 @@ public class UserDelegate {
 		return flag;
 	}
 
-	public boolean interviewProcess(User user, Company company, JobMapping jobmapping) throws SQLException {
+	public boolean interviewProcess(int userId, int companyId, String jobRole, String interviewProcess) throws SQLException {
 		// TODO Auto-generated method stub
 		boolean flag = false;
 		try {
 			UserDAO userDao = new UserDAO();
+			User user = new User();
+			Company company = new Company();
+			JobMapping jobmapping = new JobMapping();
+			JobDelegate jobDelegate = new JobDelegate();
+			int jobId = jobDelegate.fetchJobId(jobRole);
+			jobmapping.setJobId(jobId);
+			user.setUserId(userId);
+			company.setCompanyId(companyId);
+			company.setInterviewProcess(interviewProcess);
 			flag = userDao.interviewProcess(user, company, jobmapping);
 		} catch (SQLException e) {
 			throw e;
@@ -401,12 +416,19 @@ public class UserDelegate {
 		return flag;
 	}
 
-	public boolean markContacted(Company company, User user)throws SQLException  {
+	public boolean markContacted(int userId,String emailId,int companyId,int jobId,String location)throws SQLException  {
 		// TODO Auto-generated method stub
 		boolean flag = false;
 		try {
 		
 			UserDAO userDao = new UserDAO();
+			User user = new User();
+			Company company = new Company();
+			user.setUserId(userId);
+			user.setEmail(emailId);
+			company.setCompanyId(companyId);
+			company.setJobId(jobId);
+			company.setLocation(location);
 			flag = userDao.markContacted(company,user);
 		} catch (SQLException e) {
 			
@@ -415,11 +437,18 @@ public class UserDelegate {
 		return flag;
 	}
 	
-	public boolean applyForJob(Company company, User user)throws SQLException  {
+	public boolean applyForJob(int companyId,int jobId,String location,int userId,String email)throws SQLException  {
 		// TODO Auto-generated method stub
 		boolean flag = false;
 		try {
 			UserDAO userDao = new UserDAO();
+			Company company = new Company();
+			User user = new User();
+			user.setEmail(email);
+			user.setUserId(userId);
+			company.setCompanyId(companyId);
+			company.setJobId(jobId);
+			company.setLocation(location);
 			flag = userDao.applyForJob(company,user);
 		} catch (SQLException e) {
 			
@@ -537,6 +566,62 @@ public class UserDelegate {
 			throw e;
 		}
 		return flag;
+	}
+
+	public boolean UpdateVacancy(int oldJobId, int companyId, int userId, String newJobDesignation, String location,
+			String jobDescription, String salary, String count)throws SQLException {
+		// TODO Auto-generated method stub
+		boolean status =false;
+		try {
+			
+			User user = new User();
+			DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+			LocalDateTime now = LocalDateTime.now();
+			user.setCurrentTime(dtf.format(now));
+			Company company = new Company();
+			CompanyDelegate companyDelegate = new CompanyDelegate();
+			company.setOldJobId(oldJobId);
+			user.setUserId(userId);
+			int newJobId = Integer.parseInt(newJobDesignation);
+			company.setJobId(newJobId);
+			company.setCompanyId(companyId);
+			if (companyDelegate.updateVacancyJobId(company, user)) {
+				
+				status=true;
+			}
+			company.setLocation(location);
+			if (companyDelegate.updateVacancyLocation(company, user)) {
+				
+				status=true;
+			}
+
+			company.setJobDescription(jobDescription);
+			if (companyDelegate.updateVacancyDescription(company, user)) {
+			
+				status=true;
+			}
+			company.setSalary(Float.parseFloat(salary));
+			if (companyDelegate.updateVacancySalary(company, user)) {
+				System.out.println("updated");
+				status=true;
+			}
+			int vacancyCount = Integer.parseInt(count);
+			company.setVacancyCount(vacancyCount);
+			if (vacancyCount == 0) {
+				company.setVacancyStatus("expired");
+			} else {
+				company.setVacancyStatus("available");
+				
+			}
+			if (companyDelegate.updateVacancyCount(company, user)) {
+				
+				status=true;
+			}
+			
+		}catch(SQLException e) {
+			throw e;
+		}
+		return status;
 	}
 }
 

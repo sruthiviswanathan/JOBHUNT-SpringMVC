@@ -216,15 +216,15 @@ public class CompanyDAO {
 	/*
 	 * method for fetching job id given job designation.
 	 */
-	public boolean removeVacancy(Company company, User user) throws SQLException {
+	public boolean removeVacancy(int companyId,int userId,int jobId) throws SQLException {
 		boolean flag = false;
 		try {
 			connection = DButils.getConnection();
 
 			preparestatement = connection.prepareStatement(QueryConstants.DELETEVACANCY);
-			preparestatement.setInt(1, user.getUserId());
-			preparestatement.setInt(2, company.getCompanyId());
-			preparestatement.setInt(3, company.getJobId());
+			preparestatement.setInt(1, userId);
+			preparestatement.setInt(2, companyId);
+			preparestatement.setInt(3, jobId);
 			preparestatement.executeUpdate();
 			flag = true;
 
@@ -385,14 +385,14 @@ public class CompanyDAO {
 	
 	
 	
-	public ArrayList<Company> retrieveVacancyByCompanyAdmin(Company company) throws SQLException {
+	public ArrayList<Company> retrieveVacancyByCompanyAdmin(int companyId) throws SQLException {
 		ArrayList<Company> comp = new ArrayList<Company>();
 		try {
 
 			connection = DButils.getConnection();
 			int jobId = 0;
 			preparestatement1 = connection.prepareStatement(QueryConstants.RETRIEVEVACANCYADMIN);
-			preparestatement1.setInt(1, company.getCompanyId());
+			preparestatement1.setInt(1, companyId);
 			resultset1 = preparestatement1.executeQuery();
 			while (resultset1.next()) {
 				Company c = new Company();
@@ -661,13 +661,13 @@ public class CompanyDAO {
 	}
 
 
-	public ArrayList<Company> viewAppliedUsers(Company company)throws SQLException{
+	public ArrayList<Company> viewAppliedUsers(int companyId)throws SQLException{
 		// TODO Auto-generated method stub
 		ArrayList<Company> comp = new ArrayList<Company>();
 		try {
 			connection = DButils.getConnection();
 			preparestatement = connection.prepareStatement(QueryConstants.VIEWAPPLIEDUSERS);
-			preparestatement.setInt(1, company.getCompanyId());
+			preparestatement.setInt(1, companyId);
 			resultset = preparestatement.executeQuery();
 			while (resultset.next()) {
 				Company c = new Company();

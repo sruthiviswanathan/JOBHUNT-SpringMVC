@@ -62,9 +62,7 @@
 					<div class="col-20 col-xs-12 col-sm-12">
 						<label for="company" class="display__row__label">COMPANY NAME</label>
 					</div>
-					<%-- <div class="col-20 image col-xs-12 col-sm-12">
-						<img src="${comp.getCompanyLogo()}"alt="zilker" />
-					</div> --%>
+					
 					<div class="row__content col-60 col-xs-12 col-sm-12">
 						<div class="content__value">
 							<c:out value="${comp.getCompanyName()}" />
@@ -118,7 +116,7 @@
 	
 		<div class="container__maincard">
 			 <span class="error col-40 col-xs-12 col-sm-12" id="companyError">
-                                       <c:if test="${noVacancy == 'yes'}">
+                                       <c:if test="${empty displayVacancies}">
                                        <c:out value="There is no Vacancy in this Company as of now"></c:out>
                                        </c:if>
               </span>

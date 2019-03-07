@@ -78,7 +78,7 @@
                         <img src="https://cdn.dribbble.com/users/1208559/screenshots/4247241/illustration-noresults.png" alt="no results found" style="width:100%;height:80%;">
                        </div>
                         </c:when>
-                        <c:when test="${noVacancy == 'yes'}">
+                        <c:when test="${empty displayVacancy}">
                         <div class="container__noresults">
                         <c:out value="THERE IS NO VACANCY IN THIS DESIGNATION AS OF NOW!!!"></c:out>
                         <img src="https://cdn.dribbble.com/users/1208559/screenshots/4247241/illustration-noresults.png" alt="no results found" style="width:100%;height:80%;"> 

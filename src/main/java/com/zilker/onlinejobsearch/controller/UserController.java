@@ -42,7 +42,7 @@ public class UserController {
 	 * controller that gets all companies
 	 */
 	@RequestMapping(value = "/companies", method = RequestMethod.GET)
-	public ModelAndView showLoginPage() {
+	public ModelAndView showLoginPage(HttpServletRequest request, HttpServletResponse response) {
 		ModelAndView model = new ModelAndView("login");
 		try {
 
