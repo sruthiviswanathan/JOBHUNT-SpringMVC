@@ -13,27 +13,26 @@ import com.zilker.onlinejobsearch.dao.CompanyDAO;
 @Service
 public class CompanyDelegate {
 
-	public ArrayList<Company> displayCompanies(Company company) throws SQLException {
+	public ArrayList<Company> displayCompanies() throws SQLException {
 		// TODO Auto-generated method stub
-		ArrayList<Company> comp = new ArrayList<Company>();
+		ArrayList<Company> comp = null;
 		try {
 			CompanyDAO companyDao = new CompanyDAO();
-			comp = companyDao.displayCompanies(company);
+			comp = companyDao.displayCompanies();
 		} catch (SQLException e) {
 			throw e;
 		}
 		return comp;
 	}
-
 	
-	
-	public int fetchCompanyId(Company company) throws SQLException {
+		
+	public int fetchCompanyId(String companyName) throws SQLException {
 		// TODO Auto-generated method stub
 		int companyId = 0;
 		try {
 
 			CompanyDAO companyDao = new CompanyDAO();
-			companyId = companyDao.fetchCompanyId(company);
+			companyId = companyDao.fetchCompanyId(companyName);
 			return companyId;
 		} catch (SQLException e) {
 			throw e;
@@ -54,13 +53,13 @@ public class CompanyDelegate {
 		}
 	}
 
-	public ArrayList<Company> retrieveVacancyByCompany(Company company) throws SQLException {
+	public ArrayList<Company> retrieveVacancyByCompany(int companyId) throws SQLException {
 		// TODO Auto-generated method stub
 		ArrayList<Company> comp = new ArrayList<Company>();
 		try {
 
 			CompanyDAO companyDao = new CompanyDAO();
-			comp = companyDao.retrieveVacancyByCompany(company);
+			comp = companyDao.retrieveVacancyByCompany(companyId);
 		} catch (SQLException e) {
 			throw e;
 		}
@@ -68,12 +67,12 @@ public class CompanyDelegate {
 	}
 
 
-	public ArrayList<Company> retrieveVacancyByCompany1(Company company,User user) throws SQLException {
+	public ArrayList<Company> retrieveVacancyByCompany1(int companyId,int userId) throws SQLException {
 		// TODO Auto-generated method stub
 		ArrayList<Company> comp = new ArrayList<Company>();
 		try {
 			CompanyDAO companyDao = new CompanyDAO();
-			comp = companyDao.retrieveVacancyByCompany1(company,user);
+			comp = companyDao.retrieveVacancyByCompany1(companyId,userId);
 		} catch (SQLException e) {
 			throw e;
 		}
@@ -104,12 +103,12 @@ public class CompanyDelegate {
 		return count;
 	}
 
-	public ArrayList<Company> retrieveVacancyByLocation(Company company,User user) throws SQLException {
+	public ArrayList<Company> retrieveVacancyByLocation(String location,int userId) throws SQLException {
 		// TODO Auto-generated method stub
 		ArrayList<Company> comp = new ArrayList<Company>();
 		try {
 			CompanyDAO companyDao = new CompanyDAO();
-			comp = companyDao.retrieveVacancyByLocation(company,user);
+			comp = companyDao.retrieveVacancyByLocation(location,userId);
 		} catch (SQLException e) {
 			throw e;
 		}
@@ -117,11 +116,15 @@ public class CompanyDelegate {
 	}
 
 
-	public boolean addNewCompany(Company company) throws SQLException {
+	public boolean addNewCompany(String companyName,String websiteUrl,String companyLogo) throws SQLException {
 		// TODO Auto-generated method stub
 		boolean flag = false;
 		try {
+			Company company = new Company();
 			CompanyDAO companyDao = new CompanyDAO();
+			company.setCompanyName(companyName);
+			company.setCompanyWebsiteUrl(websiteUrl);
+			company.setCompanyLogo(companyLogo);
 			flag = companyDao.addNewCompany(company);
 		} catch (SQLException e) {
 			throw e;
@@ -250,11 +253,11 @@ public class CompanyDelegate {
 		}
 	}
 
-	public static void insertIntoCompanyDetails(User user, Company company) throws SQLException {
+	public void insertIntoCompanyDetails(int userId, int companyId) throws SQLException {
 		// TODO Auto-generated method stub
 		try {
 			CompanyDAO companyDao = new CompanyDAO();
-			companyDao.insertIntoCompanyDetails(user, company);
+			companyDao.insertIntoCompanyDetails(userId, companyId);
 		} catch (SQLException e) {
 			throw e;
 		}
@@ -287,12 +290,12 @@ public class CompanyDelegate {
 	}
 
 
-	public ArrayList<Company> viewAppliedJobs(User user) throws SQLException {
+	public ArrayList<Company> viewAppliedJobs(int userId) throws SQLException {
 		// TODO Auto-generated method stub
 		ArrayList<Company> comp = new ArrayList<Company>();
 		try {
 			CompanyDAO companyDao = new CompanyDAO();
-			comp = companyDao.viewAppliedJobs(user);
+			comp = companyDao.viewAppliedJobs(userId);
 		} catch (SQLException e) {
 			throw e;
 		}

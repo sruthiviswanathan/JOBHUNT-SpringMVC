@@ -526,3 +526,10 @@ function postJob(event){
 return true;
 	}
 }
+
+
+function deleteTag(id){
+	console.log(id);
+	var elem = document.getElementById("item"+id).remove();
+	
+}

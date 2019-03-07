@@ -18,7 +18,7 @@ http://www.springframework.org/schema/context
         <property name="suffix" value=".jsp" />
         <property name="order" value="1" />
     </bean>
-    <bean
+    <bean 
         class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="prefix" value="/webapp/"/>
         <property name="suffix" value=".jsp"/>

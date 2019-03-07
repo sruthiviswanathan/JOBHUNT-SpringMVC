@@ -28,7 +28,7 @@ public class JobDAO {
 	/*
 	 * method for displaying existing job designations.
 	 */
-	public ArrayList<JobMapping> displayJobs(JobMapping jobmapping) throws SQLException {
+	public ArrayList<JobMapping> displayJobs() throws SQLException {
 		ArrayList<JobMapping> job = new ArrayList<JobMapping>();
 		try {
 			connection = DButils.getConnection();
@@ -150,7 +150,7 @@ public class JobDAO {
 				String companyid = resultset.getString(1);
 				companyId = Integer.parseInt(companyid);
 				company.setCompanyId(companyId);
-				averageRating = companyDao.calculateAverageRating(company);
+				averageRating = companyDao.calculateAverageRating(companyId);
 				preparestatement1 = connection.prepareStatement(QueryConstants.RETRIEVECOMPANYNAME);
 				preparestatement1.setInt(1, companyId);
 				resultset1 = preparestatement1.executeQuery();

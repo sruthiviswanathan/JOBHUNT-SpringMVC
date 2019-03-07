@@ -56,8 +56,8 @@ public class UserDAO {
 	/*
 	 * method for adding technology details of a user.
 	 */
-	public int addTechnologyDetails(UserTechnologyMapping usertechnology) throws SQLException {
-		int flag = 0;
+	public void addTechnologyDetails(UserTechnologyMapping usertechnology) throws SQLException {
+		
 		try {
 			connection = DButils.getConnection();
 			preparestatement = connection.prepareStatement(QueryConstants.INSERTTECHNOLOGY);
@@ -66,14 +66,14 @@ public class UserDAO {
 			preparestatement.setInt(3, usertechnology.getUserId());
 			preparestatement.setInt(4, usertechnology.getUserId());
 			preparestatement.executeUpdate();
-			flag = 1;
+			
 		} catch (SQLException e) {
-			flag = 0;
+			
 			throw e;
 		} finally {
 			DButils.closeConnection(connection, preparestatement, resultset);
 		}
-		return flag;
+		
 	}
 
 	/*
@@ -132,12 +132,12 @@ public class UserDAO {
 	/*
 	 * method for displaying reviews of a particular company.
 	 */
-	public ArrayList<Company> retrieveReview(Company company) throws SQLException {
+	public ArrayList<Company> retrieveReview(int companyId) throws SQLException {
 		ArrayList<Company> comp = new ArrayList<Company>();
 		try {
 			connection = DButils.getConnection();
 			preparestatement = connection.prepareStatement(QueryConstants.RETRIEVEREVIEW);
-			preparestatement.setInt(1, company.getCompanyId());
+			preparestatement.setInt(1, companyId);
 			resultset = preparestatement.executeQuery();
 			while (resultset.next()) {
 				Company c = new Company();
@@ -160,13 +160,13 @@ public class UserDAO {
 	/*
 	 * method for displaying interview process of a job in a company.
 	 */
-	public ArrayList<Company> retrieveInterviewProcess(Company company) throws SQLException {
+	public ArrayList<Company> retrieveInterviewProcess(int companyId) throws SQLException {
 		ArrayList<Company> comp = new ArrayList<Company>();
 
 		try {
 			connection = DButils.getConnection();
 			preparestatement = connection.prepareStatement(QueryConstants.RETRIEVEINTERVIEWPROCESS);
-			preparestatement.setInt(1, company.getCompanyId());
+			preparestatement.setInt(1, companyId);
 			resultset = preparestatement.executeQuery();
 			while (resultset.next()) {
 				Company c = new Company();
@@ -185,14 +185,14 @@ public class UserDAO {
 		return comp;
 	}
 	
-	public ArrayList<User> retrieveUserData(User user)throws SQLException {
+	public ArrayList<User> retrieveUserData(int userId)throws SQLException {
 		// TODO Auto-generated method stub
 		ArrayList<User> userData = new ArrayList<User>();
 
 		try {
 			connection = DButils.getConnection();
 			preparestatement = connection.prepareStatement(QueryConstants.RETRIEVEUSERDETAILS);
-			preparestatement.setInt(1, user.getUserId());
+			preparestatement.setInt(1, userId);
 			resultset = preparestatement.executeQuery();
 			while (resultset.next()) {
 				User u = new User();
@@ -253,15 +253,15 @@ public class UserDAO {
 		}
 	}
 
-	public int addNewTechnology(Technology technology, User user) throws SQLException {
+	public int addNewTechnology(Technology technology, int userId) throws SQLException {
 		// TODO Auto-generated method stub
 		try {
 			int technologyId = 0;
 			connection = DButils.getConnection();
 			preparestatement = connection.prepareStatement(QueryConstants.INSERTTECHNOLOGYDATA);
 			preparestatement.setString(1, technology.getTechnology());
-			preparestatement.setInt(2, user.getUserId());
-			preparestatement.setInt(3, user.getUserId());
+			preparestatement.setInt(2, userId);
+			preparestatement.setInt(3, userId);
 			preparestatement.executeUpdate();
 			technologyId = fetchTechnologyId(technology);
 			return technologyId;
@@ -511,13 +511,11 @@ public class UserDAO {
 		return flag;
 	}
 
-	public int insertIntoAdmin(User user, Company company) throws SQLException {
+	public int insertIntoAdmin(int userId, int companyId) throws SQLException {
 		// TODO Auto-generated method stub
-		int flag = 0, userId = 0, companyId = 0;
+		int flag = 0;
 		try {
 			connection = DButils.getConnection();
-			userId = user.getUserId();
-			companyId = company.getCompanyId();
 			preparestatement = connection.prepareStatement(QueryConstants.INSERTCOMPANYADMIN);
 			preparestatement.setInt(1, userId);
 			preparestatement.setInt(2, companyId);
@@ -554,14 +552,13 @@ public class UserDAO {
 		}
 	}
 
-	public int fetchCompanyIdByAdmin(User user) throws SQLException {
+	public int fetchCompanyIdByAdmin(int userId) throws SQLException {
 		// TODO Auto-generated method stub
 		try {
 			connection = DButils.getConnection();
 			statement = connection.createStatement();
 			resultset = statement.executeQuery(QueryConstants.RETRIEVECOMPANYID);
 			int companyId = 0;
-			int userId = user.getUserId();
 			while (resultset.next()) {
 				if (userId == resultset.getInt(1)) {
 					companyId = resultset.getInt(2);
@@ -648,7 +645,7 @@ public class UserDAO {
 	}
 
 	public ArrayList<UserTechnologyMapping> displayUserTechnologies(UserTechnologyMapping userTechnologyMapping,
-			User user) throws SQLException {
+			int userId) throws SQLException {
 		// TODO Auto-generated method stub
 
 		ArrayList<UserTechnologyMapping> userTechnology = new ArrayList<UserTechnologyMapping>();
@@ -657,12 +654,11 @@ public class UserDAO {
 			
 			connection = DButils.getConnection();
 			preparestatement = connection.prepareStatement(QueryConstants.RETRIEVEUSERTECHNOLOGY);
-			preparestatement.setInt(1, user.getUserId());
+			preparestatement.setInt(1, userId);
 			resultset = preparestatement.executeQuery();
 
 			while (resultset.next()) {
 				UserTechnologyMapping t = new UserTechnologyMapping();
-				//t.setTechnologyId(resultset.getInt(1));
 				t.setTechnologyName(resultset.getString(1));
 				
 				userTechnology.add(t);

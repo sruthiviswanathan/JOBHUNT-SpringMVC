@@ -2,6 +2,8 @@ package com.zilker.onlinejobsearch.delegate;
 
 
 import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 import org.springframework.stereotype.Service;
@@ -17,10 +19,16 @@ import com.zilker.onlinejobsearch.dao.UserDAO;
 @Service
 public class UserDelegate {
 
-	public boolean register(User user) throws SQLException {
+	public boolean register(String name, String email,String password,String companyName,String designation) throws SQLException {
 		// TODO Auto-generated method stub
 		boolean flag = false;
 		try {
+			User user = new User();
+			user.setUserName(name);
+			user.setEmail(email);
+			user.setPassword(password);
+			user.setCompany(companyName);
+			user.setDesignation(designation);
 			UserDAO userdao = new UserDAO();
 			flag = userdao.register(user);
 		} catch (SQLException e) {
@@ -29,16 +37,16 @@ public class UserDelegate {
 		return flag;
 	}
 
-	public int addTechnologyDetails(UserTechnologyMapping usertechnology) throws SQLException {
+	public void addTechnologyDetails(UserTechnologyMapping usertechnology) throws SQLException {
 		// TODO Auto-generated method stub
-		int flag = 0;
+		
 		try {
 			UserDAO userdao = new UserDAO();
-			flag = userdao.addTechnologyDetails(usertechnology);
+			userdao.addTechnologyDetails(usertechnology);
 		} catch (SQLException e) {
 			throw e;
 		}
-		return flag;
+		
 	}
 
 	public String fetchUserNameById(int userId) throws SQLException {
@@ -93,11 +101,19 @@ public class UserDelegate {
 		return i;
 	}
 
-	public boolean requestNewVacancy(JobRequest jobrequest, User user) throws SQLException {
+	public boolean requestNewVacancy(String email,int userId,String jobId,String location,String salary) throws SQLException {
 		// TODO Auto-generated method stub
 		boolean flag = false;
 		try {
 			UserDAO userDao = new UserDAO();
+			User user = new User();
+			user.setEmail(email);
+			user.setUserId(userId);
+			JobRequest jobrequest = new JobRequest();
+			jobrequest.setEmail(user.getEmail());
+			jobrequest.setJobId(Integer.parseInt(jobId));
+			jobrequest.setLocation(location);
+			jobrequest.setSalary(Float.parseFloat(salary));
 			flag = userDao.requestNewVacancy(jobrequest, user);
 		} catch (SQLException e) {
 			throw e;
@@ -155,12 +171,12 @@ public class UserDelegate {
 
 	}
 
-	public ArrayList<Company> retrieveReview(Company company) throws SQLException {
+	public ArrayList<Company> retrieveReview(int companyId) throws SQLException {
 		// TODO Auto-generated method stub
 		ArrayList<Company> comp = new ArrayList<Company>();
 		try {
 			UserDAO userDao = new UserDAO();
-			comp = userDao.retrieveReview(company);
+			comp = userDao.retrieveReview(companyId);
 
 		} catch (SQLException e) {
 			throw e;
@@ -169,12 +185,12 @@ public class UserDelegate {
 		return comp;
 	}
 
-	public ArrayList<Company> retrieveInterviewProcess(Company company) throws SQLException {
+	public ArrayList<Company> retrieveInterviewProcess(int companyId) throws SQLException {
 		// TODO Auto-generated method stub
 		ArrayList<Company> comp = new ArrayList<Company>();
 		try {
 			UserDAO userDao = new UserDAO();
-			comp = userDao.retrieveInterviewProcess(company);
+			comp = userDao.retrieveInterviewProcess(companyId);
 
 		} catch (SQLException e) {
 			throw e;
@@ -184,12 +200,12 @@ public class UserDelegate {
 	}
 	
 
-	public ArrayList<User> retrieveUserData(User user)throws SQLException {
+	public ArrayList<User> retrieveUserData(int userId)throws SQLException {
 		// TODO Auto-generated method stub
 		ArrayList<User> userData = new ArrayList<User>();
 		try {
 			UserDAO userDao = new UserDAO();
-			userData = userDao.retrieveUserData(user);
+			userData = userDao.retrieveUserData(userId);
 
 		} catch (SQLException e) {
 			throw e;
@@ -225,11 +241,20 @@ public class UserDelegate {
 	
 	
 	
-	public boolean registerAsAdmin(User user) throws SQLException {
+	public boolean registerAsAdmin(String name, String email, String password,String companyId) throws SQLException {
 		// TODO Auto-generated method stub
 		boolean flag = false;
 		try {
+			User user = new User();
+			CompanyDelegate companyDelegate = new CompanyDelegate(); 
 			UserDAO userDao = new UserDAO();
+			String companyname = companyDelegate.fetchCompanyName(Integer.parseInt(companyId));
+			user.setUserName(name);
+			user.setEmail(email);
+			user.setPassword(password);
+			user.setCompany(companyname);
+			user.setDesignation("admin");
+			user.setRoleId(2);
 			flag = userDao.registerAsAdmin(user);
 		} catch (SQLException e) {
 			throw e;
@@ -237,12 +262,12 @@ public class UserDelegate {
 		return flag;
 	}
 
-	public int insertIntoAdmin(User user, Company company) throws SQLException {
+	public int insertIntoAdmin(int userId, int companyId) throws SQLException {
 		// TODO Auto-generated method stub
 		int flag = 0;
 		try {
 			UserDAO userDao = new UserDAO();
-			flag = userDao.insertIntoAdmin(user, company);
+			flag = userDao.insertIntoAdmin(userId, companyId);
 		} catch (SQLException e) {
 			throw e;
 		}
@@ -259,12 +284,12 @@ public class UserDelegate {
 		}
 	}
 
-	public int fetchCompanyIdByAdmin(User user) throws SQLException {
+	public int fetchCompanyIdByAdmin(int userId) throws SQLException {
 		// TODO Auto-generated method stub
 		int companyId = 0;
 		try {
 			UserDAO userDao = new UserDAO();
-			companyId = userDao.fetchCompanyIdByAdmin(user);
+			companyId = userDao.fetchCompanyIdByAdmin(userId);
 			return companyId;
 		} catch (SQLException e) {
 			throw e;
@@ -309,12 +334,12 @@ public class UserDelegate {
 	}
 
 	public ArrayList<UserTechnologyMapping> displayUserTechnologies(UserTechnologyMapping userTechnologyMapping,
-			User user) throws SQLException {
+			int userId) throws SQLException {
 		// TODO Auto-generated method stub
 		ArrayList<UserTechnologyMapping> usertechnology = new ArrayList<UserTechnologyMapping>();
 		try {
 			UserDAO userDao = new UserDAO();
-			usertechnology = userDao.displayUserTechnologies(userTechnologyMapping, user);
+			usertechnology = userDao.displayUserTechnologies(userTechnologyMapping, userId);
 
 		} catch (SQLException e) {
 			throw e;
@@ -334,12 +359,12 @@ public class UserDelegate {
 		}
 	}
 
-	public int addNewTechnology(Technology technology, User user) throws SQLException {
+	public int addNewTechnology(Technology technology, int userId) throws SQLException {
 		// TODO Auto-generated method stub
 		int technologyId = 0;
 		try {
 			UserDAO userDao = new UserDAO();
-			technologyId = userDao.addNewTechnology(technology, user);
+			technologyId = userDao.addNewTechnology(technology, userId);
 			return technologyId;
 		} catch (SQLException e) {
 			throw e;
@@ -397,6 +422,104 @@ public class UserDelegate {
 		return flag;
 	}
 
+	public void addSkillsToProfile(String skills,int userId) throws SQLException {
+		// TODO Auto-generated method stub
+		try {
+		int technologyId=0;
+		String[] technology;
+		Technology techh = new Technology();
+		UserTechnologyMapping usertechnology = new UserTechnologyMapping();
+		if (skills != "") {
+			technology = skills.split("@");
+			if (technology != null) {
 
+				for (int i = 0; i < technology.length; i++) {
+
+					usertechnology.setUserId(userId);
+					techh.setTechnology(technology[i]);
+					technologyId = fetchTechnologyId(techh);
+					if (technologyId == 0) {
+						techh.setTechnology(technology[i]);
+						technologyId = addNewTechnology(techh, userId);
+						usertechnology.setTechnologyId(technologyId);
+						addTechnologyDetails(usertechnology);
+					} else {
+						usertechnology.setTechnologyId(technologyId);
+						addTechnologyDetails(usertechnology);
+					}
+				}
+
+			}
+		}
+	}catch(SQLException e) {
+		throw e;
+	}
 }
+
+	public boolean updateUserProfile(String userName, String companyName, String designation, String skills,int userId) throws SQLException{
+		// TODO Auto-generated method stub
+		boolean flag = false;
+		try {
+			int technologyId = 0;
+			String[] technology;
+			UserTechnologyMapping usertechnology = new UserTechnologyMapping();
+			UserTechnologyMapping userTechnologyMapping = new UserTechnologyMapping();
+			ArrayList<UserTechnologyMapping> userTechnology = null;
+
+			Technology techh = new Technology();
+			User user = new User();
+
+			user.setUserId(userId);
+			DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+			LocalDateTime now = LocalDateTime.now();
+			user.setCurrentTime(dtf.format(now));
+
+			user.setUserName(userName);
+			if (updateUserName(user)) {
+
+			}
+			user.setCompany(companyName);
+			if (updateCompanyName(user)) {
+
+			}
+			user.setDesignation(designation);
+			if (updateUserDesignation(user)) {
+
+			}
+
+			if (skills != "") {
+				technology = skills.split("@");
+				if (technology != null) {
+
+					userTechnology = displayUserTechnologies(userTechnologyMapping, userId);
+					if (userTechnology.isEmpty()) {
+					} else {
+						deleteTechnologyDetails(userTechnologyMapping, user);
+					}
+					for (int i = 0; i < technology.length; i++) {
+
+						usertechnology.setUserId(user.getUserId());
+						techh.setTechnology(technology[i]);
+						technologyId = fetchTechnologyId(techh);
+						if (technologyId == 0) {
+							techh.setTechnology(technology[i]);
+							technologyId = addNewTechnology(techh, userId);
+							usertechnology.setTechnologyId(technologyId);
+							addTechnologyDetails(usertechnology);
+						} else {
+							usertechnology.setTechnologyId(technologyId);
+							addTechnologyDetails(usertechnology);
+						}
+					}
+
+				}
+			}
+			flag= true;
+		}catch(SQLException e) {
+			throw e;
+		}
+		return flag;
+	}
+}
+
 

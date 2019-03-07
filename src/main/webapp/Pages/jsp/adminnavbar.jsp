@@ -16,7 +16,7 @@
 			<div class="sidenav__items">
 			  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
 			  <a href="${Config.BASE_PATH}jobs">PUBLISH NEW VACANCY</a>
-			  <a href="${Config.BASE_PATH}users/applied">VIEW INTERESTED USERS</a> 
+			  <a href="${Config.BASE_PATH}applied-users">VIEW INTERESTED USERS</a> 
 			  <a href="${Config.BASE_PATH}company/jobspublished">VIEW PUBLISHED JOBS</a>
 			  </div>
 		</div>

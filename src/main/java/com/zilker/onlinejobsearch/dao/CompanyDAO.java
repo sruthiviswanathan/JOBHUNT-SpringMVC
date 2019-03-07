@@ -134,14 +134,13 @@ public class CompanyDAO {
 	/*
 	 * method for fetching company id giving company name as input.
 	 */
-	public int fetchCompanyId(Company company) throws SQLException {
+	public int fetchCompanyId(String companyName) throws SQLException {
 		try {
 
 			connection = DButils.getConnection();
 			statement = connection.createStatement();
 			resultset = statement.executeQuery(QueryConstants.RETRIEVECOMPANYDATA);
 			int companyId = 0;
-			String companyName = company.getCompanyName();
 			while (resultset.next()) {
 				if (companyName.equalsIgnoreCase(resultset.getString(2))) {
 					companyId = resultset.getInt(1);
@@ -185,10 +184,11 @@ public class CompanyDAO {
 		}
 	}
 
+
 	/*
 	 * method for displaying companies.
 	 */
-	public ArrayList<Company> displayCompanies(Company company) throws SQLException {
+	public ArrayList<Company> displayCompanies() throws SQLException {
 		ArrayList<Company> comp = new ArrayList<Company>();
 		try {
 			connection = DButils.getConnection();
@@ -211,7 +211,6 @@ public class CompanyDAO {
 		}
 		return comp;
 	}
-	
 
 
 	/*
@@ -264,14 +263,14 @@ public class CompanyDAO {
 	/*
 	 * method 1 for retrieving vacancy based on company.
 	 */
-	public ArrayList<Company> retrieveVacancyByCompany(Company company) throws SQLException {
+	public ArrayList<Company> retrieveVacancyByCompany(int companyId) throws SQLException {
 		ArrayList<Company> comp = new ArrayList<Company>();
 		try {
 
 			float averageRating = 0;
 			connection = DButils.getConnection();
 			preparestatement = connection.prepareStatement(QueryConstants.RETRIEVECOMPANYNAME);
-			preparestatement.setInt(1, company.getCompanyId());
+			preparestatement.setInt(1, companyId);
 			resultset = preparestatement.executeQuery();
 			while (resultset.next()) {
 
@@ -279,7 +278,7 @@ public class CompanyDAO {
 				c.setCompanyName(resultset.getString(1));
 				c.setCompanyWebsiteUrl(resultset.getString(2));
 				c.setCompanyLogo(resultset.getString(4));
-				averageRating = calculateAverageRating(company);
+				averageRating = calculateAverageRating(companyId);
 				c.setAverageRating(averageRating);
 				comp.add(c);
 
@@ -293,7 +292,7 @@ public class CompanyDAO {
 		return comp;
 	}
 
-	public float calculateAverageRating(Company company) throws SQLException {
+	public float calculateAverageRating(int companyId) throws SQLException {
 		
 		int count=0;
 		float averageRating = 0;
@@ -303,7 +302,7 @@ public class CompanyDAO {
 			String ratings = "";
 			connection = DButils.getConnection();
 			preparestatement = connection.prepareStatement(QueryConstants.RETRIEVERATINGSFORCOMPANY);
-			preparestatement.setInt(1, company.getCompanyId());
+			preparestatement.setInt(1, companyId);
 			resultset = preparestatement.executeQuery();
 			while (resultset.next()) {
 				ratings = resultset.getString(1);
@@ -327,14 +326,14 @@ public class CompanyDAO {
 	 * method 2 for retrieving vacancy based on company.
 	 */
 
-	public ArrayList<Company> retrieveVacancyByCompany1(Company company,User user) throws SQLException {
+	public ArrayList<Company> retrieveVacancyByCompany1(int companyId,int userId) throws SQLException {
 		ArrayList<Company> comp = new ArrayList<Company>();
 		try {
 
 			connection = DButils.getConnection();
 			int jobId = 0;
 			preparestatement1 = connection.prepareStatement(QueryConstants.RETRIEVEVACANCYBYCOMPID);
-			preparestatement1.setInt(1, company.getCompanyId());
+			preparestatement1.setInt(1, companyId);
 			resultset1 = preparestatement1.executeQuery();
 			while (resultset1.next()) {
 				Company c = new Company();
@@ -354,11 +353,11 @@ public class CompanyDAO {
 				
 					
 					preparestatement = connection.prepareStatement(QueryConstants.USERAPPLIEDJOBS);
-					preparestatement.setInt(1, user.getUserId());
+					preparestatement.setInt(1, userId);
 					resultset = preparestatement.executeQuery();
 					while(resultset.next()) {
 						
-						if((company.getCompanyId()==resultset.getInt(1))  && ((resultset1.getString(3).equals(resultset.getString(3)))) 
+						if((companyId==resultset.getInt(1))  && ((resultset1.getString(3).equals(resultset.getString(3)))) 
 								&&((jobId == resultset.getInt(2)))) 
 						{
 							
@@ -468,14 +467,14 @@ public class CompanyDAO {
 
 
 	
-	public ArrayList<Company> retrieveVacancyByLocation(Company company,User user) throws SQLException {
+	public ArrayList<Company> retrieveVacancyByLocation(String location,int userId) throws SQLException {
 		// TODO Auto-generated method stub
 		ArrayList<Company> comp = new ArrayList<Company>();
 		try {
 			
 			connection = DButils.getConnection();
 			preparestatement = connection.prepareStatement(QueryConstants.RETRIEVECOMPANYBYLOCATION);
-			preparestatement.setString(1, company.getLocation());
+			preparestatement.setString(1, location);
 			resultset = preparestatement.executeQuery();
 			while (resultset.next()) {
 				Company c = new Company();
@@ -490,11 +489,11 @@ public class CompanyDAO {
 			
 				
 				preparestatement1 = connection.prepareStatement(QueryConstants.USERAPPLIEDJOBS);
-				preparestatement1.setInt(1, user.getUserId());
+				preparestatement1.setInt(1, userId);
 				resultset1 = preparestatement1.executeQuery();
 				while(resultset1.next()) {
 					
-					if((resultset.getInt(8)==resultset1.getInt(1))  && ((company.getLocation().equals(resultset1.getString(3)))) 
+					if((resultset.getInt(8)==resultset1.getInt(1))  && ((location.equals(resultset1.getString(3)))) 
 							&&((resultset.getInt(9) == resultset1.getInt(2)))) 
 					{
 							
@@ -642,13 +641,11 @@ public class CompanyDAO {
 		return flag;
 	}
 
-	public void insertIntoCompanyDetails(User user, Company company) throws SQLException {
+	public void insertIntoCompanyDetails(int userId, int companyId) throws SQLException {
 		// TODO Auto-generated method stub
-		int userId = 0, companyId = 0;
+
 		try {
 			connection = DButils.getConnection();
-			userId = user.getUserId();
-			companyId = company.getCompanyId();
 			preparestatement = connection.prepareStatement(QueryConstants.UPDATECOMPANYCREATER);
 			preparestatement.setInt(1, userId);
 			preparestatement.setInt(2, userId);
@@ -718,13 +715,13 @@ public class CompanyDAO {
 
 	}
 
-	public ArrayList<Company> viewAppliedJobs(User user)throws SQLException {
+	public ArrayList<Company> viewAppliedJobs(int userId)throws SQLException {
 		// TODO Auto-generated method stub
 		ArrayList<Company> comp = new ArrayList<Company>();
 		try {
 			connection = DButils.getConnection();
 			preparestatement = connection.prepareStatement(QueryConstants.VIEWAPPLIEDJOBS);
-			preparestatement.setInt(1, user.getUserId());
+			preparestatement.setInt(1, userId);
 			resultset = preparestatement.executeQuery();
 			while (resultset.next()) {
 				Company c = new Company();

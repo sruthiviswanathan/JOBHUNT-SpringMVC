@@ -14,12 +14,12 @@ import com.zilker.onlinejobsearch.dao.JobDAO;
 @Service
 public class JobDelegate {
 
-	public ArrayList<JobMapping> displayJobs(JobMapping jobmapping) throws SQLException {
+	public ArrayList<JobMapping> displayJobs() throws SQLException {
 		// TODO Auto-generated method stub
 		ArrayList<JobMapping> job = new ArrayList<JobMapping>();
 		try {
 			JobDAO jobDao = new JobDAO();
-			job = jobDao.displayJobs(jobmapping);
+			job = jobDao.displayJobs();
 
 		} catch (SQLException e) {
 			throw e;

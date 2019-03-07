@@ -47,7 +47,7 @@
 						  			  <h4><b><c:out value="NO OF VACANCIES PUBLISHED" /></b></h4>
 						  			</a> 
                                       <h2><b><c:out value="${postedJobs}"/></b></h2>
-                                      <a href="${Config.BASE_PATH}users/applied">
+                                      <a href="${Config.BASE_PATH}applied-users">
                                       <h4><b><c:out value="CANDIDATES APPLIED" /></b></h4>
 						  			</a> 
                                        <h2><b><c:out value="${appliedUsers}"/></b></h2>
@@ -67,7 +67,7 @@
                                 
                              <div class="maincard__card col-sm-6 col-xs-height">
                                 <div class="card__container">
-                                     <a href="${Config.BASE_PATH}users/applied">
+                                     <a href="${Config.BASE_PATH}applied-users">
 						  			<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQV-s57fKLRPJdJfP5x6W0NdUhsbb-bdnqMht73fFnY1410cERJ"
                                                         alt="Avatar"></a> 
                                         <h4><b><c:out value="VIEW INTERESTED USERS" /></b></h4>
