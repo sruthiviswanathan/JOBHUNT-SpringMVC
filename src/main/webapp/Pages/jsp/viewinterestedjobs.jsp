@@ -27,7 +27,7 @@
 			<h3>GETTING HIRED JUST GOT EASIER WITH US!!!</h3>
 		</div>
 					<c:choose>
-						<c:when test="${noAppliedJobs == 'yes'}">
+						<c:when test="${empty appliedJobs}">
 						<div class="success">
 						<c:out value="YOU HAVE NOT APPLIED FOR ANY JOBS YET!!"/>
 						</div>

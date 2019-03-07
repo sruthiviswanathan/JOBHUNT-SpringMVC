@@ -39,144 +39,149 @@ public class CompanyController {
 	@Autowired
 	JobDelegate jobDelegate;
 
+	/*
+	 * fetch all company details and display findByJobs page
+	 */
 	@RequestMapping(value = "/findjobs", method = RequestMethod.GET)
 	public ModelAndView DisplayFindJobs(HttpSession session) {
-		ModelAndView mav = new ModelAndView("findjob");
+		ModelAndView model = new ModelAndView("findjob");
 		try {
 
 			if (session.getAttribute("email") == null) {
-				mav = new ModelAndView("home");
+				model = new ModelAndView("home");
 			} else {
-				ArrayList<Company> companyDetails = null;
-				companyDetails = companyDelegate.displayCompanies();
-				mav.addObject("companyList", companyDetails);
+				ArrayList<Company> companyDetails = companyDelegate.displayCompanies();
+				model.addObject("companyList", companyDetails);
 			}
 		} catch (Exception e) {
-			mav = new ModelAndView("error");
+			model = new ModelAndView("error");
 		}
-		return mav;
+		return model;
 	}
 
+	/*
+	 * fetch all company details and display findByCompany page
+	 */
 	@RequestMapping(value = "/findcompany", method = RequestMethod.GET)
 	public ModelAndView DisplayFindCompany(HttpSession session) {
-		ModelAndView mav = new ModelAndView("findcompany");
+		ModelAndView model = new ModelAndView("findcompany");
 		try {
 
 			if (session.getAttribute("email") == null) {
-				mav = new ModelAndView("home");
+				model = new ModelAndView("home");
 			} else {
-				ArrayList<Company> companyDetails = null;
-				companyDetails = companyDelegate.displayCompanies();
-				mav.addObject("companyList", companyDetails);
+				ArrayList<Company> companyDetails = companyDelegate.displayCompanies();
+				model.addObject("companyList", companyDetails);
 			}
 		} catch (Exception e) {
-			mav = new ModelAndView("error");
+			model = new ModelAndView("error");
 		}
-		return mav;
+		return model;
 	}
 
+	/*
+	 * fetch all company details and display findByLocation page
+	 */
 	@RequestMapping(value = "/findlocation", method = RequestMethod.GET)
 	public ModelAndView DisplayFindLocation(HttpSession session) {
-		ModelAndView mav = new ModelAndView("searchbylocation");
+		ModelAndView model = new ModelAndView("searchbylocation");
 		try {
 
 			if (session.getAttribute("email") == null) {
-				mav = new ModelAndView("home");
+				model = new ModelAndView("home");
 			} else {
-				ArrayList<Company> companyDetails = null;
-				companyDetails = companyDelegate.displayCompanies();
-				mav.addObject("companyList", companyDetails);
+				ArrayList<Company> companyDetails = companyDelegate.displayCompanies();
+				model.addObject("companyList", companyDetails);
 			}
 		} catch (Exception e) {
-			mav = new ModelAndView("error");
+			model = new ModelAndView("error");
 		}
-		return mav;
+		return model;
 	}
 
+	
+	/*
+	 * controller to add a new company
+	 */
 	@RequestMapping(value = "/companies", method = RequestMethod.POST)
-	@ResponseBody
 	public ModelAndView AddNewCompany(@RequestParam("companyName") String companyName,
 			@RequestParam("websiteUrl") String websiteUrl, @RequestParam("companyLogo") String companyLogo,
 			HttpSession session) {
-		ModelAndView mav = new ModelAndView("login");
+		ModelAndView model = new ModelAndView("login");
 		try {
 			if (session.getAttribute("email") == null) {
-				mav = new ModelAndView("home");
+				model = new ModelAndView("home");
 			} else {
 
-				if (companyDelegate.addNewCompany(companyName,websiteUrl,companyLogo)) {
+				if (companyDelegate.addNewCompany(companyName, websiteUrl, companyLogo)) {
 
-					mav = new ModelAndView("signup");
-					ArrayList<Company> displayCompanies = null;
-					displayCompanies = companyDelegate.displayCompanies();
-					mav.addObject("companies", displayCompanies);
-					mav.addObject("login", new User());
+					model = new ModelAndView("signup");
+					ArrayList<Company> displayCompanies = companyDelegate.displayCompanies();
+					model.addObject("companies", displayCompanies);
+					model.addObject("login", new User());
 				} else {
-					mav = new ModelAndView("error");
+					model = new ModelAndView("error");
 				}
 			}
 		} catch (Exception e) {
 
-			mav = new ModelAndView("error");
+			model = new ModelAndView("error");
 		}
-		return mav;
+		return model;
 	}
 
+	
 	@RequestMapping(value = "/company", method = RequestMethod.GET)
-	@ResponseBody
 	public ModelAndView findCompany(@RequestParam("companyName") String companyName, HttpSession session) {
-		ModelAndView mav = new ModelAndView("companydetails");
+		ModelAndView model = new ModelAndView("companydetails");
 		try {
 			int companyId = 0;
 
 			if (session.getAttribute("email") == null) {
-				mav = new ModelAndView("home");
+				model = new ModelAndView("home");
 			} else {
 				int userId = (Integer) session.getAttribute("userId");
-				ArrayList<Company> companyDetails = null;
+
 				ArrayList<Company> vacancyDetails = null;
 				ArrayList<Company> companyReviews = null;
 				Company company = new Company();
 				companyId = companyDelegate.fetchCompanyId(companyName);
 				if (companyId == 0) {
-					mav = new ModelAndView("errorcompanyresults");
-					mav.addObject("noCompany", "yes");
-
+					model = new ModelAndView("errorcompanyresults");
+					model.addObject("noCompany", "yes");
 				} else {
-					
-					companyDetails = companyDelegate.retrieveVacancyByCompany(companyId);
-					mav.addObject("displayCompany", companyDetails);
+					ArrayList<Company> companyDetails = companyDelegate.retrieveVacancyByCompany(companyId);
+					model.addObject("displayCompany", companyDetails);
 					vacancyDetails = companyDelegate.retrieveVacancyByCompany1(companyId, userId);
 
 					if (vacancyDetails.isEmpty()) {
-						mav.addObject("noVacancy", "yes");
+						model.addObject("noVacancy", "yes");
 						companyReviews = userDelegate.retrieveReview(companyId);
 						if (companyReviews.isEmpty()) {
-							mav.addObject("noReviews", "yes");
+							model.addObject("noReviews", "yes");
 						} else {
-							mav.addObject("displayCompanyReviews", companyReviews);
+							model.addObject("displayCompanyReviews", companyReviews);
 						}
-
 					} else {
 						for (Company i : vacancyDetails) {
 							int jobId = i.getJobId();
-							mav.addObject("displayVacancies", vacancyDetails);
+							model.addObject("displayVacancies", vacancyDetails);
 							company.setJobId(jobId);
 						}
 					}
 					companyReviews = userDelegate.retrieveReview(companyId);
 					if (companyReviews.isEmpty()) {
-						mav.addObject("noReviews", "yes");
+						model.addObject("noReviews", "yes");
 
 					} else {
-						mav.addObject("displayCompanyReviews", companyReviews);
+						model.addObject("displayCompanyReviews", companyReviews);
 					}
 				}
 			}
 		} catch (SQLException e) {
-			mav = new ModelAndView("error");
+			model = new ModelAndView("error");
 		}
-		return mav;
+		return model;
 	}
 
 	@RequestMapping(value = "/location/companies", method = RequestMethod.GET)
@@ -189,7 +194,7 @@ public class CompanyController {
 				mav = new ModelAndView("home");
 			} else {
 				ArrayList<Company> retrieveByLocation = null;
-				int userId = (Integer) session.getAttribute("userId");		
+				int userId = (Integer) session.getAttribute("userId");
 				retrieveByLocation = companyDelegate.retrieveVacancyByLocation(location, userId);
 				if (retrieveByLocation.isEmpty()) {
 					mav.addObject("noVacancy", "yes");
@@ -214,7 +219,7 @@ public class CompanyController {
 				int companyId = 0;
 				ArrayList<Company> companyReviews = null;
 				ArrayList<Company> companyDetails = null;
-				companyId = companyDelegate.fetchCompanyId(companyName);			
+				companyId = companyDelegate.fetchCompanyId(companyName);
 				companyDetails = companyDelegate.retrieveVacancyByCompany(companyId);
 				mav.addObject("displayCompany", companyDetails);
 				companyReviews = userDelegate.retrieveReview(companyId);
@@ -266,7 +271,7 @@ public class CompanyController {
 		try {
 			if (session.getAttribute("email") == null) {
 				mav = new ModelAndView("home");
-			} else {	
+			} else {
 				ArrayList<JobMapping> job = null;
 				job = jobDelegate.displayJobs();
 				mav.addObject("jobs", job);
@@ -452,7 +457,6 @@ public class CompanyController {
 				company.setCompanyId(companyId);
 				vacancyDetails = companyDelegate.retrieveVacancyByCompanyAdmin(company);
 
-				
 				ArrayList<JobMapping> job = null;
 				job = jobDelegate.displayJobs();
 				mav.addObject("jobs", job);
@@ -556,7 +560,6 @@ public class CompanyController {
 
 				vacancyDetails = companyDelegate.retrieveVacancyByCompanyAdmin(company);
 
-				
 				ArrayList<JobMapping> job = null;
 				job = jobDelegate.displayJobs();
 				mav.addObject("jobs", job);

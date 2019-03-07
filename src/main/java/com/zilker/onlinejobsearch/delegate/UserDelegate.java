@@ -19,7 +19,7 @@ import com.zilker.onlinejobsearch.dao.UserDAO;
 @Service
 public class UserDelegate {
 
-	public boolean register(String name, String email,String password,String companyName,String designation) throws SQLException {
+	public boolean register(String name, String email,String password,String companyName,String designation,String skills) throws SQLException {
 		// TODO Auto-generated method stub
 		boolean flag = false;
 		try {
@@ -31,6 +31,10 @@ public class UserDelegate {
 			user.setDesignation(designation);
 			UserDAO userdao = new UserDAO();
 			flag = userdao.register(user);
+			int userId = fetchUserId(email);
+			user.setUserId(userId);
+			insertIntoUser(userId,email);
+			addSkillsToProfile(skills,userId);
 		} catch (SQLException e) {
 			throw e;
 		}
@@ -77,12 +81,12 @@ public class UserDelegate {
 	}
 	
 	
-	public int fetchUserId(User user) throws SQLException {
+	public int fetchUserId(String email) throws SQLException {
 		int userId = 0;
 		// TODO Auto-generated method stub
 		try {
 			UserDAO userDao = new UserDAO();
-			userId = userDao.fetchUserId(user);
+			userId = userDao.fetchUserId(email);
 			return userId;
 		} catch (SQLException e) {
 			throw e;
@@ -244,6 +248,7 @@ public class UserDelegate {
 	public boolean registerAsAdmin(String name, String email, String password,String companyId) throws SQLException {
 		// TODO Auto-generated method stub
 		boolean flag = false;
+		int flag1=0;
 		try {
 			User user = new User();
 			CompanyDelegate companyDelegate = new CompanyDelegate(); 
@@ -256,6 +261,16 @@ public class UserDelegate {
 			user.setDesignation("admin");
 			user.setRoleId(2);
 			flag = userDao.registerAsAdmin(user);
+			int userId = fetchUserId(email);
+			insertIntoUser(userId,email);
+			if (userId != 0) {
+				flag1 = insertIntoAdmin(userId, Integer.parseInt(companyId));
+				companyDelegate.insertIntoCompanyDetails(userId, Integer.parseInt(companyId));
+				if (flag1 == 1) {
+					flag=true;
+				}
+			}
+
 		} catch (SQLException e) {
 			throw e;
 		}
@@ -274,10 +289,13 @@ public class UserDelegate {
 		return flag;
 	}
 
-	public void insertIntoUser(User user) throws SQLException {
+	public void insertIntoUser(int userId,String email) throws SQLException {
 		// TODO Auto-generated method stub
 		try {
+			User user = new User();
 			UserDAO userDao = new UserDAO();
+			user.setUserId(userId);
+			user.setEmail(email);
 			userDao.insertIntoUser(user);
 		} catch (SQLException e) {
 			throw e;

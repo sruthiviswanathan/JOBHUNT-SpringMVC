@@ -425,14 +425,14 @@ public class CompanyDAO {
 	}
 
 	
-	public int numberOfVacancyPublished(Company company) throws SQLException {
+	public int numberOfVacancyPublished(int companyId) throws SQLException {
 		int count=0;
 		try {
 
 			connection = DButils.getConnection();
 			int jobId = 0;
 			preparestatement1 = connection.prepareStatement(QueryConstants.RETRIEVEVACANCYADMIN);
-			preparestatement1.setInt(1, company.getCompanyId());
+			preparestatement1.setInt(1, companyId);
 			resultset1 = preparestatement1.executeQuery();
 			while (resultset1.next()) {
 				Company c = new Company();
@@ -691,13 +691,13 @@ public class CompanyDAO {
 
 	}
 	
-	public int numberOfAppliedUsers(Company company)throws SQLException{
+	public int numberOfAppliedUsers(int companyId)throws SQLException{
 		// TODO Auto-generated method stub
 		int count=0;
 		try {
 			connection = DButils.getConnection();
 			preparestatement = connection.prepareStatement(QueryConstants.VIEWAPPLIEDUSERS);
-			preparestatement.setInt(1, company.getCompanyId());
+			preparestatement.setInt(1, companyId);
 			resultset = preparestatement.executeQuery();
 		
 		

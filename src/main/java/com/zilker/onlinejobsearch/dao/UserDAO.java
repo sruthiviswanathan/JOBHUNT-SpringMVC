@@ -276,13 +276,12 @@ public class UserDAO {
 	/*
 	 * method for fetching user id given user mail.
 	 */
-	public int fetchUserId(User user) throws SQLException {
+	public int fetchUserId(String email) throws SQLException {
 		try {
 			connection = DButils.getConnection();
 			statement = connection.createStatement();
 			resultset = statement.executeQuery(QueryConstants.RETRIEVEUSERDATA);
 			int userId = 0;
-			String email = user.getEmail();
 			while (resultset.next()) {
 				if (email.equals(resultset.getString(1))) {
 					userId = resultset.getInt(4);

@@ -91,12 +91,12 @@ public class CompanyDelegate {
 		return comp;
 	}
 
-	public int numberOfVacancyPublished(Company company) throws SQLException {
+	public int numberOfVacancyPublished(int companyId) throws SQLException {
 		// TODO Auto-generated method stub
 		int count=0;
 		try {
 			CompanyDAO companyDao = new CompanyDAO();
-			count = companyDao.numberOfVacancyPublished(company);
+			count = companyDao.numberOfVacancyPublished(companyId);
 		} catch (SQLException e) {
 			throw e;
 		}
@@ -277,12 +277,12 @@ public class CompanyDelegate {
 		return comp;
 	}
 	
-	public int numberOfAppliedUsers(Company company)throws SQLException{
+	public int numberOfAppliedUsers(int companyId)throws SQLException{
 		// TODO Auto-generated method stub
 		int count=0;
 		try {
 			CompanyDAO companyDao = new CompanyDAO();
-			count = companyDao.numberOfAppliedUsers(company);
+			count = companyDao.numberOfAppliedUsers(companyId);
 		} catch (SQLException e) {
 			throw e;
 		}
