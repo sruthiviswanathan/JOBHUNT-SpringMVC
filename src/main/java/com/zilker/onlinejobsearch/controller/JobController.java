@@ -168,12 +168,12 @@ public class JobController {
 
 	@RequestMapping(value = "/company/publishvacancy", method = RequestMethod.POST)
 	@ResponseBody
-	public ModelAndView PublishNewVacancy(@RequestParam("job") String jobDesignation,
+	public void PublishNewVacancy(@RequestParam("job") String jobDesignation,
 			@RequestParam("location") String location, @RequestParam("salary") String salary,
-			@RequestParam("count") String count, @RequestParam("description") String description, HttpSession session)
-			throws ServletException, IOException {
-		ModelAndView mav = new ModelAndView("postjob");
-
+			@RequestParam("count") String count, @RequestParam("description") String description, HttpSession session,HttpServletResponse response)
+			throws  IOException {
+		
+		PrintWriter out = response.getWriter();
 		try {
 
 			
@@ -185,7 +185,7 @@ public class JobController {
 			}
 			user.setEmail(email);
 			Company company = new Company();
-			JobMapping jobMapping = new JobMapping();
+			
 			int  companyId = 0, jobId = 0;
 		
 			user.setUserId(userId);
@@ -198,30 +198,36 @@ public class JobController {
 			company.setJobDescription(description);
 			company.setSalary(Float.parseFloat(salary));
 			company.setVacancyCount(Integer.parseInt(count));
-			ArrayList<JobMapping> job = null;
-			job = jobDelegate.displayJobs(jobMapping);
-			mav.addObject("jobs", job);
+			
 			if (companyDelegate.publishVacancy(company, user)) {
-				mav.addObject("jobPosted", "yes");
+				
 				companyDelegate.compareVacancyWithRequest(company);
-
+				response.setContentType("application/json");
+				out.print("success");
+				out.flush();
 			} else {
 
-				mav = new ModelAndView("error");
+				response.setContentType("application/json");
+				out.print("error");
+				out.flush();
+				
 			}
 
 		} catch (SQLIntegrityConstraintViolationException e) {
 
-			mav.addObject("jobPosted", "no");
-			mav = new ModelAndView("postjob");
-
+			response.setContentType("application/json");
+			out.print("error");
+			out.flush();
+	
 		}
 
 		catch (Exception e) {
-			mav = new ModelAndView("error");
-
+			
+			response.setContentType("application/json");
+			out.print("error");
+			out.flush();
 		}
-		return mav;
+	
 	}
 
 	@RequestMapping(value = "/addjob", method = RequestMethod.POST)

@@ -13,6 +13,7 @@
 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="${Config.BASE_PATH}Pages/css/forms.css">
 <link rel="stylesheet" href="${Config.BASE_PATH}Pages/css/navbar.css">
+      <script src="${Config.BASE_PATH}Pages/js/jquery-3.3.1.min.js"></script>
 <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
 <title>POST JOB</title>
 </head>
@@ -57,7 +58,7 @@
 		 <div id="snackbar">
                         
         </div>
-        <script>
+        <%-- <script>
         				function displaySuccessMessage(){
         					 var para = document.createElement("p");
         					  var node = document.createTextNode("YOUR JOB VACANCY IS POSTED SUCCESSFULLY!!");
@@ -87,11 +88,10 @@
         				<script>
         				displayFailureMessage();
         				</script>
-						</c:if>
+						</c:if> --%>
 		
 		<div class="container__postjob col-xs-12 col-md-12">
-		<form action="${Config.BASE_PATH}company/publishvacancy" id="postjob"
-			name="postjob" onsubmit="return validatePostJob()" method="post">
+		<form action="${Config.BASE_PATH}company/publishvacancy" id="postjob" name="postjob"  onsubmit="event.preventDefault(); postJob(this);" method="post">
 		
 		
 				

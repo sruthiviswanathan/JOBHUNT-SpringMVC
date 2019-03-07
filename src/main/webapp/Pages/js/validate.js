@@ -168,7 +168,7 @@ function validateForm()
     { 
   	 nameError = "Please enter your name";
   	 document.getElementById("name_error").innerHTML = nameError;
-      //  window.alert("Please enter your name."); 
+     
         name.focus(); 
         return false; 
     } 
@@ -176,7 +176,6 @@ function validateForm()
     { 
     	 emailError = "Please enter a valid e-mail address.";
       	 document.getElementById("email_error").innerHTML = emailError;
-       // window.alert("Please enter a valid e-mail address."); 
         email.focus(); 
         return false; 
     } 
@@ -185,7 +184,7 @@ function validateForm()
     { 
     	 emailError = "Please enter a valid e-mail address";
       	 document.getElementById("email_error").innerHTML = emailError;
-       // window.alert("Please enter a valid e-mail address."); 
+      
         email.focus(); 
         return false; 
     } 
@@ -194,7 +193,6 @@ function validateForm()
     { 
     	 emailError = "Please enter a valid e-mail address.";
       	 document.getElementById("email_error").innerHTML = emailError;
-        //window.alert("Please enter a valid e-mail address."); 
         email.focus(); 
         return false; 
     } 
@@ -202,8 +200,7 @@ function validateForm()
     if (password.value == "")                        
     { 
     	 passwordError = "Please enter your password";
-      	 document.getElementById("psw_error").innerHTML = passwordError;
-        //window.alert("Please enter your password"); 
+      	 document.getElementById("psw_error").innerHTML = passwordError;      
         password.focus(); 
         return false; 
     } 
@@ -212,7 +209,6 @@ function validateForm()
     { 
     	 confirmError = "Please reenter your password.";
       	 document.getElementById("cpsw_error").innerHTML = confirmError;
-       // window.alert("Please reenter your password."); 
         confirm.focus(); 
         return false; 
     } 
@@ -221,7 +217,6 @@ function validateForm()
     { 
     	 selectError = "Please select a Company Name";
       document.getElementById("select_error").innerHTML = selectError;
-        //alert("Please select a Company Name."); 
         what.focus(); 
         return false; 
     } 
@@ -362,5 +357,172 @@ function updateUser()
    
     return true; 
 }
+function requestVacancy(event){
 
+	if(validateRequestVacancy()){
+	    var formEl = $(event);
+	    
+	    var snackbar = document.getElementById("snackbar");   
+	    snackbar.removeChild(snackbar.childNodes[0]);
+	    
+	    $.ajax({
+	      type: 'POST',
+	      url: formEl.prop('action'),
+	      accept: {
+	        javascript: 'application/javascript'
+	      },
+	      data: formEl.serialize(),
+	      beforeSend: function() {
+	    	 
+	      },
+	      dataType:"text",
+	      success:function(msg){
+	    	  console.log(msg);
+	    	  if (msg === 'success'){
+	    	 
+	    	  var para = document.createElement("p");
+	    	  var node = document.createTextNode("YOUR REQUEST IS SAVED!!YOU WILL BE NOTIFIED WHEN YOUR REQUIREMENT MATCHES ANY VACANCIES!!");
+	    	  para.appendChild(node);
+	    	  var element = document.getElementById("snackbar");
+	    	  element.className="show";
+	    	  element.appendChild(para);
+	    	  setTimeout(function(){ element.className = element.className.replace("show", ""); }, 5000);
+	    	  document.getElementById("requestvacancy").reset();
+	    	  } 
+	    	  else if(msg === 'error'){
+	    		  var para = document.createElement("p");
+		    	  var node = document.createTextNode("OOPS!SOMETHING WENT WRONG");
+		    	  para.appendChild(node);
+		    	  var element = document.getElementById("snackbar");
+		    	  element.className="show";
+		    	  element.appendChild(para);
+		    	  setTimeout(function(){ element.className = element.className.replace("show", ""); }, 5000);  
+	    	  }
+	      }
+	    });
 
+return true;
+	}
+}
+
+function removeErrorMessages() {
+	    var location = document.getElementById("location_error"); ;               
+	    var what =  document.getElementById("job_error");  
+	    var salary = document.getElementById("salary_error"); ;   
+	   
+	    if (what.value != "")                  
+	    {	
+	    	 document.getElementById("job_error").innerHTML = ""; 	      
+	    } 
+	   
+
+	    if (location.value != "")                                  
+	    { 	    	
+	      	 document.getElementById("location_error").innerHTML = ""; 	      
+	    }
+
+	    if (salary.value != "")                               
+	    { 
+	    	 	 document.getElementById("salary_error").innerHTML = "" ;	         
+	    }
+	    
+	    return true; 
+}
+
+function UpdateProfile(event){
+
+	if(updateUser()){
+	    var formEl = $(event);
+	    
+	    var snackbar = document.getElementById("snackbar");   
+	    snackbar.removeChild(snackbar.childNodes[0]);
+	    	
+	    $.ajax({
+	      type: 'POST',
+	      url: formEl.prop('action'),
+	      accept: {
+	        javascript: 'application/javascript'
+	      },
+	      data: formEl.serialize(),
+	      beforeSend: function() {
+	    	
+	      },
+	      dataType:"text",
+	      success:function(msg){
+	    	  console.log(msg);
+	    	 
+	    	  if (msg === 'success'){
+	    	  var para = document.createElement("p");
+	    	  var node = document.createTextNode("YOUR PROFILE IS UPDATED SUCCESSFULLY");
+	    	  para.appendChild(node);
+	    	  var element = document.getElementById("snackbar");
+	    	  element.className="show";
+	    	  element.appendChild(para);
+	    	  setTimeout(function(){ element.className = element.className.replace("show", ""); }, 5000);
+	    	  } 
+	    	  
+	    	  else if(msg === 'error'){
+	    		 var para = document.createElement("p");
+		    	  var node = document.createTextNode("OOPS!SOMETHING WENT WRONG");
+		    	  para.appendChild(node);
+		    	  var element = document.getElementById("snackbar");
+		    	  element.className="show";
+		    	  element.appendChild(para);
+		    	  setTimeout(function(){ element.className = element.className.replace("show", ""); }, 5000);  
+	    	  }
+	    	
+	      }
+	    });
+	   
+return true;
+	}
+	
+}
+
+function postJob(event){
+
+	if(validatePostJob()){
+	    var formEl = $(event);
+	    
+	    var snackbar = document.getElementById("snackbar");   
+	    snackbar.removeChild(snackbar.childNodes[0]);
+	    
+	    $.ajax({
+	      type: 'POST',
+	      url: formEl.prop('action'),
+	      accept: {
+	        javascript: 'application/javascript'
+	      },
+	      data: formEl.serialize(),
+	      beforeSend: function() {
+	    	
+	      },
+	      dataType:"text",
+	      success:function(msg){
+	    	  console.log(msg);
+	    	  if (msg === 'success'){
+	    	 
+	    	  var para = document.createElement("p");
+	    	  var node = document.createTextNode("YOUR JOB VACANCY IS POSTED SUCCESSFULLY!!");
+	    	  para.appendChild(node);
+	    	  var element = document.getElementById("snackbar");
+	    	  element.className="show";
+	    	  element.appendChild(para);
+	    	  setTimeout(function(){ element.className = element.className.replace("show", ""); }, 5000);
+	    	  document.getElementById("postjob").reset();
+	    	  } 
+	    	  else if(msg === 'error'){
+	    		  var para = document.createElement("p");
+		    	  var node = document.createTextNode("OOPS!!ERROR THIS JOB VACANCY IN YOUR COMPANY IS ALREADY PUBLISHED!!TRY TO UPDATE");
+		    	  para.appendChild(node);
+		    	  var element = document.getElementById("snackbar");
+		    	  element.className="show";
+		    	  element.appendChild(para);
+		    	  setTimeout(function(){ element.className = element.className.replace("show", ""); }, 5000);  
+	    	  }
+	      }
+	    });
+
+return true;
+	}
+}

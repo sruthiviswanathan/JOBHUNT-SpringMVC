@@ -96,8 +96,8 @@
               			</div>
               			</c:when>
 						
-		<c:otherwise>
-     		 <div class="container__split split--left">        
+					<c:otherwise>
+     				 <div class="container__split split--left">        
                        
                                 <div class="left__jobs">
                                 <div class="jobs__row">

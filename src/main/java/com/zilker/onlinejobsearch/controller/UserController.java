@@ -1,11 +1,13 @@
 package com.zilker.onlinejobsearch.controller;
 
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
-import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -361,9 +363,10 @@ public class UserController {
 	}
 	@RequestMapping(value = "/users/update", method = RequestMethod.POST)
 	@ResponseBody
-	public ModelAndView UpdateUsers(@RequestParam("username") String userName,@RequestParam("cname") String companyName,
-			@RequestParam("designation") String designation,HttpSession session,@RequestParam("skillset") String skills) {
-		ModelAndView mav = new ModelAndView("viewprofile");
+	public void UpdateUsers(@RequestParam("username") String userName,@RequestParam("cname") String companyName,
+			@RequestParam("designation") String designation,HttpSession session,@RequestParam("skillset") String skills,HttpServletRequest request, HttpServletResponse response)
+				throws IOException {
+		PrintWriter out = response.getWriter();
 		try {
 		
 			
@@ -374,7 +377,7 @@ public class UserController {
 			UserTechnologyMapping usertechnology = new UserTechnologyMapping();
 			UserTechnologyMapping userTechnologyMapping = new UserTechnologyMapping();
 			ArrayList<UserTechnologyMapping> userTechnology = null;
-			ArrayList<User> userList = null;
+		
 			
 			Technology techh = new Technology();
 			
@@ -428,16 +431,17 @@ public class UserController {
 				}	
 			}
 			
-			   	userList = userDelegate.retrieveUserData(user);
-				userTechnology = userDelegate.displayUserTechnologies(userTechnologyMapping, user); 
-				mav.addObject("userData", userList); 
-				mav.addObject("userTech", userTechnology); 
-				mav.addObject("updated","yes");
-					
+			response.setContentType("application/json");
+			out.print("success");
+			out.flush();
+			
 			}catch(Exception e) {
-				mav = new ModelAndView("error");
+				
+				response.setContentType("application/json");
+				out.print("error");
+				out.flush();
 			}
-		return mav;
+		
 	}
 	
 	@RequestMapping(value = "/users/request", method = RequestMethod.GET)
@@ -462,9 +466,10 @@ public class UserController {
 		return mav;
 	}
 	@RequestMapping(value = "/users/request", method = RequestMethod.POST)
-	public ModelAndView RequestVacancy(@RequestParam("job") String jobDesignation,@RequestParam("location") String location,
-			@RequestParam("salary") String salary ,HttpSession session) {
-		ModelAndView mav = new ModelAndView("requestvacancy");
+	public void RequestVacancy(@RequestParam("job") String jobDesignation,@RequestParam("location") String location,
+			@RequestParam("salary") String salary ,HttpSession session,HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	
+		PrintWriter out = response.getWriter();
 		try {
 			
 			int jobId=0;
@@ -487,17 +492,23 @@ public class UserController {
 			ArrayList<JobMapping> job = null;
 			JobDelegate jobDelegate = new JobDelegate();
 			job = jobDelegate.displayJobs(jobMapping);
-			mav.addObject("jobs", job); 
+			request.setAttribute("jobs", job); 
 			if(userDelegate.requestNewVacancy(jobrequest, user)) {
-				mav.addObject("saved","yes");
 				
+				response.setContentType("application/json");
+				out.print("success");
+				out.flush();
 			}else {
-				mav = new ModelAndView("error");
+				 response.setContentType("application/json");
+				 out.print("error");
+				 out.flush();
 			}
 		}catch(Exception e) {
-			mav = new ModelAndView("error");
+			response.setContentType("application/json");
+			 out.print("error");
+			 out.flush();
 		}
-		return mav;
+	
 	}
 	
 	@RequestMapping(value = "/users/admin", method = RequestMethod.GET)

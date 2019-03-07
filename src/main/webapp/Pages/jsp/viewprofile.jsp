@@ -14,6 +14,7 @@
 	  <link rel="stylesheet" href="${Config.BASE_PATH}Pages/css/navbar.css">
     <link rel="stylesheet" href="${Config.BASE_PATH}Pages/css/tags.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+          <script src="${Config.BASE_PATH}Pages/js/jquery-3.3.1.min.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
     <title>YOUR PROFILE</title>
    
@@ -55,34 +56,10 @@
 		 <div id="snackbar">
                         
         </div>
-        <script>
-        				function displaySuccessMessage(){
-        					 var para = document.createElement("p");
-        					  var node = document.createTextNode("YOUR PROFILE IS UPDATED!!");
-        					  para.appendChild(node);
-        					  var element = document.getElementById("snackbar");
-        					  element.className="show";
-        					  element.appendChild(para);
-        					  setTimeout(function(){ element.className = element.className.replace("show", ""); }, 3000);
-        				}
-        				function deleteTag(id){
-        					console.log(id);
-        					var elem = document.getElementById("item"+id).remove();
-        					
-        				}
-        				
-		</script>
-        				<c:if test="${updated == 'yes'}">
-        				<script>
-        				displaySuccessMessage();
-        				</script>
-						</c:if>
-
+ 
         <div class="container__profile col-xs-12 col-md-12">
-            <form action="${Config.BASE_PATH}users/update" name ="update" id="update"  onsubmit="return updateUser()" method="post">
+            <form action="${Config.BASE_PATH}users/update" name ="update" id="update"  onsubmit="event.preventDefault(); UpdateProfile(this);" method="post">
                
-             
-          
                 <c:forEach var="data" items="${userData}">
              <div class="profile__field col-xs-12 col-md-12">     
                     <label for="uname" class="field__entry row col-75"><b>USERNAME*</b></label>

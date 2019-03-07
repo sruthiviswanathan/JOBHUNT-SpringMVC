@@ -51,6 +51,7 @@
 						 	<div id="snackbar">
                         
                         	</div>
+                        	
 	<div class="container__display">
 		<form action="${Config.BASE_PATH}company/reviews" method="post">
 			<c:forEach items="${displayCompany}" var="comp">

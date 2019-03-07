@@ -60,18 +60,13 @@ function validateForm() {
   var x, y, z, i, valid = true;
   x = document.getElementsByClassName("tab");
   y = x[currentTab].getElementsByTagName("input");
- // z = x[currentTab].getElementsByTagName("select");
  
     if (y[1].value == "") {
       // add an "invalid" class to the field:
       y[1].className += " invalid";
       valid=false;
     }
-   /* if(z[0].value == "0"){ 
-    z[0].className += " invalid";
-      // and set the current valid status to false
-      valid = false;
-    }*/
+   
 
   
   if (valid) {

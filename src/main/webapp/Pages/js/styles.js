@@ -2,7 +2,6 @@
 function openNav() {
 	
  document.getElementById("mySidenav").style.marginLeft = "0";
-// document.getElementById("mySidenav").style.width = "250px";
  
 }
 
@@ -128,6 +127,9 @@ function apply(event,id){
 
 	    var formEl = $(event);
 	    var submit = document.getElementById(id);
+	    var snackbar = document.getElementById("snackbar");   
+	    snackbar.removeChild(snackbar.childNodes[0]);
+	    
 	    $.ajax({
 	      type: 'POST',
 	      url: formEl.prop('action'),
@@ -150,6 +152,8 @@ function apply(event,id){
 	    	  element.className="show";
 	    	  element.appendChild(para);
 	    	  setTimeout(function(){ element.className = element.className.replace("show", ""); }, 5000);
+	    	
+	    	  
 	    	  } 
 	    	  else if(msg === 'error'){
 	    		  var para = document.createElement("p");
@@ -187,6 +191,8 @@ function apply1(event,id){
 
 	    var formEl = $(event);
 	    var submit = document.getElementById(id);
+	
+	    
 	    $.ajax({
 	      type: 'POST',
 	      url: formEl.prop('action'),
@@ -218,19 +224,15 @@ function displayRatings(id,ratings) {
 document.getElementById("stars"+id).innerHTML = getStars(ratings);
 
 function getStars(rating) {
-
-  // Round to nearest half
+ 
   rating = Math.round(rating * 2) / 2;
   let output = [];
 
-  // Append all the filled whole stars
   for (var i = rating; i >= 1; i--)
     output.push('<i class="fa fa-star" aria-hidden="true" style="color: gold;"></i>&nbsp;');
 
-  // If there is a half a star, append it
   if (i == .5) output.push('<i class="fa fa-star-half-o" aria-hidden="true" style="color: gold;"></i>&nbsp;');
 
-  // Fill the empty stars
   for (let i = (5 - rating); i >= 1; i--)
     output.push('<i class="fa fa-star-o" aria-hidden="true" style="color: gold;"></i>&nbsp;');
 
