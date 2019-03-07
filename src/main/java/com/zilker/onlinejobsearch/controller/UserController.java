@@ -218,8 +218,7 @@ public class UserController {
 				UserTechnologyMapping userTechnologyMapping = new UserTechnologyMapping();
 				int userId = (Integer) session.getAttribute("userId");
 				ArrayList<User> userList = userDelegate.retrieveUserData(userId);
-				ArrayList<UserTechnologyMapping> userTechnology = userDelegate
-						.displayUserTechnologies(userTechnologyMapping, userId);
+				ArrayList<UserTechnologyMapping> userTechnology = userDelegate.displayUserTechnologies(userTechnologyMapping, userId);
 				model.addObject("userData", userList);
 				model.addObject("userTech", userTechnology);
 			}
