@@ -254,9 +254,8 @@ public class CompanyController {
 	public ModelAndView RateACompany(@RequestParam("company") String companyName, @RequestParam("rating") String rating,
 			@RequestParam("review") String review, @RequestParam("job") String jobRole,
 			@RequestParam("interview") String interviewProcess, HttpSession session) {
-		ModelAndView model = new ModelAndView("findcompany");
+		ModelAndView model = new ModelAndView("companydetails");
 		try {
-
 			if (session.getAttribute("email") == null) {
 				model = new ModelAndView("home");
 			} else {
@@ -266,12 +265,14 @@ public class CompanyController {
 				if (userDelegate.reviewAndRateCompany(userId, companyId,review,rating)) {
 					if (jobRole != "" && interviewProcess != "") {
 						if (userDelegate.interviewProcess(userId, companyId, jobRole,interviewProcess)) {
-							model = new ModelAndView("findcompany");
-							ArrayList<Company> companyDetails = companyDelegate.displayCompanies();
-							model.addObject("companyList", companyDetails);
+							
 						} 
 					}	
-				} 		
+				} 
+				ArrayList<Company> companyDetails = companyDelegate.retrieveVacancyByCompany(companyId);
+				ArrayList<Company> vacancyDetails = companyDelegate.retrieveVacancyByCompany1(companyId, userId);
+				model.addObject("displayCompany", companyDetails);
+				model.addObject("displayVacancies", vacancyDetails);
 			}
 		} catch (Exception e) {
 			model = new ModelAndView("error");

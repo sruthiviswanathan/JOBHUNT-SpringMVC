@@ -602,7 +602,6 @@ public class UserDelegate {
 			}
 			company.setSalary(Float.parseFloat(salary));
 			if (companyDelegate.updateVacancySalary(company, user)) {
-				System.out.println("updated");
 				status=true;
 			}
 			int vacancyCount = Integer.parseInt(count);
