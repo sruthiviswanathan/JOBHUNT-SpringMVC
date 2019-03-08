@@ -15,11 +15,7 @@
     <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
 </head>
 <body>
-<%
-			if(session.getAttribute("email")==null){
-				response.sendRedirect("http://localhost:8080/JobSearchApplication/index.jsp");
-			}
-		%> 
+
 <div class="maincontainer">
 	
 	<div class="container__forms">

@@ -24,13 +24,9 @@
 			<ul class="navbar__list">
 				<li><button onmouseover="openNav()" class="hambug"><i class="fa fa-bars" aria-hidden="true"></i></button></li>			
 				<li>JOB HUNT</li>
-				 <li style="float: right"><a href="${Config.BASE_PATH}logout">Logout</a></li>
-				<li style="float: right">
-					<a href="${Config.BASE_PATH}users/admin">
-					<li style="float: right"> Hi, <%= session.getAttribute("userName") %></li>
-                    <li style="float: right"><i class="user fa fa-user-circle" aria-hidden="true"></i></li> 
-                    </a>
-                </li>  
+				<li style="float: right"><a href="${Config.BASE_PATH}logout">Logout</a></li>
+				<li style="float: right"><a href="${Config.BASE_PATH}users/admin"> Hi, <%= session.getAttribute("userName") %></a></li>
+                <li style="float: right"><i class="user fa fa-user-circle" aria-hidden="true"></i></li> 
 			</ul>
 		</div>
 

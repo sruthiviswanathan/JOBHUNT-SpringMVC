@@ -6,9 +6,6 @@
 
   <display-name>JOBHUNT</display-name>
 
- <!-- <listener> 
-    <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class> 
-</listener> -->
    <servlet>
       <servlet-name>DispatcherServlet</servlet-name>
       <servlet-class>

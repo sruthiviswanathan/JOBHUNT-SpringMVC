@@ -51,14 +51,14 @@
 						<label for="email" class="field__entry row col-25"><b>EMAIL*</b></label> 
 						<form:input class="field__input row col-75" type="email"
 							placeholder="Your Email ID.." path="email" name="email"/> 
-							<span class="error"><p id="log_em_error"></p></span> 
+							<span class="error" id="log_em_error"></span> 
 						</div>
 					
 						<div class="login__field col-xs-12 col-md-12">
 							<label for="psw" class="field__entry row col-25"><b>PASSWORD*</b></label> 
 							<form:input class="field__input row col-75" type="password"
 							placeholder="Enter Password" path="password" name="psw"/> 
-							 <span class="error"><p id="log_psw_error"></p></span> 
+							 <span class="error" id="log_psw_error"></span> 
 						</div>
 					
 					<div class="error" id="loginError">
@@ -103,14 +103,14 @@
 					<div class="signup__field col-xs-12 col-md-12">
 						 <label for="uname" class="field__entry row col-25"><b>USERNAME*</b></label>
 						 <input type="text" class="field__input row col-75" name="userName"  placeholder="Your name.."/> 
-						 <span class="error"><p id="reg_name_error"></span> 
+						 <span class="error" id="reg_name_error"></span> 
 					</div>
 					
 					
 					<div class="signup__field col-xs-12 col-md-12">		 
 							<label for="email" class="field__entry row col-25"><b>EMAIL*</b></label> 
 							<input type="email" class="field__input row col-75" name="email"  placeholder="Your email id.."/>
-							<span class="error"><p id="reg_email_error"></p></span> 
+							<span class="error" id="reg_email_error"></span> 
 					</div>		
 							
 					<div class="signup__field col-xs-12 col-md-12">
@@ -118,14 +118,14 @@
 							class="field__entry row col-25"><b>PASSWORD*</b></label> 
 							<input class="field__input row col-75" type="password"  placeholder="Enter Password"
 							name="psw"/> 
-							 <span class="error"><p id="reg_psw_error"></p></span> 
+							 <span class="error" id="reg_psw_error"></span> 
 					</div>
 							
 					<div class="signup__field col-xs-12 col-md-12">
 							<label for="cpsw" class="field__entry row col-25"><b>CONFIRM PASSWORD*</b></label> 
 							<input class="field__input row col-75" type="password"
 							placeholder="Reenter Password" name="cpsw" />
-							 <span class="error"><p id="reg_cpsw_error"></p></span> 
+							 <span class="error" id="reg_cpsw_error"></span> 
 					</div>
 						
 					
@@ -133,13 +133,13 @@
 					<div class="signup__field col-xs-12 col-md-12">
 						<label for="cname" class="field__entry row col-25"><b>COMPANY NAME*</b></label>
 						<input type="text" class="field__input row col-75" name="companyName" placeholder="Company name.."/>
-						<span class="error"><p id="reg_comp_error"></p></span> 
+						<span class="error" id="reg_comp_error"></span> 
 					</div>
 					
 					<div class="signup__field col-xs-12 col-md-12">	
 						<label for="designation" class="field__entry row col-25"><b>DESIGNATION*</b></label>
 						<input type="text" class="field__input row col-75" name="designation" placeholder="Your designation.."/>
-						<span class="error"><p id="reg_des_error"></p></span> 
+						<span class="error" id="reg_des_error"></span> 
 					</div>
 						
 					<div class="signup__field col-xs-12 col-md-12">
@@ -178,25 +178,25 @@
 						<div class="signupadmin__field col-xs-12 col-md-12">	
 						<label for="uname" class="field__entry row col-25"><b>USERNAME*</b></label> 
 						<input type="text" class="field__input row col-75" name="userName"placeholder="Your name.."> 
-					    <span class="error"><p id="name_error"></p></span> 
+					    <span class="error" id="name_error"></span> 
 						</div>
 						
 						<div class="signupadmin__field col-xs-12 col-md-12">	
 						<label for="email"class="field__entry row col-25"><b>EMAIL*</b></label> 
 						<input type="email"class="field__input row col-75" name="email" placeholder="Your email id..">
-						 <span class="error"><p id="email_error"></p></span> 
+						 <span class="error" id="email_error"></span> 
 						</div>
 						
 						<div class="signupadmin__field col-xs-12 col-md-12">	
 						<label for="psw" class="field__entry row col-25"><b>PASSWORD*</b></label> 
 						<input class="field__input row col-75" type="password" placeholder="Enter Password" name="psw">
-						<span class="error"><p id="psw_error"></p></span>
+						<span class="error" id="psw_error"></span>
 						</div>
 						
 						<div class="signupadmin__field col-xs-12 col-md-12">	
 						<label for="psw" class="field__entry row col-25"><b>CONFIRM PASSWORD*</b></label>
 						<input class="field__input row col-75" type="password" placeholder="Reenter Password" name="cpsw">
- 						<span class="error"><p id="cpsw_error"></p></span>
+ 						<span class="error" id="cpsw_error"></span>
 						</div>
 						
 						
@@ -212,7 +212,7 @@
 								
 							</select>
 							<button class="button field__entry col-xs-12 col-md-12" type="button" id="add" onclick="openForm()">NEW</button>
-							<span class="error"><p id="select_error"></p></span>
+							<span class="error" id="select_error"></span>
 							
 						
 						</div>

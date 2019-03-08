@@ -259,11 +259,9 @@ public class UserController {
 	 * controller for fetching job designation and displaying request vacancy page
 	 */
 	@RequestMapping(value = "/users/request", method = RequestMethod.GET)
-	public ModelAndView ViewRequestVacancy(HttpServletRequest request, HttpServletResponse response) {
+	public ModelAndView ViewRequestVacancy(HttpServletRequest request, HttpServletResponse response,HttpSession session) {
 		ModelAndView model = new ModelAndView("requestvacancy");
 		try {
-
-			HttpSession session = request.getSession();
 			if (session.getAttribute("email") == null) {
 				model = new ModelAndView("home");
 			} else {

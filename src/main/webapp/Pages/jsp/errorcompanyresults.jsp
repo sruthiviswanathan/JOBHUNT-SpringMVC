@@ -4,9 +4,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ include file = "usernavbar.jsp" %>
 
- <%--  <jsp:include page="/RetreiveAllCompanyServlet" /> --%>
-
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -21,11 +18,7 @@
 </head>
 
 <body>
-		<%
-			if(session.getAttribute("email")==null){
-				response.sendRedirect("http://localhost:8080/JobSearchApplication/index.jsp");
-			}
-		%> 
+	
         <div id="maincontainer">
         						<div class="container__error__title" id="companyError">
         			 					<c:if test="${noCompany == 'yes'}">

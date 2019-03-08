@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import com.zilker.onlinejobsearch.beans.Company;
 import com.zilker.onlinejobsearch.beans.JobMapping;
-import com.zilker.onlinejobsearch.beans.User;
 import com.zilker.onlinejobsearch.dao.JobDAO;
 
 @Service

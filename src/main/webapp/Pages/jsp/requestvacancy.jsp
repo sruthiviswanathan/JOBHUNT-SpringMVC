@@ -16,11 +16,7 @@
     <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
 </head>
 <body>
-<%
-			if(session.getAttribute("email")==null){
-				response.sendRedirect("http://localhost:8080/JobSearchApplication/index.jsp");
-			}
-		%> 
+ 
     <div class="container">
              
             <div id="mySidenav" class="container__sidenav">
@@ -65,20 +61,20 @@
 							<option value="${job.getJobId()}"><c:out value="${job.getJobRole()}" /></option>
 						</c:forEach>
 					</select>
-					 <span class="error"><p id="job_error"></p></span>
+					 <span class="error" id="job_error"></span>
                 
                 </div>
             
                 <div class="requestvacancy__field col-xs-12 col-md-12">
                 <label for="location" class="field__entry row col-75"><b>LOCATION*</b></label>
                 <input type="text" class="formValue field__input row col-75" id="location"  oninput="removeErrorMessages()" name="location" placeholder="Enter Job Location..">
-                <span class="error"><p id="location_error"></p></span>
+                <span class="error" id="location_error"></span>
                 </div>
                
                 <div class="requestvacancy__field col-xs-12 col-md-12">
                 <label for="salary" class="field__entry row col-75"><b>SALARY EXPECTED(LPA)*</b></label>
                 <input type="number" class="formValue field__input row col-75" id="salary" name="salary"  oninput="removeErrorMessages()" placeholder="Enter Salary.." step=".01">
-                <span class="error"><p id="salary_error"></p></span>
+                <span class="error" id="salary_error"></span>
        			</div>
        			
 				<div class="requestvacancy__nav">

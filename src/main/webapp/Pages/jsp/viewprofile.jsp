@@ -21,11 +21,7 @@
 </head>
 
 <body>
-<%
-			if(session.getAttribute("email")==null){
-				response.sendRedirect("http://localhost:8080/JobSearchApplication/index.jsp");
-			}
-		%> 
+ 
     <div class="container">
         <div id="mySidenav" class="container__sidenav">
           	<div class="sidenav__items">
@@ -64,19 +60,19 @@
              <div class="profile__field col-xs-12 col-md-12">     
                     <label for="uname" class="field__entry row col-75"><b>USERNAME*</b></label>
                     <input type="text" class="field__input row col-75" id="uname" name="username" value="${data.getUserName()}">  
-                     <span class="error"><p id="name_error"></p></span>                     
+                     <span class="error" id="name_error"></span>                     
                     </div>
                     
              <div class="profile__field col-xs-12 col-md-12">          
                         <label for="cname" class="field__entry row col-75"><b>COMPANY NAME*</b></label>
                         <input type="text" class="field__input row col-75" id="cname" name="cname" value="${data.getCompany()}" >
-                         <span class="error"><p id="comp_error"></p></span> 
+                         <span class="error" id="comp_error"></span> 
                     </div>
                     
                        <div class="profile__field col-xs-12 col-md-12">
                         <label for="designation" class="field__entry row col-75"><b>DESIGNATION*</b></label>
                         <input type="text" class="field__input row col-75" id="desig" name="designation" value="${data.getDesignation()}">
-                        <span class="error"><p id="des_error"></p></span> 
+                        <span class="error" id="des_error"></span> 
                    	   </div>
                        
                        <div class="profile__field col-xs-12 col-md-12">

@@ -17,11 +17,7 @@
 </head>
 
 <body onload="displayFirstVacancy()">
-		<%
-			if(session.getAttribute("email")==null){
-				response.sendRedirect("http://localhost:8080/JobSearchApplication/index.jsp");
-			}
-		%> 
+	
         <div class="container">
             
             <div id="mySidenav" class="container__sidenav">
@@ -33,22 +29,14 @@
 			</div>
 			</div>
                         <div class="container__navbar">
-							<ul class="navbar__list">
-								<li><button onmouseover="openNav()" class="hambug">
-										<i class="fa fa-bars" aria-hidden="true"></i>
-									</button></li>
+							<ul class="navbar__list">							
+								<li><button onmouseover="openNav()" class="hambug"><i class="fa fa-bars" aria-hidden="true"></i></button></li>			
 								<li>JOB HUNT</li>
 								<li style="float: right"><a href="${Config.BASE_PATH}logout">Logout</a></li>
-								<li style="float: right">
-									<a href="${Config.BASE_PATH}users/admin">
-									<li style="float: right"> Hi, <%= session.getAttribute("userName") %></li>
-				                    <li style="float: right"><i class="user fa fa-user-circle" aria-hidden="true"></i></li> 
-				                    </a>
-				                </li>
-								<%-- <li style="float: right"><i class="fa fa-user-circle" aria-hidden="true"></i> Hi, <%= session.getAttribute("userName") %> </li> --%>
+								<li style="float: right"><a href="${Config.BASE_PATH}users/admin"> Hi, <%= session.getAttribute("userName") %></a></li>
+				                <li style="float: right"><i class="user fa fa-user-circle" aria-hidden="true"></i></li> 
 								<li style="float: right" ><button class="arrow" id="btn" onclick="displaymenu(this.id)">
-								<i class="fa fa-arrow-left" aria-hidden="true"></i></button></li>
-								
+								<i class="fa fa-arrow-left" aria-hidden="true"></i></button></li>	
 							</ul>
 						</div>
       					
@@ -138,36 +126,32 @@
 																	<option value="${job.getJobId()}"><c:out value="${job.getJobRole()}" /></option>
 																</c:forEach> 
                                                         </select>
-                                               			 <span class="error"><p id="job_error"></p></span>
+                                               			 <span class="error" id="job_error"></span>
                                                </div>
-                                               
-                                               <!--  <div class="updatejobs__nav">
-                                                        <button type="button" id="add" onclick="openForm()">NEW</button>
-                                                </div> -->
-                                               
+                                                  
                                                 <div class="updatejobs__field col-xs-12 col-md-12">
                                                 <label  for="location" class="field__entry row col-75"><b>LOCATION*</b></label>
                                                 <input type="text" class="field__input row col-75" id="location" name="location" value="${vac.getLocation()}" required>
-                                               <span class="error"><p id="location_error"></p></span>
+                                               <span class="error" id="location_error"></span>
                                                </div>
                                                
                                                 <div class="updatejobs__field col-xs-12 col-md-12">
                                                 <label  for="salary" class="field__entry row col-75"><b>SALARY(LPA)*</b></label>
                                                 <input type="number" class="field__input row col-75" id="salary" name="salary" value="${vac.getSalary()}"
                                                         step=".01" required>
-                                                 <span class="error"><p id="salary_error"></p></span>
+                                                 <span class="error" id="salary_error"></span>
                                                  </div>
                                                     
                                                  <div class="updatejobs__field col-xs-12 col-md-12">
                                                 <label  for="count" class="field__entry row col-75"><b>NO OF VACANCIES*</b></label>
                                                 <input type="number" class="field__input row col-75" id="count" name="count" value="${vac.getVacancyCount()}"required>
-                                               <span class="error"><p id="count_error"></p></span>
+                                               <span class="error" id="count_error"></span>
                                                </div>
                                                
                                                 <div class="updatejobs__field col-xs-12 col-md-12">
                                                 <label for="description" class="field__entry row col-75"><b>JOB DESCRIPTION*</b></label>
                                                 <textarea rows="4" cols="50" class="field__input row col-75" name="description" required>${vac.getJobDescription()}</textarea>
-                                       			<span class="error"><p id="desc_error"></p></span>
+                                       			<span class="error" id="desc_error"></span>
                                        			</div>
 
 

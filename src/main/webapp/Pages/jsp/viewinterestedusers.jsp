@@ -28,7 +28,7 @@
 			<h3>YOUR NEXT HIRE IS HERE!!!</h3>
 		</div>
 					<c:choose>
-						<c:when test="${noInterestedUsers == 'yes'}">
+						<c:when test="${empty appliedUsers}">
 						<div class="success">
 						<c:out value="NO INTERESTED CANDIDATES!!"/>
 						</div>

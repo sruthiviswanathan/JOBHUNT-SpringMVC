@@ -13,7 +13,6 @@ import org.springframework.stereotype.Repository;
 
 import com.zilker.onlinejobsearch.beans.Company;
 import com.zilker.onlinejobsearch.beans.JobMapping;
-import com.zilker.onlinejobsearch.beans.User;
 import com.zilker.onlinejobsearch.constants.QueryConstants;
 import com.zilker.onlinejobsearch.utils.DButils;
 

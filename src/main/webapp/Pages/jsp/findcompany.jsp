@@ -18,11 +18,7 @@
 </head>
 
 <body>
-		<%
-			if(session.getAttribute("email")==null){
-				response.sendRedirect("http://localhost:8080/JobSearchApplication/index.jsp");
-			}
-		%> 
+		
         <div id="maincontainer">
         
  				<div class="container__searchbar col-xs-12 col-sm-12 col-md-3">

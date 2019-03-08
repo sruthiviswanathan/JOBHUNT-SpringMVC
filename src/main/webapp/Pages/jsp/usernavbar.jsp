@@ -17,7 +17,7 @@
                         <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
                         <a href="${Config.BASE_PATH}findjobs">FIND JOB</a>
                         <a href="${Config.BASE_PATH}findcompany">FIND COMPANY</a>
-                         <a href="${Config.BASE_PATH}findlocation">SEARCH BY LOCATION</a>
+                        <a href="${Config.BASE_PATH}findlocation">SEARCH BY LOCATION</a>
                         <a href="${Config.BASE_PATH}users/update">YOUR PROFILE</a>
                         <a href="${Config.BASE_PATH}users/request">REQUEST A VACANCY</a>
                         <a href="${Config.BASE_PATH}users/appliedjobs">VIEW APPLIED JOBS</a>
@@ -25,18 +25,13 @@
                 </div>
                
                 <div class="container__navbar">
-                      <ul class="navbar__list">
+                    <ul class="navbar__list">
 					<li><button onmouseover="openNav()" class="hambug"><i class="fa fa-bars" aria-hidden="true"></i></button></li>			
 					<li>JOB HUNT</li>
-					
 					<li style="float: right"><a href="${Config.BASE_PATH}logout">Logout</a></li>
-					<li style="float: right">
-					<a href="${Config.BASE_PATH}users/update">
-					<li style="float: right"> Hi, <%= session.getAttribute("userName") %></li>
-                    <li style="float: right"><i class="user fa fa-user-circle" aria-hidden="true"></i></li> 
-                    </a>
-                    </li>  
-                        </ul>
+					<li style="float: right"><a href="${Config.BASE_PATH}users/update"> Hi, <%= session.getAttribute("userName") %></a></li>
+                    <li style="float: right"><i class="user fa fa-user-circle" aria-hidden="true"></i></li>  
+                    </ul>
                 </div>
 				
 				

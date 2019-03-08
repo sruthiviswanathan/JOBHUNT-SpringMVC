@@ -21,7 +21,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.zilker.onlinejobsearch.beans.Company;
 import com.zilker.onlinejobsearch.beans.JobMapping;
-import com.zilker.onlinejobsearch.beans.User;
 import com.zilker.onlinejobsearch.delegate.CompanyDelegate;
 import com.zilker.onlinejobsearch.delegate.JobDelegate;
 import com.zilker.onlinejobsearch.delegate.UserDelegate;

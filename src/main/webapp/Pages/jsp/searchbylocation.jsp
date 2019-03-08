@@ -18,11 +18,7 @@
 </head>
 
 <body>
-<%
-			if(session.getAttribute("email")==null){
-				response.sendRedirect("http://localhost:8080/JobSearchApplication/index.jsp");
-			}
-		%> 
+
          <div class="maincontainer">
          
                  <div class="container__searchbar col-xs-12 col-sm-12 col-md-3">
@@ -50,9 +46,6 @@
                         </form>
                 </div>
               
-               <!--  <div class="container__title">
-                        <h3>POPULAR COMPANIES</h3>
-                </div> -->
                 <div class="container__maincard col-sm-12 col-xs-12">
                        
                       <c:forEach var="comp" items="${companyList}" varStatus="loop">
