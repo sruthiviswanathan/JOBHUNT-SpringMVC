@@ -61,7 +61,7 @@
 			</div>
 			
 			<div class="col-20 col-xs-12 col-sm-12 col-md-6">
-					<a href="<c:out value="${comp.getCompanyWebsiteUrl()}" />">
+					<a href="<c:out value="${comp.getCompanyWebsiteUrl()}" />" target="_blank">
 					<button class="row__button col-xs-12 col-sm-12 col-md-6" type="button" value="WEBSITE URL"> WEBSITE URL <i class="dir fa fa-chevron-circle-right"> </i></button></a>
 			</div>
 		</div>
