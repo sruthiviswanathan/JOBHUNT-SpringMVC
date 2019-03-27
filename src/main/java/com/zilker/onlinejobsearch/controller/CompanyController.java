@@ -96,7 +96,6 @@ public class CompanyController {
 		return model;
 	}
 
-	
 	/*
 	 * controller to add a new company
 	 */
@@ -127,15 +126,14 @@ public class CompanyController {
 		return model;
 	}
 
-	
 	/*
 	 * controller to retrieve all details and vacancy in company
-	*/
+	 */
 	@RequestMapping(value = "/company", method = RequestMethod.GET)
 	public ModelAndView findCompany(@RequestParam("companyName") String companyName, HttpSession session) {
 		ModelAndView model = new ModelAndView("companydetails");
 		try {
-	
+
 			if (session.getAttribute("email") == null) {
 				model = new ModelAndView("home");
 			} else {
@@ -157,7 +155,6 @@ public class CompanyController {
 		return model;
 	}
 
-	
 	/*
 	 * controller to find vacancies by location
 	 */
@@ -189,9 +186,9 @@ public class CompanyController {
 			if (session.getAttribute("email") == null) {
 				model = new ModelAndView("home");
 			} else {
-		
+
 				int companyId = companyDelegate.fetchCompanyId(companyName);
-				ArrayList<Company> companyDetails  = companyDelegate.retrieveVacancyByCompany(companyId);
+				ArrayList<Company> companyDetails = companyDelegate.retrieveVacancyByCompany(companyId);
 				ArrayList<Company> companyReviews = userDelegate.retrieveReview(companyId);
 				model.addObject("displayCompany", companyDetails);
 				model.addObject("displayCompanyReviews", companyReviews);
@@ -227,7 +224,7 @@ public class CompanyController {
 	}
 
 	/*
-	 * controller to display rating page 
+	 * controller to display rating page
 	 */
 	@RequestMapping(value = "/company/rate", method = RequestMethod.GET)
 	public ModelAndView ViewRatingPage(@RequestParam("companyname") String companyName, HttpSession session) {
@@ -262,13 +259,13 @@ public class CompanyController {
 
 				int userId = (Integer) session.getAttribute("userId");
 				int companyId = companyDelegate.fetchCompanyId(companyName);
-				if (userDelegate.reviewAndRateCompany(userId, companyId,review,rating)) {
+				if (userDelegate.reviewAndRateCompany(userId, companyId, review, rating)) {
 					if (jobRole != "" && interviewProcess != "") {
-						if (userDelegate.interviewProcess(userId, companyId, jobRole,interviewProcess)) {
-							
-						} 
-					}	
-				} 
+						if (userDelegate.interviewProcess(userId, companyId, jobRole, interviewProcess)) {
+
+						}
+					}
+				}
 				ArrayList<Company> companyDetails = companyDelegate.retrieveVacancyByCompany(companyId);
 				ArrayList<Company> vacancyDetails = companyDelegate.retrieveVacancyByCompany1(companyId, userId);
 				model.addObject("displayCompany", companyDetails);
@@ -279,9 +276,10 @@ public class CompanyController {
 		}
 		return model;
 	}
-/*
- * controller to fetch applied users
- */
+
+	/*
+	 * controller to fetch applied users
+	 */
 	@RequestMapping(value = "/applied-users", method = RequestMethod.GET)
 	public ModelAndView AppliedUsers(HttpSession session) {
 		ModelAndView model = new ModelAndView("viewinterestedusers");
@@ -289,12 +287,12 @@ public class CompanyController {
 			if (session.getAttribute("email") == null) {
 				model = new ModelAndView("home");
 			} else {
-		
+
 				int userId = (Integer) session.getAttribute("userId");
 				int companyId = userDelegate.fetchCompanyIdByAdmin(userId);
 				ArrayList<Company> appliedUsers = companyDelegate.viewAppliedUsers(companyId);
 				model.addObject("appliedUsers", appliedUsers);
-							
+
 			}
 		} catch (Exception e) {
 			model = new ModelAndView("error");
@@ -306,8 +304,9 @@ public class CompanyController {
 	 * controller to mark users as contacted
 	 */
 	@RequestMapping(value = "/contacted-users", method = RequestMethod.POST)
-	public void UpdateContactedUsers(@RequestParam("location") String location,@RequestParam("emailId") String emailId
-			,@RequestParam("job") String jobDesignation,HttpServletResponse response,HttpSession session) throws  IOException {
+	public void UpdateContactedUsers(@RequestParam("location") String location, @RequestParam("emailId") String emailId,
+			@RequestParam("job") String jobDesignation, HttpServletResponse response, HttpSession session)
+			throws IOException {
 		PrintWriter out = response.getWriter();
 		try {
 			if (session.getAttribute("email") == null) {
@@ -318,7 +317,7 @@ public class CompanyController {
 				int userId = (Integer) session.getAttribute("userId");
 				int companyId = userDelegate.fetchCompanyIdByAdmin(userId);
 				int jobId = jobDelegate.fetchJobId(jobDesignation);
-				if (userDelegate.markContacted(userId,emailId,companyId,jobId,location)) {
+				if (userDelegate.markContacted(userId, emailId, companyId, jobId, location)) {
 					out.print("success");
 					out.flush();
 				}
@@ -343,7 +342,7 @@ public class CompanyController {
 				model = new ModelAndView("home");
 			} else {
 				response.setContentType("text/html;charset=UTF-8");
-				int userId = (Integer) session.getAttribute("userId");				
+				int userId = (Integer) session.getAttribute("userId");
 				int companyId = userDelegate.fetchCompanyIdByAdmin(userId);
 				ArrayList<Company> vacancyDetails = companyDelegate.retrieveVacancyByCompanyAdmin(companyId);
 				ArrayList<JobMapping> job = jobDelegate.displayJobs();
